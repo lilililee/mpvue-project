@@ -4,7 +4,8 @@
     <div class="form">
       <div class="input">
         <input type="text" class="phone" v-model="phone" placeholder="请输入您的手机号">
-        <div class="input-assist input-assist__code" @click="getCode">获取验证码</div>
+        <div v-if="count == 60" class="input-assist input-assist__code" @click="getCode">获取验证码</div>
+        <div v-else class="input-assist input-assist__code">已发送({{count}}s)</div>
       </div>
       <div class="input">
         <input type="text" class="code" v-model="code" placeholder="请输入您收到的验证码">
@@ -31,20 +32,43 @@ export default {
       phone: '',
       code: '',
       password: '',
-      password2: ''
+      password2: '',
+
+      isGetCode: false,
+      count: 60,
+      countInterval: ''
     }
   },
   methods: {
     getCode() {
+      // 重复点击拦截
+      if (this.isGetCode) return
+
       if (utils.validate.isEmpty(this.phone, '手机号')) return
       if (utils.validate.notPhone(this.phone)) return
+
+      this.isGetCode = true
 
       utils.ajax({
         action: 'getCode',
         data: {
           phone: this.phone
         },
-        success: res => {}
+        success: res => {
+          if (res.code == 0) {
+            // 开始倒计时
+            this.count--
+            this.countInterval = setInterval(() => {
+              if (this.count == 0) {
+                clearInterval(this.countInterval)
+                this.count = 60
+                return
+              }
+              this.count--
+            }, 1000)
+          }
+          this.isGetCode = false
+        }
       })
     },
 

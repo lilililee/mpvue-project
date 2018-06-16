@@ -6,6 +6,6 @@ app.$mount()
 
 export default {
   config: {
-    "navigationBarTitleText": "微信接口功能演示",
+    "navigationBarTitleText": "订餐首页",
   }
 }

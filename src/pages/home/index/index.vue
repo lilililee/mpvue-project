@@ -1,6 +1,8 @@
 <template>
   <div class="page-home__index" @click="getCode">
-    home{{data}}
+      <div class="notice">
+        home
+      </div>
   </div>
 </template>
 
@@ -9,8 +11,12 @@ import utils from '../../../utils'
 export default {
   data() {
     return {
-        data: 'data'
+        homeInfo: {}
     }
+  },
+
+  created() {
+
   },
 
   methods: {
@@ -19,6 +25,7 @@ export default {
       console.log(111)
       this.data = 112312
     },
+    
 
    
   }
