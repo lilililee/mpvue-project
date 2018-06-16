@@ -1,39 +1,61 @@
 <template>
-  <div class="page-home__index" @click="getCode">
-      <div class="notice">
-        home
-      </div>
+  <div class="page-home__index">
+    <div class="notice">
+      {{homeInfo.notice? homeInfo.notice.title: ''}}
+    </div>
+
+    <div class="banner">
+      <swiper :indicator-dots="true" :autoplay="true" interval="3000" duration="500">
+        <div v-for="item in homeInfo.banner" :key="item.img">
+          <swiper-item>
+            <image :src="item.img" class="slide-image" />
+          </swiper-item>
+        </div>
+      </swiper>
+    </div>
+
+
+    <!-- <tab-bar page="home"></tab-bar> -->
   </div>
 </template>
 
 <script>
 import utils from '../../../utils'
+import TabBar from '../../../components/TabBar'
 export default {
   data() {
     return {
-        homeInfo: {}
+      homeInfo: {}
     }
   },
 
   created() {
-
+    this.getHomeInfo()
   },
 
   methods: {
-    getCode() {
-      console.log(111)
-      console.log(111)
-      this.data = 112312
-    },
-    
-
-   
+    getHomeInfo() {
+      utils.ajax({
+        action: 'getHomeInfo',
+        success: res => {
+          if (res.code == 0) {
+            this.homeInfo = res.data
+          }
+        }
+      })
+    }
+  },
+  components: {
+    TabBar
   }
-
 }
 </script>
 <style lang="less">
 .page-home__index {
+  .slide-image {
+    width: 100%;
+    height: 400rpx;
+  }
 }
 </style>
 
