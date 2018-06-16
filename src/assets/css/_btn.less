@@ -1,0 +1,19 @@
+@import './mixin.less';
+
+@btnHeight: 80rpx;
+.btn-group {
+  .flex-between();
+  padding: 0 20rpx;
+  .btn {
+    height: @btnHeight;
+    line-height: @btnHeight;
+    text-align: center;
+    border: 1rpx solid @borderColor;
+    width: 47%;
+    font-size: 30rpx;
+    
+    &.btn_big {
+      width: 100%;
+    }
+  }
+}

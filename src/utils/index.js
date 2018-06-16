@@ -1,4 +1,5 @@
 import _config from '../config'
+import _store from '../store'
 
 function formatNumber(n) {
   const str = n.toString()
@@ -42,40 +43,49 @@ const validate = {
 }
 
 const showMsg = msg => {
-  console.log(msg)
+  log(msg)
 }
 
-const ajax = ({ action, data = {}, success, error }) => {
-  let input = {
-    ...data
-  }
-  console.log(`%c${action}(input)`, `color:#29bb7b`, input)
+const log = (...args) => {
+  console.log(...args)
+}
+
+const ajax = ({ action, method ='GET',data = {}, success, fail }) => {
+  // 登陆后的请求都需要token
+  let header = {}
+  _store.state.token && (header.token = _store.state.token)
+
+  log(`%c${action}(input)`, `color:#29bb7b`, data)
   wx.request({
     url: _config.domain + action,
+    method,
     data,
+    header,
     success(res) {
-      console.log(`%c${action}(res)`, `color:#5b8de2`, res.data)
+      log(`%c${action}(res)`, `color:#5b8de2`, res.data)
       if (res.data.code == 0) {
         success(res.data)
       } else {
         showMsg(res.data.message)
       }
     },
-    error(e) {
-      console.log(e)
-      error(e)
+    fail(e) {
+      log(e)
+      fail(e)
     }
   })
 }
 
 export default {
   _config,
+  _store,
 
   formatNumber,
   formatTime,
 
   validate,
   showMsg,
+  log,
 
   ajax
 }

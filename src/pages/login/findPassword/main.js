@@ -7,6 +7,6 @@ app.$mount()
 
 export default {
   config: {
-    "navigationBarTitleText": "登录",
+    "navigationBarTitleText": "找回密码",
   }
 }
