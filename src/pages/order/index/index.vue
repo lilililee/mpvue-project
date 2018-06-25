@@ -13,17 +13,14 @@
         </div>
       </swiper>
     </div>
-
+    
     <div class="user-list-container">
-      <user-list :userList="userList" @assetsClick="toChooseMonth">
-        <div class="c-user-list__assets flex-center">
-          <div class="text">
-            <div>开始</div>
-            <div>订餐</div>
-          </div>
-        </div>
+      <user-list>
+        sss
       </user-list>
     </div>
+
+
 
     <!-- <tab-bar page="home"></tab-bar> -->
   </div>
@@ -36,14 +33,12 @@ import UserList from '../../../components/UserList'
 export default {
   data() {
     return {
-      homeInfo: {},
-      userList: []
+      homeInfo: {}
     }
   },
 
-  mounted() {
+  created() {
     this.getHomeInfo()
-    this.getUserList()
   },
 
   methods: {
@@ -56,24 +51,6 @@ export default {
           }
         }
       })
-    },
-    getUserList() {
-      utils.ajax({
-        action: 'getUserList',
-        success: res => {
-          if (res.code == 0) {
-            this.userList = res.data.list
-          }
-        }
-      })
-    },
-    toChooseMonth(user) {
-      // 更新当前用户
-      this.$store.commit('updateNowUser', user)
-
-      wx.navigateTo({
-        url: '/pages/home/chooseMonth/main'
-      })
     }
   },
   components: {
@@ -83,28 +60,10 @@ export default {
 }
 </script>
 <style lang="less">
-@import "../../../assets/css/mixin.less";
 .page-home__index {
   .slide-image {
     width: 100%;
     height: 400rpx;
-  }
-
-  .user-list-container {
-    padding: 40rpx 30rpx;
-
-    .c-user-list__assets {
-      height: 100%;
-      width: 100%;
-      background: @blue;
-      color: #fff;
-
-      .text {
-        div {
-          margin: 10rpx 0;
-        }
-      }
-    }
   }
 }
 </style>

@@ -7,11 +7,16 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    token: ''
+    token: '',
+
+    nowUser: {},
   },
   mutations: {
     updateToken: (state, token) => {
       state.token = token
+    },
+    updateNowUser: (state, nowUser) => {
+      state.nowUser = nowUser
     },
   }
 })

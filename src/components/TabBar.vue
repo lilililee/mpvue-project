@@ -1,6 +1,6 @@
 <template>
   <ul class="tab-bar flex-around">
-    <li :class="{active: page=='home'}">
+    <!-- <li :class="{active: page=='home'}">
       <div @click="to('home')">
         <div class="icon">icon</div>
         <div class="title">首页</div>
@@ -23,7 +23,7 @@
         <div class="icon">icon</div>
         <div class="title">我</div>
       </div>
-    </li>
+    </li> -->
   </ul>
 </template>
 
