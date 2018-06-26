@@ -4,7 +4,7 @@
       <div class="year">{{item.year}}年</div>
       <ul class="month-list flex">
         <li v-for="(sitem,sindex) in item.months" :key="sindex">
-          <div class="status flex-center" :class="'status_' + sitem.status_id" @click="chooseFood(sitem)">
+          <div class="status flex-center" :class="'status_' + sitem.status_id" @click="chooseMonth(sitem, item.year)">
             <!-- <template v-if="sitem.status_name.length==6"> -->
             <!-- 不支持复杂表达式,待处理 -->
             <!-- <div>{{sitem.status_name.slice(0,2)}}{{ss()}}</div>
@@ -28,7 +28,8 @@
 import utils from '../utils'
 export default {
   props: {
-    type: String
+    // type: String,
+    monthBooking: Array
   },
   computed: {
     nowUser() {
@@ -37,31 +38,13 @@ export default {
   },
   data() {
     return {
-      monthBooking: []
+     
     }
   },
-  mounted() {
-    // console.log
-    this.getMonthBooking()
-  },
   methods: {
-    getMonthBooking() {
-      utils.ajax({
-        action: 'getMonthBooking',
-        data: {
-          user_id: this.nowUser.user_id,
-          type: this.type,
-          role_id: this.nowUser.role_id
-        },
-        success: res => {
-          if (res.code == 0) {
-            this.monthBooking = res.data.list
-            console.log(111)
-          }
-        }
-      })
-    },
-    chooseFood(item) {}
+    chooseMonth(item, year) {
+      this.$emit('chooseMonth', item, year)
+    }
   }
 }
 </script>
@@ -93,11 +76,11 @@ export default {
 
       background: #fff;
 
-      &.status_2 {
+      &.status_1 {
         background: @blue;
         color: #fff;
       }
-      &.status_3 {
+      &.status_2 {
         background: @blue;
         color: #fff;
       }

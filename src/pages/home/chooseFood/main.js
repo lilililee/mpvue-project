@@ -6,6 +6,6 @@ app.$mount()
 
 export default {
   config: {
-    "navigationBarTitleText": "选择月份",
+    "navigationBarTitleText": "选餐",
   }
 }

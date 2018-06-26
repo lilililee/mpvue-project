@@ -6,6 +6,12 @@ app.$mount()
 
 export default {
   config: {
-    "navigationBarTitleText": "订餐首页",
+    navigationBarTitleText: '订餐首页',
+    usingComponents: {
+      //   'i-button': '/static/iview/button/index',
+      //   "i-card": "/static/iview/card/index"
+      // 'i-tab-bar': '/static/iview/tab-bar/index',
+      // 'i-tab-bar-item': '/static/iview/tab-bar-item/index'
+    }
   }
 }

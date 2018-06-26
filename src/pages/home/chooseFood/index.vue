@@ -1,8 +1,10 @@
 <template>
   <div class="page-home__chooseFood">
+    <div class="user-info flex-center">
+      <div class="title">订餐人：</div>
+      <div class="user">{{nowUser.name}}({{nowUser.role_name}})</div>
+    </div>
     
-    sas
-
   </div>
 </template>
 
@@ -12,7 +14,7 @@ import utils from '../../../utils'
 export default {
   data() {
     return {
-      
+      foodList: []
     }
   },
   computed: {
@@ -22,25 +24,26 @@ export default {
   },
 
   mounted() {
-    // this.getMonthBooking()
+    this.getFoodList()
+    // console.log(this.$root.$mp)
   },
 
   methods: {
-    // getMonthBooking() {
-    //   utils.ajax({
-    //     action: 'getMonthBooking',
-    //     data: {
-    //       user_id: this.userList[0].user_id,
-    //       type: '1',
-    //       role_id: this.userList[0].role_id
-    //     },
-    //     success: res => {
-    //       if (res.code == 0) {
-    //         this.monthBooking = res.data.list
-    //       }
-    //     }
-    //   })
-    // },
+    getFoodList() {
+      utils.ajax({
+        action: 'getFoodList',
+        data: {
+          user_id: this.nowUser.user_id,
+          role_id: this.nowUser.role_id,
+          ...this.$root.$mp.query
+        },
+        success: res => {
+          if (res.code == 0) {
+            this.foodList = res.data.list
+          }
+        }
+      })
+    },
     // chooseFood(item) {
       
     // }

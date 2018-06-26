@@ -37,7 +37,7 @@ export default {
     }
   },
 
-  created() {
+  mounted() {
     this.getHomeInfo()
   },
 

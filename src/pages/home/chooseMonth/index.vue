@@ -9,7 +9,7 @@
     </div>
 
     <div class="booking-list-container">
-      <booking-list type="1"></booking-list>
+      <booking-list :monthBooking="monthBooking" @chooseMonth="chooseMonth"></booking-list>
     </div>
 
   </div>
@@ -21,17 +21,50 @@ import UserList from '../../../components/UserList'
 import bookingList from '../../../components/bookingList'
 export default {
   data() {
-    return {}
+    return {
+      monthBooking: []
+    }
   },
   computed: {
     userList() {
       return [this.$store.state.nowUser]
+    },
+    nowUser() {
+      return this.$store.state.nowUser
     }
   },
 
-  mounted() {},
+  mounted() {
+    this.getMonthBooking()
+  },
 
-  methods: {},
+  methods: {
+    getMonthBooking() {
+      utils.ajax({
+        action: 'getMonthBooking',
+        data: {
+          user_id: this.nowUser.user_id,
+          type: '1',
+          role_id: this.nowUser.role_id
+        },
+        success: res => {
+          if (res.code == 0) {
+            this.monthBooking = res.data.list
+          }
+        }
+      })
+    },
+    chooseMonth(item, year) {
+      console.log('@click: chooseMonth', item, year)
+      console.log('item.status_id', item.status_id)
+      let date = year+ '-' + utils.formatNumber(item.month_id)
+      if (item.status_id == '1') {
+        wx.navigateTo({
+          url: `/pages/home/chooseFood/main?menu_id=${item.menu_id}&date=${date}`
+        })
+      }
+    }
+  },
   components: {
     UserList,
     bookingList

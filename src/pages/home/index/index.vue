@@ -1,32 +1,30 @@
 <template>
-  <div class="page-home__index">
-    <div class="notice">
-      {{homeInfo.notice? homeInfo.notice.title: ''}}
-    </div>
-
-    <div class="banner">
-      <swiper :indicator-dots="true" :autoplay="true" interval="3000" duration="500">
-        <div v-for="item in homeInfo.banner" :key="item.img">
-          <swiper-item>
-            <image :src="item.img" class="slide-image" />
-          </swiper-item>
+    <div class="page-home__index">
+        <div class="notice">
+            {{homeInfo.notice? homeInfo.notice.title: ''}}
         </div>
-      </swiper>
-    </div>
-
-    <div class="user-list-container">
-      <user-list :userList="userList" @assetsClick="toChooseMonth">
-        <div class="c-user-list__assets flex-center">
-          <div class="text">
-            <div>开始</div>
-            <div>订餐</div>
-          </div>
+        <div class="banner">
+            <swiper :indicator-dots="true" :autoplay="true" interval="3000" duration="500">
+                <div v-for="item in homeInfo.banner" :key="item.img">
+                    <swiper-item>
+                        <image :src="item.img" class="slide-image" />
+                    </swiper-item>
+                </div>
+            </swiper>
         </div>
-      </user-list>
-    </div>
 
-    <!-- <tab-bar page="home"></tab-bar> -->
-  </div>
+        <div class="user-list-container">
+            <user-list :userList="userList" @assetsClick="toChooseMonth">
+                <div class="c-user-list__assets flex-center">
+                    <div class="text">
+                        <div>开始</div>
+                        <div>订餐</div>
+                    </div>
+                </div>
+            </user-list>
+        </div>
+
+    </div>
 </template>
 
 <script>
@@ -37,7 +35,8 @@ export default {
   data() {
     return {
       homeInfo: {},
-      userList: []
+      userList: [],
+     
     }
   },
 
@@ -74,7 +73,8 @@ export default {
       wx.navigateTo({
         url: '/pages/home/chooseMonth/main'
       })
-    }
+    },
+
   },
   components: {
     // TabBar
@@ -83,7 +83,7 @@ export default {
 }
 </script>
 <style lang="less">
-@import "../../../assets/css/mixin.less";
+@import '../../../assets/css/mixin.less';
 .page-home__index {
   .slide-image {
     width: 100%;

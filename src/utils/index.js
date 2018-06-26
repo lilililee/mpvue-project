@@ -1,6 +1,11 @@
 import _config from '../config'
 import _store from '../store'
 
+import {
+  $Toast,
+  $Message
+} from '../../static/iview/base/index'
+
 function formatNumber(n) {
   const str = n.toString()
   return str[1] ? str : `0${str}`
@@ -44,13 +49,25 @@ const validate = {
 
 const showMsg = msg => {
   log(msg)
+
+  // $Message({
+  //   content: msg,
+  //   type: 'warning'
+  // });
 }
 
 const log = (...args) => {
   console.log(...args)
 }
 
-const ajax = ({ action, method ='GET',data = {}, success, fail }) => {
+const ajax = ({
+  action,
+  method = 'GET',
+  data = {},
+  success,
+  fail
+}) => {
+
   // 登陆后的请求都需要token
   let header = {}
   _store.state.token && (header.token = _store.state.token)
@@ -63,11 +80,12 @@ const ajax = ({ action, method ='GET',data = {}, success, fail }) => {
     header,
     success(res) {
       log(`%c${action}(res)`, `color:#5b8de2`, res.data)
-      if (res.data.code == 0) {
+      if (res.data.code != 0) {
         success(res.data)
-      } else {
         showMsg(res.data.message)
       }
+
+      success(res.data)
     },
     fail(e) {
       log(e)
@@ -79,6 +97,8 @@ const ajax = ({ action, method ='GET',data = {}, success, fail }) => {
 export default {
   _config,
   _store,
+  $Toast,
+  $Message,
 
   formatNumber,
   formatTime,
@@ -87,5 +107,6 @@ export default {
   showMsg,
   log,
 
-  ajax
+  ajax,
+
 }
