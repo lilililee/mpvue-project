@@ -14,8 +14,7 @@
               <template v-else>
                 {{sitem.status_name}}
               </template> -->
-
-            {{sitem.status_name}}{{sitem.status_id}}
+            {{sitem.month_name}}
           </div>
           <div class="month">{{sitem.month_id}}</div>
         </li>

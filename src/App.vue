@@ -1,32 +1,3 @@
-<template>
-  <div>
-    sdasdasdsasssssssssssssssss
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>sss</p>
-  </div>
-</template>
-
 
 <script>
 export default {

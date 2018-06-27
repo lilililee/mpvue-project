@@ -19,10 +19,11 @@
 
 <script>
 import utils from '../../utils'
-import PageHome from '../home/index/index'
-import PageCalendar from '../calendar/index/index'
-import PageOrder from '../order/index/index'
-import PageUser from '../user/index/index'
+import PageHome from '../../components/page/PageHome'
+import PageCalendar from '../../components/page/PageCalendar'
+import PageOrder from '../../components/page/PageOrder'
+import PageUser from '../../components/page/PageUser'
+
 
 let pageList = [
   {
