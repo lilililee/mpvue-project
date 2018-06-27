@@ -6,6 +6,6 @@ app.$mount()
 
 export default {
   config: {
-    "navigationBarTitleText": "订餐首页",
+    "navigationBarTitleText": "选餐",
   }
 }

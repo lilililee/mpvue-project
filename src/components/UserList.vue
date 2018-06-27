@@ -9,8 +9,10 @@
           {{item.name}}
         </div>
         <div class="info">
-          <div class="role">{{item.role_name}}</div>
-          <div class="address" v-if="item.address_name">{{item.address_name}}</div>
+          <div class="info-content">
+            <div class="role">{{item.role_name}}</div>
+            <div class="address" v-if="item.address_name">{{item.address_name}}</div>
+          </div>
         </div>
         <div class="assets" @click="$emit('assetsClick', item)">
           <slot></slot>
@@ -24,8 +26,7 @@
 import utils from '../utils'
 export default {
   props: {
-    userList: Array,
-    
+    userList: Array
   },
   methods: {}
 }
@@ -34,7 +35,6 @@ export default {
 <style lang="less">
 @import '../assets/css/mixin';
 .c-user-list {
-
   .user-item {
     height: 140rpx;
     background: #fff;
@@ -49,13 +49,13 @@ export default {
     }
 
     .info {
-      .flex-start()
+      .flex-start();
     }
   }
 
   .img {
     width: 15%;
-box-sizing: border-box;
+    box-sizing: border-box;
     img {
       width: 60rpx;
       height: 60rpx;
@@ -71,7 +71,6 @@ box-sizing: border-box;
     paddding-left: 20rpx;
 
     .role {
-
     }
 
     .address {

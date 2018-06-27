@@ -8,9 +8,9 @@ export default {
   config: {
     navigationBarTitleText: '首页',
     usingComponents: {
-      "i-icon": "/static/iview/icon/index",
-      "i-toast": "/static/iview/toast/index",
-      "i-message": "/static/iview/message/index",
+      // "i-icon": "/static/iview/icon/index",
+      // "i-toast": "/static/iview/toast/index",
+      // "i-message": "/static/iview/message/index",
     }
   }
 }

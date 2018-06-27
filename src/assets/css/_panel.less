@@ -1,0 +1,25 @@
+@import './mixin.less';
+
+.panel {
+  margin-bottom: 20rpx;
+  .panel-header {
+    .flex-between();
+    height: 80rpx;
+    padding: 0 20rpx;
+    .panel-header__title {
+      font-size: 32rpx;
+      font-weight: bold;
+      
+    }
+
+    .panel-header__other {
+      font-size: 28rpx;
+    }
+  }
+
+  .panel-body {
+    background: #fff;
+    padding: 20rpx;
+    font-size: 28rpx;
+  }
+}

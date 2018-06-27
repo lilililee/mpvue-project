@@ -4,14 +4,14 @@ import _store from '../store'
 import {
   $Toast,
   $Message
-} from '../../static/iview/base/index'
+} from '../assets/iview/base/index'
 
-function formatNumber(n) {
+const formatNumber = (n) => {
   const str = n.toString()
   return str[1] ? str : `0${str}`
 }
 
-export function formatTime(date) {
+const formatTime = (date) => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()

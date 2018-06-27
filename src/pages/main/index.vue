@@ -12,8 +12,8 @@
       </div>
     </div>
 
-    <i-toast id="toast" />
-    <i-message id="message" />
+    <!-- <i-toast id="toast" />
+    <i-message id="message" /> -->
   </div>
 </template>
 
@@ -69,10 +69,10 @@ export default {
       })
       this.nowPage = page.name
 
-      utils.$Message({
-        content: '警告的提示',
-        type: 'error'
-      })
+      // utils.$Message({
+      //   content: '警告的提示',
+      //   type: 'error'
+      // })
     }
   },
   components: {

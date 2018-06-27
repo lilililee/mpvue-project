@@ -1,53 +1,53 @@
 <template>
-    <div class="page-home__chooseFood">
-        <div class="user-info flex-center">
-            <div class="title">订餐人：</div>
-            <div class="user">{{nowUser.name}}({{nowUser.role_name}})</div>
-        </div>
-
-        <div class="choose-food-area flex">
-            <scroll-view scroll-y class="date-list">
-                <div class="date-list-item" @click="chooseAll">全部</div>
-                <div class="date-list-item flex-between" v-for="(item, index) in foodList" :key="index" @click="changeDate(index)">
-                    <div class="date">{{item.date2}}</div>
-                    <div class="count" :class="'count_' + item.count">
-                        <span>{{item.count}}</span>
-                    </div>
-                </div>
-            </scroll-view>
-            <scroll-view scroll-y class="food-list" v-if="foodList.length" :scroll-top="scrollTop">
-                <div class="food-list-item flex" v-for="(item, index) in foodList[nowIndex].food_list" :key="index">
-                    <div class="img">
-                        <img :src="item.img" alt="">
-                    </div>
-                    <div class="text">
-                        <div class="name">{{item.name}}</div>
-                        <div class="buy flex-between">
-                            <div class="price">{{item.price}}元</div>
-                            <div class="picker-num flex-center" :class="'picker-num_' + item.num">
-                                <div class="minus" @click="handleNum(-1,item)">-</div>
-                                <div class="num">{{item.num}}</div>
-                                <div class="add" @click="handleNum(1,item)">+</div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </scroll-view>
-        </div>
-
-        <div class="submit-footer flex-between">
-            <div class="info">
-                共{{totalNum}}餐，合计金额
-                <span>{{totalMoney}}元</span>
-            </div>
-
-            <div class="submit-btn" :class="{active: isChooseEveryDay}" @click="comfirmOrder">
-                确认
-            </div>
-        </div>
-
+  <div class="page-home__chooseFood">
+    <div class="user-info flex-center">
+      <div class="title">订餐人：</div>
+      <div class="user">{{nowUser.name}}({{nowUser.role_name}})</div>
     </div>
+
+    <div class="choose-food-area flex">
+      <scroll-view scroll-y class="date-list">
+        <div class="date-list-item" @click="chooseAll">全部</div>
+        <div class="date-list-item flex-between" v-for="(item, index) in foodList" :key="index" @click="changeDate(index)">
+          <div class="date">{{item.date2}}</div>
+          <div class="count" :class="'count_' + item.count">
+            <span>{{item.count}}</span>
+          </div>
+        </div>
+      </scroll-view>
+      <scroll-view scroll-y class="food-list" v-if="foodList.length" :scroll-top="scrollTop">
+        <div class="food-list-item flex" v-for="(item, index) in foodList[nowIndex].food_list" :key="index">
+          <div class="img">
+            <img :src="item.img" alt="">
+          </div>
+          <div class="text">
+            <div class="name">{{item.name}}</div>
+            <div class="buy flex-between">
+              <div class="price">{{item.price}}元</div>
+              <div class="picker-num flex-center" :class="'picker-num_' + item.num">
+                <div class="minus" @click="handleNum(-1,item)">-</div>
+                <div class="num">{{item.num}}</div>
+                <div class="add" @click="handleNum(1,item)">+</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </scroll-view>
+    </div>
+
+    <div class="submit-footer flex-between">
+      <div class="info">
+        共{{totalNum}}餐，合计金额
+        <span>{{totalMoney}}元</span>
+      </div>
+
+      <div class="submit-btn" :class="{active: isChooseEveryDay}" @click="comfirmOrder">
+        确认
+      </div>
+    </div>
+
+  </div>
 </template>
 
 <script>
@@ -83,9 +83,8 @@ export default {
       }, 0)
     },
     isChooseEveryDay() {
-      return this.foodList.every(item => item.count)
-    },
-   
+      return this.foodList.every(item => item.count>0)
+    }
   },
 
   mounted() {
@@ -131,11 +130,10 @@ export default {
         }
       })
     },
-    changeDate(index){
-        if(this.nowIndex == index) return
-        this.scrollTop = 0
-        this.nowIndex = index
-       
+    changeDate(index) {
+      if (this.nowIndex == index) return
+      this.scrollTop = 0
+      this.nowIndex = index
     },
     handleNum(num, item) {
       item.num += num
@@ -143,15 +141,19 @@ export default {
     },
 
     comfirmOrder() {
-      if (!isChooseEveryDay) {
+      if (!this.isChooseEveryDay) {
         return
       }
-    },
-     
+
+      let food_list = JSON.stringify(this.foodList)
+
+      wx.navigateTo({
+        url: `/pages/home/comfirmOrder/main?food_list=${food_list}`
+      })
+    }
   },
   components: {
-    // UserList,
-    // MonthList
+   
   }
 }
 </script>
@@ -295,7 +297,7 @@ export default {
       background: #ccc;
       color: #fff;
 
-      .active {
+      &.active {
         background: @blue;
       }
     }
