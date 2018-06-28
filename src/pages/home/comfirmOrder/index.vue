@@ -1,28 +1,28 @@
 <template>
-  <div class="page-home__comfirmOrder">
-    <div class="panel">
-      <div class="panel-header">
-        <div class="panel-header__title">订餐人信息</div>
-        <div class="panel-header__other"></div>
-      </div>
-      <div class="panel-body">
-        <user-list :userList="userList">
-        </user-list>
-      </div>
-    </div>
+    <div class="page-home__comfirmOrder">
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-header__title">订餐人信息</div>
+                <div class="panel-header__other"></div>
+            </div>
+            <div class="panel-body">
+                <user-list :userList="userList">
+                </user-list>
+            </div>
+        </div>
 
-    <order-list v-for="(item, index) in orderList" :key="index" :orderList="item"></order-list>
-    <!-- <div class="panel" >
-      <div class="panel-header">
-        <div class="panel-header__title">{{item.name}}订餐</div>
-        <div class="panel-header__other">共{{item.total_num}}份，合计{{item.total_price}}元</div>
-      </div>
-      <div class="panel-body">
-        <user-list :userList="userList">
-        </user-list>
-      </div>
-    </div> -->
-  </div>
+        <order-list v-for="(item, index) in orderList" :key="index" :orderList="item"></order-list>
+
+        <div class="bottom-column">
+            <div class="left">
+                共{{totalDay}}天， 共{{totalNum}}餐， 合计金额
+                <span>{{totalMoney}}元</span>
+            </div>
+            <div class="right" :class="{active: isChooseEveryDay}" @click="comfirmOrder">
+                确认
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -40,14 +40,34 @@ export default {
   computed: {
     nowUser() {
       return this.$store.state.nowUser
+    },
+
+    totalDay() {
+      if (!this.foodList.length) return 0
+      return this.foodList.length
+    },
+    totalNum() {
+      if (!this.foodList.length) return 0
+      return this.foodList.reduce((prev, item) => {
+        return prev + item.count
+      }, 0)
+    },
+    totalMoney() {
+      if (!this.foodList.length) return 0
+      return this.foodList.reduce((prev, item) => {
+        return (
+          prev +
+          item.food_list.reduce((sprev, sitem) => {
+            return sprev + sitem.num * sitem.price
+          }, 0)
+        )
+      }, 0)
     }
   },
 
   mounted() {
-    this.getSingleUserInfo()
-
     this.handleFoodList()
-    console.log(this.orderList)
+    this.getSingleUserInfo()
   },
 
   methods: {
@@ -69,20 +89,6 @@ export default {
           })
         })
       }
-
-      // this.orderList.forEach(item => {
-      //   item.total_num = item.foodList.reduce((prev, item) => {
-      //     return prev + item.count
-      //   }, 0)
-      //   item.total_price = item.foodList.reduce((prev, sitem) => {
-      //     return (
-      //       prev +
-      //       sitem.food_list.reduce((sprev, ssitem) => {
-      //         return sprev + ssitem.num * ssitem.price
-      //       }, 0)
-      //     )
-      //   }, 0)
-      // })
     },
     getSingleUserInfo() {
       utils.ajax({
@@ -108,6 +114,13 @@ export default {
 <style lang="less">
 @import '../../../assets/css/mixin.less';
 .page-home__comfirmOrder {
+  padding-bottom: @bottomColumnHeight;
+
+  .bottom-column {
+    .right {
+      background: #ff6633;
+    }
+  }
 }
 </style>
 

@@ -1,6 +1,9 @@
 @borderColor: #ccc;
 @blue: #6699ff;
 @red: #f04134;
+
+@bottomColumnHeight: 120rpx;
+
 .flex() {
   display: flex;
 }
@@ -32,4 +35,10 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.limit() {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }

@@ -1,0 +1,28 @@
+@import './mixin.less';
+
+.bottom-column {
+  height: @bottomColumnHeight;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  line-height: @bottomColumnHeight;
+  background: #fff;
+  .flex-between();
+
+  .left {
+    width: 70%;
+    padding-left: 30rpx;
+  }
+
+  .right {
+    width: 180rpx;
+    text-align: center;
+    background: #ccc;
+    color: #fff;
+
+    &.active {
+      background: @blue;
+    }
+  }
+}

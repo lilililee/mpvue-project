@@ -1,26 +1,28 @@
 <template>
-  <div class="c-order-list ">
-    <div class="panel">
-      <div class="panel-header">
-        <div class="panel-header__title">{{newOrderList.name}}订餐</div>
-        <div class="panel-header__other">共{{newOrderList.total_num}}份，合计{{newOrderList.total_price}}元</div>
-      </div>
-      <div class="panel-body">
-        <ul>
-          <li class="day-item" v-for="(item, index) in newOrderList.foodList" :key="index">
-            <div class="date">{{item.date2}}</div>
-            <ul class="foods">
-              <li class="food-item" v-for="(sitem, sindex) in item.food_list" :key="sindex" :class="'status_'+sitem.status">
-                <div class="name">{{sitem.name}}</div>
-                <div class="num">{{sitem.num}}</div>
-                <div class="price">{{sitem.price}}</div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+    <div class="c-order-list ">
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-header__title">{{newOrderList.name}}订餐</div>
+                <div class="panel-header__other">共{{newOrderList.total_num}}份，合计{{newOrderList.total_price}}元</div>
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li class="day-item flex" v-for="(item, index) in newOrderList.foodList" :key="index" v-show="index<limit">
+                        <div class="date">{{item.date2}}</div>
+                        <ul class="foods">
+                            <li class="food-item flex-between" v-for="(sitem, sindex) in item.food_list" :key="sindex" :class="'status_'+sitem.status" v-if="sitem.num!=0">
+                                <div class="name">{{sitem.name}}</div>
+                                <div class="num">{{sitem.num}}份</div>
+                                <div class="price">{{sitem.price}}元</div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="more" @click="limit+=5" v-if="newOrderList.foodList && limit<newOrderList.foodList.length">查看更多</div>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -31,7 +33,8 @@ export default {
   },
   data() {
     return {
-      newOrderList: {}
+      newOrderList: {},
+      limit: 5
     }
   },
   mounted() {
@@ -58,6 +61,37 @@ export default {
 <style lang="less">
 @import '../assets/css/mixin';
 .c-order-list {
-  
+  .day-item {
+    font-size: 28rpx;
+    line-height: 80rpx;
+  }
+  .date {
+    width: 20%;
+  }
+
+  .foods {
+    width: 80%;
+  }
+
+  .food-item {
+    .name {
+      width: 40%;
+      .limit();
+    }
+
+    .num {
+      width: 40%;
+      padding-left: 30rpx;
+    }
+
+    .price {
+      width: 20%;
+    }
+  }
+
+  .more {
+    padding: 30rpx 0;
+    text-align: center;
+  }
 }
 </style>

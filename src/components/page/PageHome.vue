@@ -1,6 +1,6 @@
 <template>
     <div class="page-home__index">
-        <div class="notice">
+        <div class="notice" @click="toNotice()">
             {{homeInfo.notice? homeInfo.notice.title: ''}}
         </div>
         <div class="banner">
@@ -35,8 +35,7 @@ export default {
   data() {
     return {
       homeInfo: {},
-      userList: [],
-     
+      userList: []
     }
   },
 
@@ -75,6 +74,12 @@ export default {
       })
     },
 
+    toNotice() {
+      if (!this.homeInfo.notice) return
+      wx.navigateTo({
+        url: `/pages/home/notice/main?notice_id=${this.homeInfo.notice.notice_id}`
+      })
+    }
   },
   components: {
     // TabBar
