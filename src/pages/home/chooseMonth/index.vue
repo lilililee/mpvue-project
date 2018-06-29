@@ -55,8 +55,6 @@ export default {
       })
     },
     chooseMonth(item, year) {
-      console.log('@click: chooseMonth', item, year)
-      console.log('item.status_id', item.status_id)
       let date = year+ '-' + utils.formatNumber(item.month_id)
       if (item.status_id == '1') {
         wx.navigateTo({

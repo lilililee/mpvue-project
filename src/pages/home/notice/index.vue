@@ -8,7 +8,7 @@
             {{noticeInfo.date}}
         </div>
 
-        <rich-text class="notice-content" :nodes="ss">
+        <rich-text class="notice-content" :nodes="testContent">
          
         </rich-text>
     </div>
@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       noticeInfo: {},
-      ss: '<p>asdasdsa</p><h1>h3h3h3h3h3</h1>'
+      testContent: '<p>asdasdsa</p><h1>h1h1h1h1h1</h1>'
     }
   },
 
@@ -51,6 +51,14 @@ export default {
 @import '../../../assets/css/mixin.less';
 .page-home__notice {
   padding-bottom: @bottomColumnHeight;
+
+  .notice-content{
+    //   font-size: 100rpx;
+    //   line-height: 20rpx;
+    h1 {
+        color: #fff;
+    }
+  }
 }
 </style>
 

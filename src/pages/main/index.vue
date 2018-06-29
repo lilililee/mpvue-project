@@ -97,6 +97,9 @@ export default {
 
   .tab-bar-item {
     text-align: center;
+    padding-top: 50rpx;
+    height: 100%;
+    width: 20%;
 
     .title {
       margin-top: 5rpx;

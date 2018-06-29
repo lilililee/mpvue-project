@@ -11,16 +11,20 @@ const formatNumber = (n) => {
   return str[1] ? str : `0${str}`
 }
 
-const formatTime = (date) => {
+const formatDate = (date) => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
+
+  return [year, month, day].map(formatNumber).join('-')
+}
+const formatTime = (date) => {
 
   const hour = date.getHours()
   const minute = date.getMinutes()
   const second = date.getSeconds()
 
-  const t1 = [year, month, day].map(formatNumber).join('/')
+  const t1 = formatDate(date)
   const t2 = [hour, minute, second].map(formatNumber).join(':')
 
   return `${t1} ${t2}`
@@ -101,6 +105,7 @@ export default {
   $Message,
 
   formatNumber,
+  formatDate,
   formatTime,
 
   validate,
