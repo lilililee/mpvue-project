@@ -86,13 +86,15 @@ export default {
 <style lang="less">
 @import '../../assets/css/mixin.less';
 .page-main {
+  padding-bottom: @bottomColumnHeight;
   .tab-bar {
     position: fixed;
     left: 0;
     bottom: 0;
-    height: 120rpx;
+    height: 100rpx;
     width: 100%;
     background: #fff;
+    box-shadow: inset 0 1px 0 0 rgba(0,0,0,0.05);
   }
 
   .tab-bar-item {

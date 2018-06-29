@@ -1,19 +1,22 @@
 @import './mixin.less';
 
-@btnHeight: 80rpx;
+@btnHeight: 92rpx;
 .btn-group {
   .flex-between();
-  padding: 0 20rpx;
+  padding: 0 40rpx;
   .btn {
     height: @btnHeight;
     line-height: @btnHeight;
     text-align: center;
-    border: 1rpx solid @borderColor;
-    width: 47%;
-    font-size: 30rpx;
+    border: 1rpx solid @blue;
+    background: @blue;
+    color: #fff;
+    width: 100%;
+    font-size: 36rpx;
+    border-radius: 8rpx;
     
-    &.btn_big {
-      width: 100%;
+    &.btn__small {
+      width: 320rpx;
     }
   }
 }

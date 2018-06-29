@@ -1,39 +1,37 @@
 @import './mixin.less';
 
-@inputHeight: 80rpx;
+@inputHeight: 112rpx;
 
 .form {
-  padding: 0 20rpx;
+  padding: 0 40rpx;
   .input {
-    .flex-between();
-    border: 1rpx solid @borderColor;
+    .flex();
+    border-bottom: 1rpx solid @borderColor;
     height: @inputHeight;
-    margin-bottom: 20rpx;
-    font-size: 25rpx;
-    
+    // margin-bottom: 20rpx;
+    font-size: 32rpx;
 
-    input {
-      width: 80%;
+    line-height: @inputHeight;
+    .name {
+      width: 24%;
+    }
+    .content {
+      width: 51%;
       height: 100%;
-      line-height: @inputHeight;
-      // font-size: 25rpx;
-      padding-left: 30rpx; 
+
     }
 
-    .input-assist {
-      width: 20%;
+    .assist {
+      width: 25%;
       text-align: center;
       height: 100%;
-      line-height: @inputHeight;
+      font-size: 28rpx;
+      color: @blue;
 
-      &.input-assist__code {
+      &.assist__code {
         background: red;
         color: #fff;
       }
     }
-
-   
   }
-
-
 }

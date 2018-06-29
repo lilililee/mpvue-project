@@ -3,18 +3,22 @@
 
     <div class="form">
       <div class="input">
-        <input type="text" class="phone" v-model="phone" placeholder="请输入您的手机号">
-        <div v-if="count == 60" class="input-assist input-assist__code" @click="getCode">获取验证码</div>
-        <div v-else class="input-assist input-assist__code">已发送({{count}}s)</div>
+        <div class="name">手机号</div>
+        <input type="text" class="content phone" v-model="phone" placeholder="请输入手机号">
+        <div v-if="count == 60" class="assist " @click="getCode">获取验证码</div>
+        <div v-else class="assist ">已发送({{count}}s)</div>
       </div>
       <div class="input">
-        <input type="text" class="code" v-model="code" placeholder="请输入您收到的验证码">
+        <div class="name">验证码</div>
+        <input type="text" class="content code" v-model="code" placeholder="请输入验证码">
       </div>
       <div class="input">
-        <input type="password" class="password" v-model="password" placeholder="请设置密码（6-16位英文数字组合）">
+        <div class="name">新密码</div>
+        <input type="password" class="content password" v-model="password" placeholder="请输入密码">
       </div>
       <div class="input">
-        <input type="password" class="password2" v-model="password2" placeholder="请再次设置密码（6-16位英文数字组合）">
+        <div class="name">确认密码</div>
+        <input type="password" class="content password2" v-model="password2" placeholder="请输入密码">
       </div>
     </div>
 
@@ -104,7 +108,7 @@ export default {
             success: res => {
               this.$store.commit('updateToken', res.data.token)
               wx.navigateTo({
-                url: '/pages/home/index/main'
+                url: '/pages/main/main'
               })
             }
           })
@@ -116,6 +120,8 @@ export default {
 </script>
 <style lang="less">
 .page-login__find_password {
+  height: 100vh;
+  background: #fff;
 }
 </style>
 

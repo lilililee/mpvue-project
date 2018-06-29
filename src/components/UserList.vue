@@ -5,16 +5,18 @@
         <div class="img">
           <img :src="item.head_img" alt="">
         </div>
-        <div class="name">
-          {{item.name}}
-        </div>
+
         <div class="info">
-          <div class="info-content">
+          <div class="top">
+            <div class="name">{{item.name}}</div>
             <div class="role">{{item.role_name}}</div>
+          </div>
+          <div class="bottom">
             <div class="address" v-if="item.address_name">{{item.address_name}}</div>
           </div>
+
         </div>
-        <div class="assets" @click="$emit('assetsClick', item)">
+        <div class="assist" @click="$emit('assistClick', item)">
           <slot></slot>
         </div>
       </li>
@@ -36,11 +38,13 @@ export default {
 @import '../assets/css/mixin';
 .c-user-list {
   .user-item {
-    height: 140rpx;
+    height: 132rpx;
     background: #fff;
+    padding: 0 32rpx;
 
     + li {
-      margin-top: 20rpx;
+      // border-top: 1px solid @borderColor;
+      margin-top: 1px;
     }
 
     > div {
@@ -54,7 +58,8 @@ export default {
   }
 
   .img {
-    width: 15%;
+    width: 72rpx;
+    height: 72rpx;
     box-sizing: border-box;
     img {
       width: 60rpx;
@@ -77,7 +82,7 @@ export default {
       margin-top: 20rpx;
     }
   }
-  .assets {
+  .assist {
     width: 20%;
   }
 }

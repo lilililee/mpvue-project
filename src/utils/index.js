@@ -47,12 +47,17 @@ const validate = {
     return this.test(str, /^1[0-9]{10}$/, `手机号码输入有误`)
   },
   notPassword(str) {
-    return this.test(str, /^[0-9a-zA-Z]{6,16}$/, `密码输入有误`)
+    return this.test(str, /^[0-9a-zA-Z]{6,16}$/, `密码为6-16位英文和数字组合`)
   }
 }
 
 const showMsg = msg => {
   log(msg)
+  wx.showToast({
+    title: msg,
+    icon: 'none',
+    duration: 1500
+  })
 
   // $Message({
   //   content: msg,

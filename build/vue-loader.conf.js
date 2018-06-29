@@ -15,6 +15,7 @@ module.exports = {
     video: 'src',
     source: 'src',
     img: 'src',
-    image: 'xlink:href'
+    image: 'xlink:href',
+    // postcss:[require('px2rpx-loader')({'rpxUnit':75,'rpxPrecision':8})] 
   }
 }

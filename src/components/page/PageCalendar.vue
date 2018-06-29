@@ -2,7 +2,7 @@
     <div class="page-calendar__index">
 
         <div class="user-list-container">
-            <user-list :userList="userList" @assetsClick="toChooseMonth">
+            <user-list :userList="userList" @assistClick="toChooseMonth">
                 <div class="c-user-list__assets flex-center">
                     切换用餐人
                 </div>
