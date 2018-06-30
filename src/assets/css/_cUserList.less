@@ -1,0 +1,71 @@
+@import './mixin.less';
+
+.c-user-list {
+  width: 100%;
+  overflow: hidden;
+  .user-item {
+    height: 66px;
+    background: #fff;
+    padding: 0 16px;
+    position: relative;
+
+    + li {
+      // border-top: 1px solid @borderColor;
+      margin-top: 1rpx;
+    }
+
+    > div {
+      height: 100%;
+      .flex-center();
+    }
+
+    .info {
+      .flex-start();
+    }
+  }
+
+  .img {
+    width: 30px;
+    box-sizing: border-box;
+    margin-right: 12px;
+
+    img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: block;
+    }
+  }
+
+  .info {
+    width: 60%;
+    .top {
+      .flex-start();
+
+      .name {
+        font-size: 16px;
+        color: #000000;
+        margin-right: 12px;
+      }
+
+      .role {
+        background: rgba(174, 98, 245, 0.1);
+        border: 1px solid rgba(174, 98, 245, 0.3);
+        border-radius: 4rpx;
+        padding: 0 6px;
+        height: 20px;
+        line-height: 20px;
+        font-size: 12px;
+      }
+    }
+  }
+  .assist {
+    position: absolute;
+    height: 100%;
+    width: 40%;
+    right: 0;
+    top: 0;
+    .flex-end();
+    padding-right: 16px;
+  }
+}

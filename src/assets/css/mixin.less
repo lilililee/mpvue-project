@@ -1,8 +1,11 @@
-@borderColor: #999;
-@blue: #0095FF;
+@borderColor: #ececec;
+@blue: #0095ff;
 @red: #f04134;
+@purple: #ae62f5;
+@gray: #999; // 灰色文字颜色
+@gray2: #f5f5f5; // 按钮背景色
 
-@bottomColumnHeight: 100rpx;
+@bottomColumnHeight: 50px;
 
 .flex() {
   display: flex;
@@ -38,7 +41,17 @@
 }
 
 .limit() {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.lh(@height) {
+  height: @height;
+  line-height: @height;
+}
+
+.wh(@wh){
+  width: @wh;
+  height: @wh;
 }

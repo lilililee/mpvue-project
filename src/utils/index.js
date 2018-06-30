@@ -69,6 +69,9 @@ const log = (...args) => {
   console.log(...args)
 }
 
+
+// const isLoading = false
+
 const ajax = ({
   action,
   method = 'GET',
@@ -81,6 +84,12 @@ const ajax = ({
   let header = {}
   _store.state.token && (header.token = _store.state.token)
 
+  // 加载速度太快会导致页面抖动
+  // if (isLoading) {
+  //   isLoading = true
+  //   wx.showNavigationBarLoading()
+  // }
+
   log(`%c${action}(input)`, `color:#29bb7b`, data)
   wx.request({
     url: _config.domain + action,
@@ -88,6 +97,9 @@ const ajax = ({
     data,
     header,
     success(res) {
+      // if (isLoading) {
+      //   wx.hideNavigationBarLoading()
+      // }
       log(`%c${action}(res)`, `color:#5b8de2`, res.data)
       if (res.data.code != 0) {
         success(res.data)

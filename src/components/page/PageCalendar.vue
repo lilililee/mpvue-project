@@ -1,64 +1,115 @@
 <template>
-    <div class="page-calendar__index">
-
-        <div class="user-list-container">
-            <user-list :userList="userList" @assistClick="toChooseMonth">
-                <div class="c-user-list__assets flex-center">
-                    切换用餐人
-                </div>
-            </user-list>
+  <div class="page-calendar__index">
+    <div class="page-calendar__index__container">
+      <div class="user-info">
+        <div class="date">
+          <div class="month">{{today.month}}月</div>
+          <div class="other">
+            <div class="year">{{today.year}}年</div>
+            <div class="day">{{today.day}}日
+              <span>今天</span>
+            </div>
+          </div>
+        </div>
+        <div class="user" @click="isShowUserPicker= true">
+          <div class="name">{{nowUser.name}}</div>
+          <div class="icon">▾</div>
         </div>
 
-        <div class="table calendar-table">
-            <div class="table-header">
-                <div class="tr">
-                    <div class="td">周日</div>
-                    <div class="td">周一</div>
-                    <div class="td">周二</div>
-                    <div class="td">周三</div>
-                    <div class="td">周四</div>
-                    <div class="td">周五</div>
-                    <div class="td">周六</div>
-                </div>
-            </div>
-            <div class="table-body">
-                <template v-for="(item, index) in bookingStatus">
-                    <div class="tr">
-                        <div class="td" v-for="(sitem, sindex) in item" :key="sindex" :class="'status_' + sitem.status"> {{sitem.day}}</div>
-                    </div>
-                </template>
-                <!-- <div class="tr"></div> -->
-            </div>
-        </div>
+      </div>
 
+      <div class="table calendar-table">
+        <div class="table-header">
+          <div class="tr">
+            <div class="td">日</div>
+            <div class="td">一</div>
+            <div class="td">二</div>
+            <div class="td">三</div>
+            <div class="td">四</div>
+            <div class="td">五</div>
+            <div class="td">六</div>
+          </div>
+        </div>
+        <div class="table-body">
+          <div class="tr" v-for="(item, index) in bookingStatus" :key="index">
+            <div class="td" v-for="(sitem, sindex) in item" :key="sindex" :class="{disabled:!sitem.isNowMonth,today:sitem.isToday}" @click="toBookingList(sitem)">
+
+              <span> {{sitem.day}}</span>
+              <!-- 1未订餐 2已订餐 3已完成 -->
+              <div class="status-name" v-if="sitem.status_id!=='1'">  
+                <i class="point" v-if="sitem.status_id=='2'"></i>
+                <span>{{sitem.status_name}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="switch-month">
+        <div class="prev" @click="changeMonth(-1)">
+          <i class="icon icon-prev">左</i>
+          <span>上个月</span>
+        </div>
+        <div class="next" @click="changeMonth(1)">
+          <span>下个月</span>
+          <i class="icon icon-next">右</i>
+        </div>
+      </div>
     </div>
+
+    <user-picker v-model="isShowUserPicker" :userList="userList" @comfirm="comfirmUser"></user-picker>
+
+  </div>
 </template>
 
 <script>
 import utils from '../../utils'
 import UserList from '../UserList'
+import UserPicker from '../UserPicker'
 export default {
   data() {
     return {
       bookingStatus: [], // 会处理成 7 的整数，不属于当月的天的状态用 -1 表示
-      todayIndex: -1, // 今天在bookingStatus的下标， -1表示今天不在该月
-      nowMonth: utils.formatDate(new Date()).slice(0, 7) // 当前查看的月份
+
+      userList: [],
+      today: {},
+      nowMonth: '',
+      isShowUserPicker: false
     }
   },
   computed: {
-    userList() {
-      return [this.$store.state.nowUser]
-    },
     nowUser() {
       return this.$store.state.nowUser
     }
   },
 
   mounted() {
-    this.getUserBookingStatus()
+    this.initToday()
+    this.getUserList()
   },
 
   methods: {
+    initToday() {
+      let date = new Date()
+      this.today.date = utils.formatDate(date)
+      this.today.year = String(date.getFullYear())
+      this.today.month = String(date.getMonth() + 1)
+      this.today.day = String(utils.formatNumber(date.getDate()))
+
+      this.nowMonth = this.today.date.slice(0, 7)
+    },
+    getUserList() {
+      utils.ajax({
+        action: 'getUserList',
+        success: res => {
+          if (res.code == 0) {
+            this.userList = res.data.list
+            this.$store.commit('updateNowUser', this.userList[0])
+            this.getUserBookingStatus()
+          }
+        }
+      })
+    },
     getUserBookingStatus() {
       utils.ajax({
         action: 'getUserBookingStatus',
@@ -69,39 +120,14 @@ export default {
         },
         success: res => {
           if (res.code == 0) {
-            // 获取本月第一天是周几
-            res.data.list = res.data.list.map((item, index) => ({
-              status: item,
-              day: String(index + 1),
-              isToday: false
-            }))
+            // 加入状态参数
+            res.data.list.forEach(item => {
+              item.day = String(parseInt(item.date.slice(-2)))  
+              item.isNowMonth = item.date.slice(0, 7) == this.today.date.slice(0, 7)
+              item.isToday = item.date == this.today.date
+            })
 
-            let date = new Date()
-            if (utils.formatDate(date).slice(0, 7) == this.nowMonth) {
-              res.data.list[date.getDate() - 1] && (res.data.list[date.getDate() - 1].isToday = true)
-            }
-            let week = new Date(this.nowMonth + '-01').getDay()
-            let beforeDays = week
-
-            console.log('beforeDays', beforeDays)
-            for (let i = 0; i < beforeDays; i++) {
-              res.data.list.unshift({
-                status: 0,
-                day: '-1',
-                isToday: false
-              })
-            }
-
-            let afterDays = (7 - res.data.list.length % 7) % 7
-            console.log('afterDays', afterDays)
-            for (let i = 0; i < afterDays; i++) {
-              res.data.list.push({
-                status: 0,
-                day: '-1',
-                isToday: false
-              })
-            }
-
+            // 转化成二元数组
             let tempCount = 1
             let result = []
             while (tempCount * 7 <= res.data.list.length) {
@@ -110,49 +136,178 @@ export default {
             }
 
             this.bookingStatus = result
-
-            console.log('bookingStatus', this.bookingStatus)
-            console.log('todayIndex', this.todayIndex)
           }
         }
       })
     },
+    comfirmUser(userIndex) {
+      this.$store.commit('updateNowUser', this.userList[userIndex])
+      this.nowMonth = this.today.date.slice(0, 7)
+      this.getUserBookingStatus()
+    },
     changeMonth(num) {
       let date = this.nowMonth.split('-')
-      this.nowMonth = utils.formatDate(new Date(date[0], date[1] + num - 1)).slice(0, 7)
+      this.nowMonth = utils.formatDate(new Date(date[0] * 1, date[1] * 1 + num - 1)).slice(0, 7)
+      this.getUserBookingStatus()
+    },
+
+    toBookingList(item) {
+      console.log(item.status_id)
+      wx.navigateTo({
+        url: `/pages/calendar/bookingList/main?empty=${item.status_id=='1'}&date=${item.date}`
+      })
     }
   },
   components: {
-    UserList
+    UserList,
+    UserPicker
   }
 }
 </script>
 <style lang="less">
 @import '../../assets/css/mixin.less';
+
 .page-calendar__index {
+  .page-calendar__index__container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    background: #fff;
+    height: 100%;
+  }
+  .user-info {
+    .flex-between();
+    color: #fff;
+    padding: 0 28px;
+    height: 54px;
+    background: @blue;
+
+    .date {
+      .flex-start();
+      width: 200px;
+    }
+
+    .month {
+      font-size: 30px;
+      margin-right: 6px;
+    }
+
+    .other {
+      font-size: 10px;
+      .day {
+        margin-top: 7px;
+      }
+    }
+
+    .user {
+      .flex-end();
+      font-size: 16px;
+    }
+  }
   .calendar-table {
-    border-top: 1rpx solid @borderColor;
-    border-left: 1rpx solid @borderColor;
+    .table-header {
+      background: @blue;
+      color: #fff;
+      font-size: 10px;
+      height: 46px;
+    }
+    .table-body {
+      color: #333;
+    }
+
     .tr {
-      .flex();
+      .flex-center();
+      overflow: hidden;
     }
 
     .td {
-      border-right: 1rpx solid @borderColor;
-      border-bottom: 1rpx solid @borderColor;
       .flex-center();
-      width: 14.2857%; // 1/ 7
-      height: 80rpx;
+      width: 44px; // 1/ 7
+      height: 44px;
+      margin: 8px 3px;
+      text-align: center;
 
       &.status_1 {
-        background: #eee;
+        .status-name {
+          display: none;
+        }
       }
       &.status_2 {
-        background: #b3ccff;
       }
       &.status_3 {
-        background: @blue;
       }
+    }
+
+    .table-body {
+      .td {
+        position: relative;
+        border: 1rpx solid transparent;
+        border-radius: 50%;
+
+        .status-name {
+          position: absolute;
+          width: 100%;
+          left: 0;
+          bottom: 0;
+          font-size: 9px;
+          color: #aaaaaa;
+          .flex-center();
+
+          .point {
+            display: inline-block;
+            .wh(4px);
+            background: @blue;
+            border-radius: 50%;
+            margin-right: 3px;
+          }
+        }
+
+        &.disabled {
+          color: #ccc;
+        }
+
+        &.today {
+          border-color: @blue;
+          background: @blue;
+          color: #fff;
+
+          .status-name {
+            display: none;
+          }
+        }
+
+        &.border-gray {
+          border: 1rpx solid rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+  }
+
+  .switch-month {
+    padding: 0 30px;
+    margin-top: 24px;
+    font-size: 14px;
+    color: @gray;
+    .flex-between();
+
+    .prev,
+    .next {
+      width: 50%;
+    }
+
+    .prev {
+      .flex-start();
+    }
+
+    .next {
+      .flex-end();
+    }
+
+    span {
+      margin: 0 8px;
     }
   }
 }

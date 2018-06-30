@@ -1,11 +1,11 @@
 <template>
   <div class="page-home__chooseFood">
     <div class="user-list-container">
-      <user-list :userList="userList">
+      <!-- <user-list :userList="userList">
         <div class="c-user-list__assets flex-center">
 
         </div>
-      </user-list>
+      </user-list> -->
     </div>
 
     <div class="booking-list-container">
@@ -44,7 +44,7 @@ export default {
         action: 'getMonthBooking',
         data: {
           user_id: this.nowUser.user_id,
-          type: '1',
+          type: this.$root.$mp.query.type,
           role_id: this.nowUser.role_id
         },
         success: res => {

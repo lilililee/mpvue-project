@@ -1,5 +1,5 @@
 <template>
-  <div class="page-home__index">
+  <div class="page-user__index">
     <div class="notice">
       {{homeInfo.notice? homeInfo.notice.title: ''}}
     </div>
@@ -60,10 +60,10 @@ export default {
 }
 </script>
 <style lang="less">
-.page-home__index {
+.page-user__index {
   .slide-image {
     width: 100%;
-    height: 400rpx;
+    height: 200px;
   }
 }
 </style>
