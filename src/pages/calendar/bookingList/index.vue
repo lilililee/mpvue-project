@@ -1,7 +1,7 @@
 <template>
     <div class="page-home__notice">
         <div class="notice-title">
-            {{noticeInfo.title}}
+            {{noticeInfo.title}}aa
         </div>
 
         <div class="notice-date">

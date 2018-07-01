@@ -86,6 +86,8 @@ export default {
   mounted() {
     this.initToday()
     this.getUserList()
+
+    
   },
 
   methods: {
