@@ -110,7 +110,7 @@ export default {
     position: fixed;
     left: 0;
     bottom: 0;
-    height: 100rpx;
+    height: 50px;
     width: 100%;
     background: #fff;
     box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05);
@@ -119,7 +119,7 @@ export default {
 
   .tab-bar-item {
     text-align: center;
-    padding-top: 50rpx;
+    padding-top: 25px;
     height: 100%;
     width: 20%;
 

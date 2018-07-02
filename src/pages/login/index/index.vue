@@ -1,37 +1,37 @@
 <template>
-  <div class="page-login__index">
-    <div class="logo">
-      logo
-    </div>
-
-    <div class="form">
-      <div class="input">
-        <div class="name">手机号</div>
-        <input type="text" class="content phone" v-model="phone" placeholder="请输入手机号">
-      </div>
-      <div class="input">
-        <div class="name">密码</div>
-        <input type="password" class="content password" v-model="password" placeholder="请输入密码">
-        <div class="assist">
-          <a href="/pages/login/findPassword/main">忘记密码</a>
+    <div class="page-login__index">
+        <div class="logo">
+            logo
         </div>
-      </div>
-    </div>
 
-    <div class="link btn-group">
-      <div class="btn" @click="login">登录</div>
-      <!-- <a class="btn" href="/pages/login/register/main">注册</a> -->
-    </div>
+        <div class="form">
+            <div class="input">
+                <div class="name">手机号</div>
+                <input type="text" class="content phone" v-model="phone" placeholder="请输入手机号">
+            </div>
+            <div class="input">
+                <div class="name">密码</div>
+                <input type="password" class="content password" v-model="password" placeholder="请输入密码">
+                <div class="assist">
+                    <a href="/pages/login/findPassword/main">忘记密码</a>
+                </div>
+            </div>
+        </div>
 
-    <div class="link btn-group">
-      <a class="btn" href="/pages/login/register/main">注册</a>
-    </div>
+        <div class="link btn-group">
+            <div class="btn" @click="login">登录</div>
+            <!-- <a class="btn" href="/pages/login/register/main">注册</a> -->
+        </div>
 
-    <div class="link btn-group">
-      <a class="btn" href="/pages/login/protocol/main">协议</a>
-    </div>
+        <div class="link btn-group">
+            <a class="btn" href="/pages/login/register/main">注册</a>
+        </div>
 
-  </div>
+        <div class="link btn-group">
+            <a class="btn" href="/pages/login/protocol/main">协议</a>
+        </div>
+
+    </div>
 </template>
 
 <script>
@@ -44,27 +44,11 @@ export default {
     }
   },
 
+  mounted() {
+    // 调用应用实例的方法获取全局数据
+    this.getUserInfo()
+  },
   methods: {
-    bindViewTap() {
-      const url = '../logs/main'
-      wx.navigateTo({ url })
-    },
-    getUserInfo() {
-      // 调用登录接口1
-      wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: res => {
-              this.userInfo = res.userInfo
-            }
-          })
-        }
-      })
-    },
-    mounted() {
-      // 调用应用实例的方法获取全局数据
-      this.getUserInfo()
-    },
     login() {
       if (utils.validate.isEmpty(this.phone, '手机号')) return
       if (utils.validate.notPhone(this.phone)) return

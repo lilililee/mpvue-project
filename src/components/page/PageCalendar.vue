@@ -154,7 +154,6 @@ export default {
     },
 
     toBookingList(item) {
-      console.log(item.status_id)
       wx.navigateTo({
         url: `/pages/calendar/bookingList/main?empty=${item.status_id=='1'}&date=${item.date}`
       })
@@ -171,14 +170,8 @@ export default {
 
 .page-calendar__index {
   .page-calendar__index__container {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-
+   .full-page();
     background: #fff;
-    height: 100%;
   }
   .user-info {
     .flex-between();
