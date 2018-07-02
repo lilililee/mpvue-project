@@ -1,24 +1,24 @@
 <template>
-    <div class="page-user__recharge">
-        <div class="rechare-content">
+  <div class="page-user__recharge">
+    <div class="recharge-content">
 
-            <div class="tip">
-                选择充值面额或者输入其他金额:
-            </div>
+      <div class="tip">
+        选择充值面额或者输入其他金额:
+      </div>
 
-            <ul class="money-options">
-                <li v-for="(item, index) in options" :key="index" @click="chooseMoney(item, index)" :class="{active: nowChooseMoneyIndex==index}">{{item}}</li>
-            </ul>
+      <ul class="money-options">
+        <li v-for="(item, index) in options" :key="index" @click="chooseMoney(item, index)" :class="{active: nowChooseMoneyIndex==index}">{{item}}</li>
+      </ul>
 
-            <div class="input-money">
-                <input v-model="inputMoney" type="number" placeholder="其他金额">
-            </div>
-        </div>
-
-        <div class="btn-group">
-            <div class="btn btn__orange" @click="recharge">确定充值</div>
-        </div>
+      <div class="input-money">
+        <input v-model="inputMoney" type="digit" placeholder="其他金额">
+      </div>
     </div>
+
+    <div class="btn-group">
+      <div class="btn btn__orange" @click="recharge">确定充值</div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -49,10 +49,12 @@ export default {
       this.inputMoney = ''
     },
     recharge() {
-      let money = this.nowChooseMoneyIndex != -1? this.options[this.nowChooseMoneyIndex] : this.inputMoney
+      let money = this.nowChooseMoneyIndex != -1 ? this.options[this.nowChooseMoneyIndex] : this.inputMoney
 
-      console.log('money',money)
-
+      if(money == '' || money == '0') {
+        utils.showMsg('请输入充值金额')
+        return
+      }
       utils.ajax({
         action: 'recharge',
         method: 'POST',
@@ -61,7 +63,16 @@ export default {
         },
         success: res => {
           if (res.code == 0) {
-            // this.noticeInfo = res.data
+            wx.showToast({
+              title: '充值成功',
+              icon: 'success',
+              duration: 1500
+            })
+            setTimeout(() => {
+              wx.navigateBack({
+                delta: 1
+              })
+            }, 1500)
           }
         }
       })
@@ -78,7 +89,7 @@ page {
 .page-user__recharge {
   padding-top: 24px;
 
-  .rechare-content {
+  .recharge-content {
     padding: 0 20px;
   }
   .tip {

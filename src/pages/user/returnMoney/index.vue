@@ -1,19 +1,26 @@
 <template>
-    <div class="page-user__wallet">
-        <div class="balance">
-            <div class="content">
-                <div class="num">37.50</div>
-                <div class="text">
-                    <div class="left">钱包余额</div>
-                    <div class="right">查看明细</div>
-                </div>
-            </div>
-            <div class="btn-group">
-                <div class="btn btn__small">充值</div>
-                <div class="btn btn__small btn__white">体现</div>
-            </div>
+  <div class="page-user__return__money">
+
+    <div class="return-content">
+      <div class="tip">
+        请输入提现金额
+      </div>
+
+      <input type="digit" class="money" v-model="inputMoney">
+
+      <div class="text">
+        <div class="left">钱包余额:
+          <strong>{{balance}}</strong>
         </div>
+        <div class="right" @click="inputMoney=balance">全部提现</div>
+      </div>
     </div>
+
+    <div class="btn-group">
+      <div class="btn btn__orange" @click="returnMoney">确定提现</div>
+    </div>
+
+  </div>
 </template>
 
 <script>
@@ -21,23 +28,40 @@ import utils from '@/utils'
 
 export default {
   data() {
-    return {}
+    return {
+      balance: '',
+      inputMoney: ''
+    }
   },
 
   mounted() {
-    this.getNoticeInfo()
+    this.balance = this.$root.$mp.query.balance
   },
 
   methods: {
-    getNoticeInfo() {
+    returnMoney() {
+      if (utils.validate.isEmpty(this.inputMoney, '提现金额')) return
+      if (this.inputMoney > this.balance) {
+        utils.showMsg('提现金额不能超过余额')
+      }
       utils.ajax({
-        action: 'getNoticeInfo',
+        action: 'returnMoney',
+        method: 'POST',
         data: {
-          notice_id: this.$root.$mp.query.notice_id
+          money: this.inputMoney
         },
         success: res => {
           if (res.code == 0) {
-            this.noticeInfo = res.data
+            wx.showToast({
+              title: '提现成功',
+              icon: 'success',
+              duration: 1500
+            })
+            setTimeout(() => {
+              wx.navigateBack({
+                delta: 1
+              })
+            }, 1500)
           }
         }
       })
@@ -51,33 +75,47 @@ export default {
 page {
   background: #fff;
 }
-.page-user__wallet {
-  .balance {
-    .content {
-      padding: 0 20px;
-      padding-top: 47px;
-    }
-    .num {
-      font-size: 36px;
-    }
+.page-user__return__money {
+  .return-content {
+    padding: 0 20px;
+    padding-top: 47px;
+  }
 
-    .text {
-      .flex-between();
-      font-size: 14px;
-      margin-top: 5px;
+  .money {
+    font-size: 24px;
+    .lh(48px);
+    color: #000;
+    margin-top: 12px;
+    border-bottom: 1rpx solid @borderColor;
+  }
+  .num {
+    font-size: 36px;
+  }
 
-      .left {
-        color: @gray;
+  .text {
+    .flex-between();
+    font-size: 14px;
+    margin-top: 12px;
+
+    .left {
+      width: 50%;
+      color: @gray;
+
+      strong {
+        display: inline-block;
+        color: #151515;
       }
-
-      .right {
-        color: @blue;
-      }
     }
 
-    .btn-group {
-    //   padding: 0;
-      margin-top: 36px;
+    .right {
+      color: @blue;
+    }
+  }
+
+  .btn-group {
+    margin-top: 36px;
+    .btn {
+      font-size: 16px;
     }
   }
 }

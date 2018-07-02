@@ -2,7 +2,7 @@
     <div class="page-user__wallet">
         <div class="balance">
             <div class="content">
-                <div class="num">37.50</div>
+                <div class="num">{{balanceInfo.balance}}</div>
                 <div class="text">
                     <div class="left">钱包余额</div>
                     <div class="right">查看明细</div>
@@ -10,7 +10,7 @@
             </div>
             <div class="btn-group">
                 <a href="/pages/user/recharge/main" class="btn btn__small">充值</a>
-                <a href="/pages/user/returnMoney/main" class="btn btn__small btn__white">提现</a>
+                <a :href="'/pages/user/returnMoney/main?balance=' + balanceInfo.balance" class="btn btn__small btn__white">提现</a>
             </div>
         </div>
     </div>
@@ -21,23 +21,27 @@ import utils from '@/utils'
 
 export default {
   data() {
-    return {}
+    return {
+      balanceInfo: {}
+    }
   },
 
   mounted() {
-    this.getNoticeInfo()
+    },
+  onShow(){
+    this.getBalance()
   },
 
   methods: {
-    getNoticeInfo() {
+    getBalance() {
       utils.ajax({
-        action: 'getNoticeInfo',
+        action: 'getBalance',
         data: {
-          notice_id: this.$root.$mp.query.notice_id
+          
         },
         success: res => {
           if (res.code == 0) {
-            this.noticeInfo = res.data
+            this.balanceInfo = res.data
           }
         }
       })
