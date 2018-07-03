@@ -2,15 +2,15 @@
     <div class="page-user__wallet">
         <div class="balance">
             <div class="content">
-                <div class="num">{{balanceInfo.balance}}</div>
+                <div class="num">{{accountInfo.balance}}</div>
                 <div class="text">
                     <div class="left">钱包余额</div>
-                    <div class="right">查看明细</div>
+                    <a class="right" href="/pages/user/wallet/detail/main">查看明细</a>
                 </div>
             </div>
             <div class="btn-group">
-                <a href="/pages/user/recharge/main" class="btn btn__small">充值</a>
-                <a :href="'/pages/user/returnMoney/main?balance=' + balanceInfo.balance" class="btn btn__small btn__white">提现</a>
+                <a href="/pages/user/wallet/recharge/main" class="btn btn__small">充值</a>
+                <a :href="'/pages/user/wallet/returnMoney/main?balance=' + accountInfo.balance" class="btn btn__small btn__white">提现</a>
             </div>
         </div>
     </div>
@@ -22,26 +22,26 @@ import utils from '@/utils'
 export default {
   data() {
     return {
-      balanceInfo: {}
+      accountInfo: {}
     }
   },
 
   mounted() {
     },
   onShow(){
-    this.getBalance()
+    this.getAccountInfo()
   },
 
   methods: {
-    getBalance() {
+    getAccountInfo() {
       utils.ajax({
-        action: 'getBalance',
+        action: 'getAccountInfo',
         data: {
           
         },
         success: res => {
           if (res.code == 0) {
-            this.balanceInfo = res.data
+            this.accountInfo = res.data
           }
         }
       })
@@ -51,7 +51,7 @@ export default {
 }
 </script>
 <style lang="less">
-@import '../../../assets/css/mixin.less';
+@import '../../../../assets/css/mixin.less';
 page {
   background: #fff;
 }

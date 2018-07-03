@@ -12,7 +12,7 @@
             </div>
 
             <ul class="menu-list">
-                <li @click="toSubPage('wallet')">
+                <li @click="toSubPage('wallet/index')">
                     <div class="left">
                         <div class="icon">icon</div>
                         <div class="title">钱包</div>
@@ -24,7 +24,25 @@
                 <li @click="toSubPage('wallet')">
                     <div class="left">
                         <div class="icon">icon</div>
-                        <div class="title">钱包</div>
+                        <div class="title">用餐人</div>
+                    </div>
+                    <div class="right">
+                        <div class="arrow">右</div>
+                    </div>
+                </li>
+                <li @click="toSubPage('wallet')">
+                    <div class="left">
+                        <div class="icon">icon</div>
+                        <div class="title">修改密码</div>
+                    </div>
+                    <div class="right">
+                        <div class="arrow">右</div>
+                    </div>
+                </li>
+                <li @click="toSubPage('wallet')">
+                    <div class="left">
+                        <div class="icon">icon</div>
+                        <div class="title">用餐反馈</div>
                     </div>
                     <div class="right">
                         <div class="arrow">右</div>

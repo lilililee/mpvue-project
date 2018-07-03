@@ -82,7 +82,7 @@ export default {
 }
 </script>
 <style lang="less">
-@import '../../../assets/css/mixin.less';
+@import '../../../../assets/css/mixin.less';
 page {
   background: #fff;
 }
