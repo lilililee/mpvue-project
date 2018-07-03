@@ -1,5 +1,5 @@
 <template>
-    <div class="page-user__wallet">
+    <div class="page-user__userFood__addUser">
        sss
     </div>
 </template>
@@ -37,8 +37,8 @@ export default {
 }
 </script>
 <style lang="less">
-@import '../../../assets/css/mixin.less';
-.page-user__wallet {
+@import '../../../../assets/css/mixin.less';
+.page-user__userFood__addUser {
 
   
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="page-user__recharge">
+  <div class="page-user__wallet__recharge">
     <div class="recharge-content">
 
       <div class="tip">
@@ -63,16 +63,7 @@ export default {
         },
         success: res => {
           if (res.code == 0) {
-            wx.showToast({
-              title: '充值成功',
-              icon: 'success',
-              duration: 1500
-            })
-            setTimeout(() => {
-              wx.navigateBack({
-                delta: 1
-              })
-            }, 1500)
+             utils.showSuccessMsg('充值成功', wx.navigateBack)
           }
         }
       })
@@ -86,7 +77,7 @@ export default {
 page {
   background: #fff;
 }
-.page-user__recharge {
+.page-user__wallet__recharge {
   padding-top: 24px;
 
   .recharge-content {

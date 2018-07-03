@@ -58,11 +58,18 @@ const showMsg = msg => {
     icon: 'none',
     duration: 1500
   })
+}
 
-  // $Message({
-  //   content: msg,
-  //   type: 'warning'
-  // });
+const showSuccessMsg = (msg, callback) => {
+  log(msg)
+  wx.showToast({
+    title: msg,
+    icon: 'success',
+    duration: 1500
+  })
+  setTimeout(() => {
+    callback()
+  }, 1500)
 }
 
 const log = (...args) => {
@@ -127,6 +134,7 @@ export default {
 
   validate,
   showMsg,
+  showSuccessMsg,
   log,
 
   ajax,

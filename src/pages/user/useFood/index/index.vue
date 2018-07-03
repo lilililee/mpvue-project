@@ -1,0 +1,107 @@
+<template>
+  <div class="page-user__userFood__index">
+    <a href="/pages/user/useFood/addUser/main" class="add-user">
+      <span>+ 添加用餐人</span>
+    </a>
+    <user-list :userData="userList" @assistClick="deleteUser">
+      <div class="c-user-list__assets flex-center">
+        删除
+      </div>
+    </user-list>
+
+    <!-- <div class="popbox" :class="{show: isShowDelatePopbox}">
+      <div class="popbox-container" :class="{show: isShowDelatePopbox}">
+        <div class="title">确认删除</div>
+        <div class="content">
+          删除后将不可对该成员进行订餐补餐等操作
+        </div>
+        <div class="btns">
+          <div class="left">取消</div>
+          <div class="right">确定</div>
+        </div>
+      </div>
+    </div> -->
+    <popbox v-model="isShowDelatePopbox" :popboxData="popboxData" @comfirm="comfirmDelete"></popbox>
+  </div>
+</template>
+
+<script>
+import utils from '@/utils'
+import UserList from '@/components/UserList'
+import Popbox from '@/components/Popbox'
+
+export default {
+  data() {
+    return {
+      userList: [],
+      isShowDelatePopbox: false,
+
+      deleteUserIndex: -1,
+
+      popboxData: {
+        title: '确认删除',
+        content: '删除后将不可对该成员进行订餐补餐等操作'
+      }
+    }
+  },
+
+  mounted() {
+    this.getUserList()
+  },
+
+  methods: {
+    getUserList() {
+      utils.ajax({
+        action: 'getUserList',
+        success: res => {
+          if (res.code == 0) {
+            this.userList = res.data.list
+          }
+        }
+      })
+    },
+    deleteUser(user,index) {
+      this.isShowDelatePopbox = true
+      this.deleteUserIndex = index
+    },
+    comfirmDelete() {
+      
+      utils.ajax({
+        action: 'deleteUser',
+        method: 'POST',
+        data: {
+          user_id: this.userList[this.deleteUserIndex].user_id,
+          role_id: this.userList[this.deleteUserIndex].role_id
+        },
+        success: res => {
+          if (res.code == 0) {
+            this.isShowDelatePopbox = false
+            this.userList.splice(this.deleteUserIndex,1)
+          }
+        }
+      })
+    }
+  },
+  components: {
+    UserList,
+    Popbox
+  }
+}
+</script>
+<style lang="less">
+@import '../../../../assets/css/mixin.less';
+.page-user__userFood__index {
+  .add-user {
+    background: #fff;
+    border: 1rpx solid @borderColor;
+    text-align: center;
+    .lh(48px);
+    margin-bottom: 12px;
+  }
+
+  .c-user-list__assets {
+    color: @red;
+  }
+}
+</style>
+

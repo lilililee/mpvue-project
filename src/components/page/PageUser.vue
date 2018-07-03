@@ -21,7 +21,7 @@
                         <div class="arrow">右</div>
                     </div>
                 </li>
-                <li @click="toSubPage('wallet')">
+                <li @click="toSubPage('useFood/index')">
                     <div class="left">
                         <div class="icon">icon</div>
                         <div class="title">用餐人</div>
@@ -30,7 +30,7 @@
                         <div class="arrow">右</div>
                     </div>
                 </li>
-                <li @click="toSubPage('wallet')">
+                <li @click="toSubPage('password')">
                     <div class="left">
                         <div class="icon">icon</div>
                         <div class="title">修改密码</div>
@@ -39,7 +39,7 @@
                         <div class="arrow">右</div>
                     </div>
                 </li>
-                <li @click="toSubPage('wallet')">
+                <li @click="toSubPage('feedback')">
                     <div class="left">
                         <div class="icon">icon</div>
                         <div class="title">用餐反馈</div>

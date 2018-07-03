@@ -1,7 +1,7 @@
 <template>
     <div class="c-user-list ">
         <ul>
-            <li class="user-item flex-start" v-for="item in userList" :key="item.id">
+            <li class="user-item flex-start" v-for="(item,index) in userList" :key="item.id">
                 <div class="img">
                     <img :src="item.head_img" alt="">
                 </div>
@@ -16,7 +16,7 @@
                     </div>
                 </div>
 
-                <div class="assist" @click="$emit('assistClick', item)">
+                <div class="assist" @click="$emit('assistClick', item, index)">
                     <slot></slot>
                 </div>
             </li>
@@ -28,21 +28,24 @@
 import utils from '../utils'
 export default {
   props: {
-    userData: [Array, Object]
+    userData: [Array, Object],
+    default: []
   },
   data: {
-    userList: [],
     isShowAddress: true
   },
-  mounted() {
-    // 当为用户列表时不展示地址
-    if (Array.isArray(userData)) {
-      this.isShowAddress = false
-      this.userList = this.userData
-    } else {
-      this.userList = [this.userData]
+
+  computed: {
+    userList() {
+      if (Array.isArray(this.userData)) {
+        this.isShowAddress = false
+        return this.userData
+      } else {
+        return [this.userData]
+      }
     }
   },
+  mounted() {},
   methods: {}
 }
 </script>

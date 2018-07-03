@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       pageList,
-      nowPage: 'home' // home || calendar || order || user
+      nowPage: 'user' // home || calendar || order || user
     }
   },
 

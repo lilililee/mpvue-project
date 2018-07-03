@@ -1,5 +1,5 @@
 <template>
-    <div class="page-user__wallet">
+    <div class="page-user__wallet__index">
         <div class="balance">
             <div class="content">
                 <div class="num">{{accountInfo.balance}}</div>
@@ -55,7 +55,7 @@ export default {
 page {
   background: #fff;
 }
-.page-user__wallet {
+.page-user__wallet__index {
   .balance {
     .content {
       padding: 0 20px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="page-user__return__money">
+  <div class="page-user__wallent__returnMoney">
 
     <div class="return-content">
       <div class="tip">
@@ -52,16 +52,7 @@ export default {
         },
         success: res => {
           if (res.code == 0) {
-            wx.showToast({
-              title: '提现成功',
-              icon: 'success',
-              duration: 1500
-            })
-            setTimeout(() => {
-              wx.navigateBack({
-                delta: 1
-              })
-            }, 1500)
+            utils.showSuccessMsg('提现成功', wx.navigateBack)
           }
         }
       })
@@ -75,7 +66,7 @@ export default {
 page {
   background: #fff;
 }
-.page-user__return__money {
+.page-user__wallent__returnMoney {
   .return-content {
     padding: 0 20px;
     padding-top: 47px;
