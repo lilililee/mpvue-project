@@ -26,9 +26,6 @@
                 <div class="name">{{item.name}}</div>
                 <div class="role">{{item.role_name}}</div>
               </div>
-              <div class="bottom">
-                <div class="address" v-if="item.address_name">{{item.address_name}}</div>
-              </div>
 
             </div>
             <div class="assist">
