@@ -23,6 +23,7 @@ export default {
         action: 'getProtocolInfo',
         data: {
         },
+        loading:true,
         success: res => {
           if (res.code == 0) {
             this.protocolInfo = res.data

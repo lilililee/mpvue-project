@@ -100,6 +100,7 @@ export default {
           role_id: this.nowUser.role_id,
           ...this.$root.$mp.query
         },
+        loading:true,
         success: res => {
           if (res.code == 0) {
             res.data.list.forEach(item => {

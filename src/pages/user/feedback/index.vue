@@ -33,7 +33,7 @@ export default {
         },
         success: res => {
           if (res.code == 0) {
-            utils.showSuccessMsg('提交成功', wx.navigateBack)
+            utils.showSuccess('提交成功', wx.navigateBack)
           }
         }
       })

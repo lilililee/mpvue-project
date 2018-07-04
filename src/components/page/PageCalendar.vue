@@ -11,7 +11,7 @@
             </div>
           </div>
         </div>
-        <div class="user" @click="isShowUserPicker= true">
+        <div class="user" @click="isShowListPicker= true">
           <div class="name">{{nowUser.name}}</div>
           <div class="icon">▾</div>
         </div>
@@ -57,7 +57,7 @@
       </div>
     </div>
 
-    <user-picker v-model="isShowUserPicker" :userList="userList" @comfirm="comfirmUser"></user-picker>
+    <list-picker v-model="isShowListPicker" :list="userList" @comfirm="comfirmUser"></list-picker>
 
   </div>
 </template>
@@ -65,7 +65,7 @@
 <script>
 import utils from '../../utils'
 import UserList from '../UserList'
-import UserPicker from '../UserPicker'
+import ListPicker from '../ListPicker'
 export default {
   data() {
     return {
@@ -74,7 +74,10 @@ export default {
       userList: [],
       today: {},
       nowMonth: '',
-      isShowUserPicker: false
+      isShowListPicker: false,
+     
+
+      
     }
   },
   computed: {
@@ -120,6 +123,7 @@ export default {
           user_id: this.nowUser.user_id,
           role_id: this.nowUser.role_id
         },
+        loading:true,
         success: res => {
           if (res.code == 0) {
             // 加入状态参数
@@ -142,8 +146,8 @@ export default {
         }
       })
     },
-    comfirmUser(userIndex) {
-      this.$store.commit('updateNowUser', this.userList[userIndex])
+    comfirmUser(item, index) {
+      this.$store.commit('updateNowUser', this.userList[index])
       this.nowMonth = this.today.date.slice(0, 7)
       this.getUserBookingStatus()
     },
@@ -161,7 +165,7 @@ export default {
   },
   components: {
     UserList,
-    UserPicker
+    ListPicker
   }
 }
 </script>

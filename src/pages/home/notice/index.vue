@@ -36,6 +36,7 @@ export default {
         data: {
           notice_id: this.$root.$mp.query.notice_id
         },
+        loading:true,
         success: res => {
           if (res.code == 0) {
             this.noticeInfo = res.data

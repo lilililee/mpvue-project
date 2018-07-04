@@ -47,6 +47,7 @@ export default {
           type: this.$root.$mp.query.type,
           role_id: this.nowUser.role_id
         },
+        loading:true,
         success: res => {
           if (res.code == 0) {
             this.monthBooking = res.data.list

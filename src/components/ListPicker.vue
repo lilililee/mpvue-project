@@ -5,9 +5,9 @@
         <div class="cancle" @click="cancle">取消</div>
         <div class="comfirm" @click="comfirm">确定</div>
       </div>
-      <picker-view indicator-style="height: 40px;" style="width: 100%; height: 210px;" @change="bindChange">
+      <picker-view indicator-style="height: 40px;" style="width: 100%; height: 210px;" @change="bindChange" v-if="isShowPickerView">
         <picker-view-column>
-          <view style="line-height: 40px" v-for="(item,index) in userList" :key="index">{{item.name}}</view>
+          <view style="line-height: 40px" v-for="(item,index) in list" :key="index">{{item.name}}</view>
         </picker-view-column>
       </picker-view>
     </div>
@@ -18,12 +18,26 @@
 import utils from '../utils'
 export default {
   props: {
-    userList: Array,
-    value: Boolean
+    value: Boolean,
+    list: Array,
+    // config: Object
+  },
+  watch:{
+    value(val) {
+      if(val) {
+        this.isShowPickerView = true
+      } else {
+        setTimeout(() => {
+          this.listIndex = 0
+          this.isShowPickerView = false
+        }, 300)
+      }
+    }
   },
   data() {
     return {
-      userIndex: 0,
+      listIndex: 0,
+      isShowPickerView: true
      
     }
   },
@@ -32,13 +46,13 @@ export default {
   },
   methods: {
     bindChange(e) {
-      this.userIndex = e.mp.detail.value[0]
+      this.listIndex = e.mp.detail.value[0]
     },
     cancle() {
       this.$emit('input', false)
     },
     comfirm() {
-      this.$emit('comfirm', this.userIndex)
+      this.$emit('comfirm', this.list[this.listIndex],this.listIndex)
       this.$emit('input', false)
     }
   }

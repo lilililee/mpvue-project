@@ -50,7 +50,7 @@
 <script>
 import utils from '../../utils'
 import UserList from '../UserList'
-import UserPicker from '../UserPicker'
+
 export default {
   data() {
     return {
@@ -78,6 +78,7 @@ export default {
     getUserList() {
       utils.ajax({
         action: 'getUserList',
+        loading:true,
         success: res => {
           if (res.code == 0) {
             this.userList = res.data.list
@@ -106,7 +107,6 @@ export default {
   },
   components: {
     UserList,
-    UserPicker
   }
 }
 </script>

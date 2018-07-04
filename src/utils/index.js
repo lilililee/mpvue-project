@@ -41,7 +41,9 @@ const validate = {
     }
   },
   isEmpty(str, name) {
-    return this.test(str, /^.+$/, `请输入${name}`)
+    // 当name第一个字符为$时不会补充文字--请输入
+    let txt = name[0] == '$' ? name.slice(1) : `请输入${name}`
+    return this.test(str, /^.+$/, txt)
   },
   notPhone(str) {
     return this.test(str, /^1[0-9]{10}$/, `手机号码输入有误`)
@@ -60,16 +62,27 @@ const showMsg = msg => {
   })
 }
 
-const showSuccessMsg = (msg, callback) => {
+const showSuccess = (msg, callback) => {
   log(msg)
   wx.showToast({
     title: msg,
     icon: 'success',
     duration: 1500
   })
-  setTimeout(() => {
+
+  callback && setTimeout(() => {
     callback()
   }, 1500)
+
+}
+
+const showLoading = () => {
+  wx.showLoading({
+    title: '加载中',
+  })
+}
+const hideLoading = () => {
+  wx.hideLoading()
 }
 
 const log = (...args) => {
@@ -83,13 +96,19 @@ const ajax = ({
   action,
   method = 'GET',
   data = {},
-  success,
-  fail
+  loading = false,
+  success = () => {},
+  fail = () => {},
+  complete = () => {}
 }) => {
+  if (loading) {
+    showLoading()
+  }
 
   // 登陆后的请求都需要token
   let header = {}
   _store.state.token && (header.token = _store.state.token)
+
 
   // 加载速度太快会导致页面抖动
   // if (isLoading) {
@@ -104,20 +123,23 @@ const ajax = ({
     data,
     header,
     success(res) {
-      // if (isLoading) {
-      //   wx.hideNavigationBarLoading()
-      // }
       log(`%c${action}(res)`, `color:#5b8de2`, res.data)
       if (res.data.code != 0) {
-        success(res.data)
         showMsg(res.data.message)
       }
 
       success(res.data)
+
+      if (loading) {
+        hideLoading()
+      }
     },
     fail(e) {
       log(e)
       fail(e)
+    },
+    complete() {
+      complete()
     }
   })
 }
@@ -133,8 +155,11 @@ export default {
   formatTime,
 
   validate,
+
   showMsg,
-  showSuccessMsg,
+  showSuccess,
+  showLoading,
+  hideLoading,
   log,
 
   ajax,
