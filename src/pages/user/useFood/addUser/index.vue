@@ -10,28 +10,28 @@
         <div class="name">地区</div>
         <input type="text" class="content area" disabled v-model="nowArea.area1.area1_name" placeholder="选择地区">
         <div class="assist">
-          <i class="icon drop"></i>
+          <i class="icon-drop-down"></i>
         </div>
       </div>
       <div class="input" @click="showPicker(2)">
         <div class="name">学校</div>
         <input type="text" class="content area" disabled v-model="nowArea.area2.area2_name" placeholder="选择学校">
         <div class="assist">
-          <i class="icon drop"></i>
+          <i class="icon-drop-down"></i>
         </div>
       </div>
       <div class="input" @click="showPicker(3)">
         <div class="name">年级</div>
         <input type="text" class="content area" disabled v-model="nowArea.area3.area3_name" placeholder="选择年级">
         <div class="assist">
-          <i class="icon drop"></i>
+          <i class="icon-drop-down"></i>
         </div>
       </div>
       <div class="input" @click="showPicker(4)">
         <div class="name">班级</div>
         <input type="text" class="content area" disabled v-model="nowArea.area4.area4_name" placeholder="选择班级">
         <div class="assist">
-          <i class="icon drop"></i>
+          <i class="icon-drop-down"></i>
         </div>
       </div>
       <div class="input">
@@ -47,14 +47,14 @@
         <div class="name">地区</div>
         <input type="text" class="content area" disabled v-model="nowArea.area1.area1_name">
         <div class="assist">
-          <i class="icon drop"></i>
+          <i class="icon-drop-down"></i>
         </div>
       </div>
       <div class="input" @click="showPicker(2)">
         <div class="name">学校</div>
         <input type="text" class="content area" disabled v-model="nowArea.area2.area2_name">
         <div class="assist">
-          <i class="icon drop"></i>
+          <i class="icon-drop-down"></i>
         </div>
       </div>
       <div class="input">

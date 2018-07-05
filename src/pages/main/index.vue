@@ -13,7 +13,7 @@
 
     <div class="tab-bar flex-around">
       <div class="tab-bar-item" v-for="(item, index) in pageList" :key="index" :class="{active: nowPage==item.name}" @click="changePage(item)">
-        <i-icon type="homepage" size="22" color="#80848f" />
+        <i :class="[item.icon,{active: nowPage==item.name}]"></i>
         <div class="title">{{item.title}}</div>
       </div>
     </div>
@@ -34,26 +34,22 @@ let pageList = [
   {
     name: 'home',
     title: '首页',
-    icon: '',
-    path: ''
+    icon: 'icon-navbar-home',
   },
   {
     name: 'calendar',
     title: '日历',
-    icon: '',
-    path: ''
+    icon: 'icon-navbar-calendar',
   },
   {
     name: 'order',
     title: '订单',
-    icon: '',
-    path: ''
+    icon: 'icon-navbar-order',
   },
   {
     name: 'user',
     title: '我',
-    icon: '',
-    path: ''
+    icon: 'icon-navbar-user',
   }
 ]
 export default {
@@ -119,12 +115,17 @@ export default {
 
   .tab-bar-item {
     text-align: center;
-    padding-top: 25px;
     height: 100%;
     width: 20%;
+    padding-top: 6px;
 
     .title {
-      margin-top: 5rpx;
+      margin-top: 2px;
+    font-size: 10px;
+    }
+
+    &.active {
+        color: @blue;
     }
   }
 }

@@ -1,14 +1,141 @@
 @import './mixin.less';
 
-.icon {
+.icon-drop-down {
   display: inline-block;
+  .wh(24px);
+  background: url(../img/drop_down.png);
+  background-size: cover;
+}
+.icon-arrow-right {
+  display: inline-block;
+  .wh(20px);
+  background: url(../img/arrow_right.png);
+  background-size: cover;
+}
 
-
-  &.drop {
-    width: 20px;
-    height: 20px;
-    background: url(../img/drop_down.png);
+// 底栏
+.icon-navbar-home {
+  display: inline-block;
+  .wh(24px);
+  background: url(../img/navbar_home.png);
+  background-size: cover;
+  &.active {
+    background: url(../img/navbar_home_h.png);
     background-size: cover;
   }
 }
 
+.icon-navbar-calendar {
+  display: inline-block;
+  .wh(24px);
+  background: url(../img/navbar_date.png);
+  background-size: cover;
+  &.active {
+    background: url(../img/navbar_date_h.png);
+    background-size: cover;
+  }
+}
+
+.icon-navbar-order {
+  display: inline-block;
+  .wh(24px);
+  background: url(../img/navbar_order.png);
+  background-size: cover;
+  &.active {
+    background: url(../img/navbar_order_h.png);
+    background-size: cover;
+  }
+}
+
+.icon-navbar-user {
+  display: inline-block;
+  .wh(24px);
+  background: url(../img/navbar_me.png);
+  background-size: cover;
+  &.active {
+    background: url(../img/navbar_me_h.png);
+    background-size: cover;
+  }
+}
+
+.icon-menu-wallet {
+  display: inline-block;
+  .wh(20px);
+  background: url(../img/menu_wallet.png);
+  background-size: cover;
+}
+.icon-menu-feedback {
+  display: inline-block;
+  .wh(20px);
+  background: url(../img/menu_feedback.png);
+  background-size: cover;
+}
+.icon-menu-user {
+  display: inline-block;
+  .wh(20px);
+  background: url(../img/menu_user.png);
+  background-size: cover;
+}
+.icon-menu-serve {
+  display: inline-block;
+  .wh(20px);
+  background: url(../img/menu_serve.png);
+  background-size: cover;
+}
+.icon-menu-password {
+  display: inline-block;
+  .wh(20px);
+  background: url(../img/menu_password.png);
+  background-size: cover;
+}
+.icon-menu-shopping {
+  display: inline-block;
+  .wh(20px);
+  background: url(../img/menu_shopping.png);
+  background-size: cover;
+}
+
+.icon-dinner-minus {
+  display: inline-block;
+  .wh(20px);
+  background: url(../img/dinner_minus.png);
+  background-size: cover;
+}
+.icon-dinner-plus {
+  display: inline-block;
+  .wh(20px);
+  background: url(../img/dinner_plus.png);
+  background-size: cover;
+}
+
+.icon-shop-minus {
+  display: inline-block;
+  .wh(20px);
+  background: url(../img/shop_minus.png);
+  background-size: cover;
+  &.active {
+    background: url(../img/shop_minus_h.png);
+    background-size: cover;
+  }
+}
+.icon-shop-plus {
+  display: inline-block;
+  .wh(20px);
+  background: url(../img/shop_plus.png);
+  background-size: cover;
+  &.active {
+    background: url(../img/shop_plus_h.png);
+    background-size: cover;
+  }
+}
+
+.icon-select {
+  display: inline-block;
+  .wh(20px);
+  background: url(../img/select.png);
+  background-size: cover;
+  &.active {
+    background: url(../img/select_h.png);
+    background-size: cover;
+  }
+}

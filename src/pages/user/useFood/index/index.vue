@@ -9,18 +9,6 @@
       </div>
     </user-list>
 
-    <!-- <div class="popbox" :class="{show: isShowDelatePopbox}">
-      <div class="popbox-container" :class="{show: isShowDelatePopbox}">
-        <div class="title">确认删除</div>
-        <div class="content">
-          删除后将不可对该成员进行订餐补餐等操作
-        </div>
-        <div class="btns">
-          <div class="left">取消</div>
-          <div class="right">确定</div>
-        </div>
-      </div>
-    </div> -->
     <popbox v-model="isShowDelatePopbox" :popboxData="popboxData" @comfirm="comfirmDelete"></popbox>
   </div>
 </template>

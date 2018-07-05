@@ -14,80 +14,99 @@
             <ul class="menu-list">
                 <li @click="toSubPage('wallet/index')">
                     <div class="left">
-                        <div class="icon">icon</div>
+                        <i class="icon-menu-wallet"></i>
                         <div class="title">钱包</div>
                     </div>
                     <div class="right">
-                        <div class="arrow">右</div>
+                        <i class="icon-arrow-right"></i>
                     </div>
                 </li>
                 <li @click="toSubPage('useFood/index')">
                     <div class="left">
-                        <div class="icon">icon</div>
+                        <i class="icon-menu-user"></i>
                         <div class="title">用餐人</div>
                     </div>
                     <div class="right">
-                        <div class="arrow">右</div>
+                        <i class="icon-arrow-right"></i>
                     </div>
                 </li>
                 <li @click="toSubPage('password')">
                     <div class="left">
-                        <div class="icon">icon</div>
+                        <i class="icon-menu-password"></i>
                         <div class="title">修改密码</div>
                     </div>
                     <div class="right">
-                        <div class="arrow">右</div>
+                        <i class="icon-arrow-right"></i>
                     </div>
                 </li>
                 <li @click="toSubPage('feedback')">
                     <div class="left">
-                        <div class="icon">icon</div>
+                        <i class="icon-menu-feedback"></i>
                         <div class="title">用餐反馈</div>
                     </div>
                     <div class="right">
-                        <div class="arrow">右</div>
+                        <i class="icon-arrow-right"></i>
                     </div>
                 </li>
 
             </ul>
 
             <div class="login-out">
-                <div class="login-out__btn">退出登录</div>
+                <div class="login-out__btn" @click="isShowDelatePopbox=true">退出登录</div>
             </div>
         </div>
+
+        <popbox v-model="isShowDelatePopbox" :popboxData="popboxData" @comfirm="comfirmLoginout"></popbox>
     </div>
 </template>
 
 <script>
-import utils from '../../utils'
+import utils from '@/utils'
+import Popbox from '@/components/Popbox'
 
 export default {
   data() {
     return {
-      homeInfo: {}
+    //   homeInfo: {},
+
+      isShowDelatePopbox: false,
+      popboxData: {
+        title: '确认退出',
+        content: '您确定要退出登录吗？'
+      }
     }
   },
 
   mounted() {
-    this.getHomeInfo()
+    // this.getHomeInfo()
   },
 
   methods: {
-    getHomeInfo() {
-      utils.ajax({
-        action: 'getHomeInfo',
-        success: res => {
-          if (res.code == 0) {
-            this.homeInfo = res.data
-          }
-        }
-      })
-    },
+    // getHomeInfo() {
+    //   utils.ajax({
+    //     action: 'getHomeInfo',
+    //     success: res => {
+    //       if (res.code == 0) {
+    //         this.homeInfo = res.data
+    //       }
+    //     }
+    //   })
+    // },
     toSubPage(page) {
       wx.navigateTo({ url: `/pages/user/${page}/main` })
+    },
+    comfirmLoginout() {
+      this.isShowDelatePopbox = false
+      // 清除登录信息
+      this.$store.commit('updateToken', '')
+
+      wx.reLaunch({
+        url: '/pages/login/index/main'
+      })
     }
   },
   components: {
+      Popbox
     // TabBar
     // UserList
   }
@@ -96,7 +115,6 @@ export default {
 <style lang="less">
 @import '../../assets/css/mixin.less';
 .page-user__index {
-
   .page-user__index__container {
     .full-page();
   }

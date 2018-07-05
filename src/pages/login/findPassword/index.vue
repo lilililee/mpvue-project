@@ -4,26 +4,26 @@
     <div class="form">
       <div class="input">
         <div class="name">手机号</div>
-        <input type="text" class="content phone" v-model="phone" placeholder="请输入手机号">
+        <input type="number" class="content phone" v-model="phone" placeholder="请输入手机号">
         <div v-if="count == 60" class="assist " @click="getCode">获取验证码</div>
         <div v-else class="assist ">已发送({{count}}s)</div>
       </div>
       <div class="input">
         <div class="name">验证码</div>
-        <input type="text" class="content code" v-model="code" placeholder="请输入验证码">
+        <input type="number" class="content code" v-model="code" placeholder="请输入验证码">
       </div>
       <div class="input">
         <div class="name">新密码</div>
-        <input type="password" class="content password" v-model="password" placeholder="请输入密码">
+        <input type="password" class="content password" v-model="password" placeholder="请输入新密码">
       </div>
       <div class="input">
         <div class="name">确认密码</div>
-        <input type="password" class="content password2" v-model="password2" placeholder="请输入密码">
+        <input type="password" class="content password2" v-model="password2" placeholder="请再次输入新密码">
       </div>
     </div>
 
     <div class="link btn-group">
-      <div class="btn btn_big" @click="register">确认</div>
+      <div class="btn btn_big" @click="register" :class="{disabled:!(phone&&code&&password&&password2)}">确认</div>
     </div>
   </div>
 </template>
@@ -43,6 +43,7 @@ export default {
       countInterval: ''
     }
   },
+  
   methods: {
     getCode() {
       // 重复点击拦截
@@ -106,10 +107,11 @@ export default {
               password: this.password
             },
             success: res => {
-              this.$store.commit('updateToken', res.data.token)
-              wx.navigateTo({
-                url: '/pages/main/main'
-              })
+                utils.showSuccess('找回成功', wx.navigateBack)
+            //   this.$store.commit('updateToken', res.data.token)
+            //   wx.navigateTo({
+            //     url: '/pages/main/main'
+            //   })
             }
           })
         }
@@ -119,9 +121,13 @@ export default {
 }
 </script>
 <style lang="less">
+page {
+    background: #fff;
+}
 .page-login__find_password {
-  height: 100vh;
-  background: #fff;
+    .link{
+        margin-top: 36px;
+    }
 }
 </style>
 

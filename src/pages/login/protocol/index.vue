@@ -35,10 +35,11 @@ export default {
 }
 </script>
 <style lang="less">
+page {
+    background: #fff;
+}
 .page-protocol__index {
   line-height: 48rpx;
-  height: 100vh;
-  background: #fff;
 }
 </style>
 

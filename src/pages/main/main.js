@@ -9,8 +9,7 @@ export default {
     navigationBarTitleText: '首页',
     // disableScroll: true,
     usingComponents: {
-      // "i-icon": "/static/iview/icon/index",
-      // "i-toast": "/static/iview/toast/index",
+      "i-notice-bar": "../../static/iview/notice-bar/index",
       // "i-message": "/static/iview/message/index",
     }
   }

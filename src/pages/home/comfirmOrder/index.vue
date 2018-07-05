@@ -6,7 +6,7 @@
                 <div class="panel-header__other"></div>
             </div>
             <div class="panel-body">
-                <user-list :userList="userList">
+                <user-list :userData="nowUser">
                 </user-list>
             </div>
         </div>
@@ -67,7 +67,7 @@ export default {
 
   mounted() {
     this.handleFoodList()
-    this.getSingleUserInfo()
+    // this.getSingleUserInfo()
   },
 
   methods: {
@@ -90,20 +90,20 @@ export default {
         })
       }
     },
-    getSingleUserInfo() {
-      utils.ajax({
-        action: 'getSingleUserInfo',
-        data: {
-          user_id: this.nowUser.user_id,
-          role_id: this.nowUser.role_id
-        },
-        success: res => {
-          if (res.code == 0) {
-            this.userList = [res.data]
-          }
-        }
-      })
-    }
+    // getSingleUserInfo() {
+    //   utils.ajax({
+    //     action: 'getSingleUserInfo',
+    //     data: {
+    //       user_id: this.nowUser.user_id,
+    //       role_id: this.nowUser.role_id
+    //     },
+    //     success: res => {
+    //       if (res.code == 0) {
+    //         this.userList = [res.data]
+    //       }
+    //     }
+    //   })
+    // }
   },
   components: {
     UserList,

@@ -1,50 +1,52 @@
 <template>
-  <div class="page-home__index">
-    <div class="notice" @click="toNotice()">
-      {{homeInfo.notice? homeInfo.notice.desc: ''}}
-    </div>
-    <div class="banner" @click="isShowUserPicker=true">
-      <swiper :indicator-dots="true" :autoplay="true" interval="3000" duration="500">
-        <div v-for="item in homeInfo.banner" :key="item.img">
-          <swiper-item>
-            <image :src="item.img" class="slide-image" />
-          </swiper-item>
+    <div class="page-home__index">
+        <div class="notice" @click="toNotice()">
+            {{homeInfo.notice? homeInfo.notice.desc: ''}}
         </div>
-      </swiper>
+        <div class="banner" @click="isShowUserPicker=true">
+            <swiper :indicator-dots="true" :autoplay="true" interval="3000" duration="500">
+                <div v-for="item in homeInfo.banner" :key="item.img">
+                    <swiper-item>
+                        <image :src="item.img" class="slide-image" />
+                    </swiper-item>
+                </div>
+            </swiper>
+        </div>
+
+        <i-notice-bar icon="systemprompt" loop>
+            2018年世界杯,将于6月14日至7月15日举行;2018年世界杯,将于6月14日至7月15日举行;
+        </i-notice-bar>
+
+        <!-- 由于不支持slot scoped ,不能使用组件形式 -->
+        <div class="user-list-container">
+            <div class="c-user-list ">
+                <ul>
+                    <li class="user-item flex-start" v-for="item in userList" :key="item.id">
+                        <div class="img">
+                            <img :src="item.head_img" alt="">
+                        </div>
+                        <div class="info">
+                            <div class="top">
+                                <div class="name">{{item.name}}</div>
+                                <div class="role">{{item.role_name}}</div>
+                            </div>
+
+                        </div>
+                        <div class="assist">
+                            <div class="btn-group flex-end">
+                                <div class="btn btn__mini btn__gary" v-if="item.add_status=='0'">加餐</div>
+                                <div class="btn btn__mini btn__purple" v-else @click="toChooseMonth(item, 1)">加餐</div>
+                                <div class="btn btn__mini btn__gary" v-if="item.booking_status=='0'">订餐</div>
+                                <div class="btn btn__mini" v-else @click="toChooseMonth(item, 2)">订餐</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
     </div>
-
-      <!-- 由于不支持slot scoped ,不能使用组件形式 -->
-    <div class="user-list-container">
-      <div class="c-user-list ">
-        <ul>
-          <li class="user-item flex-start" v-for="item in userList" :key="item.id">
-            <div class="img">
-              <img :src="item.head_img" alt="">
-            </div>
-            <div class="info">
-              <div class="top">
-                <div class="name">{{item.name}}</div>
-                <div class="role">{{item.role_name}}</div>
-              </div>
-
-            </div>
-            <div class="assist">
-              <div class="btn-group flex-end">
-                <div class="btn btn__mini btn__gary" v-if="item.add_status=='0'">加餐</div>
-                <div class="btn btn__mini btn__purple" v-else @click="toChooseMonth(item, 1)">加餐</div>
-                <div class="btn btn__mini btn__gary" v-if="item.booking_status=='0'">订餐</div>
-                <div class="btn btn__mini" v-else @click="toChooseMonth(item, 2)">订餐</div>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-    </div>
-
-   
-
-  </div>
 </template>
 
 <script>
@@ -55,7 +57,7 @@ export default {
   data() {
     return {
       homeInfo: {},
-      userList: [],
+      userList: []
     }
   },
 
@@ -78,7 +80,7 @@ export default {
     getUserList() {
       utils.ajax({
         action: 'getUserList',
-        loading:true,
+        loading: true,
         success: res => {
           if (res.code == 0) {
             this.userList = res.data.list
@@ -101,12 +103,10 @@ export default {
       wx.navigateTo({
         url: `/pages/home/notice/main?notice_id=${this.homeInfo.notice.notice_id}`
       })
-    },
-
-  
+    }
   },
   components: {
-    UserList,
+    UserList
   }
 }
 </script>
@@ -123,7 +123,6 @@ export default {
 
   .user-list-container {
     margin-top: 12px;
-    
 
     .assist {
       .btn {
@@ -131,8 +130,6 @@ export default {
       }
     }
   }
-
-  
 }
 </style>
 

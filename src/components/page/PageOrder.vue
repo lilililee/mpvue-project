@@ -15,19 +15,15 @@
         </div>
 
         <div class="user-list-container">
-            <!-- <user-list>
-        sss
-      </user-list> -->
+         
         </div>
 
-        <!-- <tab-bar page="home"></tab-bar> -->
     </div>
 </template>
 
 <script>
-import utils from '../../utils'
-// import TabBar from '../../../components/TabBar'
-// import UserList from '../../../components/UserList'
+import utils from '@/utils'
+
 export default {
   data() {
     return {

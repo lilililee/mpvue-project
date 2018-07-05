@@ -4,13 +4,13 @@
     <div class="form">
       <div class="input">
         <div class="name">手机号</div>
-        <input type="text" class="content phone" v-model="phone" placeholder="请输入手机号">
+        <input type="number" class="content phone" v-model="phone" placeholder="请输入手机号">
         <div v-if="count == 60" class="assist " @click="getCode">获取验证码</div>
         <div v-else class="assist ">已发送({{count}}s)</div>
       </div>
       <div class="input">
         <div class="name">验证码</div>
-        <input type="text" class="content code" v-model="code" placeholder="请输入验证码">
+        <input type="number" class="content code" v-model="code" placeholder="请输入验证码">
       </div>
       <div class="input">
         <div class="name">密码</div>
@@ -18,7 +18,7 @@
       </div>
       <div class="input">
         <div class="name">确认密码</div>
-        <input type="password" class="content password2" v-model="password2" placeholder="请输入密码">
+        <input type="password" class="content password2" v-model="password2" placeholder="请再次输入密码">
       </div>
     </div>
 
@@ -106,10 +106,11 @@ export default {
               password: this.password
             },
             success: res => {
-              this.$store.commit('updateToken', res.data.token)
-              wx.navigateTo({
-                url: '/pages/main/main'
-              })
+                utils.showSuccess('注册成功', wx.navigateBack)
+            //   this.$store.commit('updateToken', res.data.token)
+            //   wx.reLaunch({
+            //     url: '/pages/main/main'
+            //   })
             }
           })
         }
@@ -119,9 +120,10 @@ export default {
 }
 </script>
 <style lang="less">
+page {
+    background: #fff;
+}
 .page-login__register {
-  height: 100vh;
-  background: #fff;
   .link {
     margin-top: 72rpx;
 
