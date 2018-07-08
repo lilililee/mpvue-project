@@ -23,20 +23,19 @@
   }
 
   .img {
-    width: 30px;
-    box-sizing: border-box;
     margin-right: 12px;
 
     img {
-      width: 30px;
-      height: 30px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       display: block;
     }
   }
 
   .info {
-    width: 60%;
+    // width: 292px;
+    width: 160px;
     .top {
       .flex-start();
 
@@ -44,6 +43,7 @@
         font-size: 16px;
         color: #000000;
         margin-right: 12px;
+        
       }
 
       .role {
@@ -54,6 +54,15 @@
         height: 20px;
         line-height: 20px;
         font-size: 12px;
+      }
+    }
+
+    .bottom {
+      .address{
+        line-height: 17px;
+        margin-top: 3px;
+        font-size: 12px;
+        .limit();
       }
     }
   }

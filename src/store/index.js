@@ -10,6 +10,8 @@ const store = new Vuex.Store({
     token: '',
 
     nowUser: {},
+
+    foodList: []
   },
   mutations: {
     updateToken: (state, token) => {
@@ -17,6 +19,9 @@ const store = new Vuex.Store({
     },
     updateNowUser: (state, nowUser) => {
       state.nowUser = nowUser
+    },
+    updateFoodList: (state, foodList) => {
+      state.foodList = foodList
     },
   }
 })

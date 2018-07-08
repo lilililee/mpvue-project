@@ -1,45 +1,50 @@
 <template>
-    <div class="page-home__comfirmOrder">
-        <div class="panel">
-            <div class="panel-header">
-                <div class="panel-header__title">订餐人信息</div>
-                <div class="panel-header__other"></div>
-            </div>
-            <div class="panel-body">
-                <user-list :userData="nowUser">
-                </user-list>
-            </div>
+  <div class="page-home__comfirm_order">
+    <div class="page-container">
+      <scroll-view scroll-y>
+        <div class="user-list-container">
+          <user-list :userData="nowUser">
+          </user-list>
         </div>
 
-        <order-list v-for="(item, index) in orderList" :key="index" :orderList="item"></order-list>
-
-        <div class="bottom-column">
-            <div class="left">
-                共{{totalDay}}天， 共{{totalNum}}餐， 合计金额
-                <span>{{totalMoney}}元</span>
-            </div>
-            <div class="right" :class="{active: isChooseEveryDay}" @click="comfirmOrder">
-                确认
-            </div>
-        </div>
+        <order-list :foodList="foodList"></order-list>
+      </scroll-view>
     </div>
+
+  
+    <div class="bottom-column">
+      <div class="left">
+        <div>
+          <div class="total-price">¥{{totalMoney}}</div>
+          <div class="total-count"> 共{{foodList.length}}天{{totalNum}}份</div>
+        </div>
+      </div>
+
+      <div class="right">
+        <span>去支付</span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import utils from '@/utils'
 import UserList from '@/components/UserList'
 import OrderList from '@/components/OrderList'
+
 export default {
   data() {
     return {
-      userList: [],
-      foodList: [],
-      orderList: []
+      userList: []
+     
     }
   },
   computed: {
     nowUser() {
       return this.$store.state.nowUser
+    },
+    foodList() {
+      return this.$store.state.foodList
     },
 
     totalDay() {
@@ -65,14 +70,10 @@ export default {
     }
   },
 
-  mounted() {
-    this.handleFoodList()
-    // this.getSingleUserInfo()
-  },
+  mounted() {},
 
   methods: {
     handleFoodList() {
-      this.foodList = JSON.parse(this.$root.$mp.query.food_list)
       // 归类已有的月份
       let months = {}
       this.foodList.forEach(item => {
@@ -89,7 +90,7 @@ export default {
           })
         })
       }
-    },
+    }
     // getSingleUserInfo() {
     //   utils.ajax({
     //     action: 'getSingleUserInfo',
@@ -113,10 +114,38 @@ export default {
 </script>
 <style lang="less">
 @import '../../../assets/css/mixin.less';
-.page-home__comfirmOrder {
+.page-home__comfirm_order {
   padding-bottom: @bottomColumnHeight;
 
+  .page-container {
+    .full-page();
+    padding-bottom: 60px;
+    background: url(../../../assets/img/comfirm_oreder.png) top center no-repeat;
+    background-size: contain;
+
+    scroll-view {
+      height: 100%;
+      // padding-bottom: 60px;
+    }
+  }
+
+  .user-list-container {
+    padding: 12px;
+  }
+
   .bottom-column {
+    .left {
+      line-height: 1;
+      .total-price {
+        font-size: 20px;
+        margin-bottom: 5px;
+      }
+      .total-count {
+        font-size: 10px;
+        color: #151515;
+      }
+    }
+
     .right {
       background: #ff6633;
     }

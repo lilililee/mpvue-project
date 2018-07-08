@@ -1,56 +1,75 @@
 <template>
-    <div class="page-home__chooseFood">
-        <div class="user-info flex-center">
-            <div class="title">订餐人：</div>
-            <div class="user">{{nowUser.name}}({{nowUser.role_name}})</div>
-        </div>
+  <div class="page-home__chooseFood" v-if="foodList.length">
 
-        <div class="choose-food-area flex">
-            <scroll-view scroll-y class="date-list">
-                <div class="date-list-item" @click="chooseAll">全部</div>
-                <div class="date-list-item flex-between" v-for="(item, index) in foodList" :key="index" @click="changeDate(index)">
-                    <div class="date">{{item.date2}}</div>
-                    <div class="count" :class="'count_' + item.count">
-                        <span>{{item.count}}</span>
-                    </div>
-                </div>
-            </scroll-view>
-            <scroll-view scroll-y class="food-list" v-if="foodList.length" :scroll-top="scrollTop">
-                <div class="food-list-item flex" v-for="(item, index) in foodList[nowIndex].food_list" :key="index">
-                    <div class="img">
-                        <img :src="item.img" alt="">
-                    </div>
-                    <div class="text">
-                        <div class="name">{{item.name}}</div>
-                        <div class="buy flex-between">
-                            <div class="price">{{item.price}}元</div>
-                            <div class="picker-num flex-center" :class="'picker-num_' + item.num">
-                                <div class="minus" @click="handleNum(-1,item)">-</div>
-                                <div class="num">{{item.num}}</div>
-                                <div class="add" @click="handleNum(1,item)">+</div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="choose-food-area flex">
+      <div class="date-list-container">
+        <div class="choose-all" @click="chooseAll" v-if="isChooseEveryDay">取消全选</div>
+        <div class="choose-all" @click="chooseAll" v-else>全选</div>
+        <scroll-view scroll-y class="date-list">
 
-                </div>
-            </scroll-view>
-        </div>
-
-        <div class="bottom-column">
-            <div class="left">
-                共{{totalNum}}餐，合计金额
-                <span>{{totalMoney}}元</span>
+          <div class="date-list-item" v-for="(item, index) in foodList" :key="index" :class="{active: nowIndex==index}" @click="changeDate(index)">
+            <div class="date">{{item.date2}}{{item.week}}</div>
+            <div class="count" :class="'count_' + item.count">
+              <span>{{item.count}}</span>
             </div>
-            <div class="right" :class="{active: isChooseEveryDay}" @click="comfirmOrder">
-                确认
+          </div>
+          <div class="placeholder"></div>
+        </scroll-view>
+      </div>
+      <div class="food-list-container">
+        <scroll-view scroll-y class="food-list" v-if="foodList.length" :scroll-top="scrollTop">
+          <div class="food-list-item flex-between" v-for="(item, index) in foodList[nowIndex].food_list" :key="index">
+            <div class="img">
+              <img :src="item.img" :alt="item.nam">
             </div>
-        </div>
+            <div class="text">
+              <div class="name">{{item.name}}</div>
+              <div class="buy flex-between">
+                <div class="price">¥{{item.price}}</div>
+                <div class="picker-num flex-center" :class="'picker-num_' + item.num">
 
+                  <i class="icon-dinner-minus " @click="handleNum(-1,item)"></i>
+                  <div class="num">{{item.num}}</div>
+                  <i class="icon-dinner-plus" @click="handleNum(1,item)"></i>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="placeholder"></div>
+        </scroll-view>
+      </div>
     </div>
+
+    <div class="bottom-column">
+      <div class="user-info flex-center">
+        订餐人：{{nowUser.name}}({{nowUser.role_name}})
+      </div>
+
+      <div class="pay-info">
+        <div class="left">
+          <div>
+            <div class="total-price">¥{{totalMoney}}</div>
+            <div class="total-count"> 共{{foodList.length}}天{{totalNum}}份</div>
+          </div>
+        </div>
+
+        <div class="right" v-if="isChooseEveryDay" @click="comfirmOrder">
+          <span>确认下单</span>
+        </div>
+        <div class="right disabled" v-else>
+          <span>按日期订满<br/>才能下单</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </template>
 
 <script>
 import utils from '../../../utils'
+
+let weekList = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
 
 export default {
   data() {
@@ -100,11 +119,13 @@ export default {
           role_id: this.nowUser.role_id,
           ...this.$root.$mp.query
         },
-        loading:true,
+        loading: true,
         success: res => {
           if (res.code == 0) {
             res.data.list.forEach(item => {
-              item.date2 = item.date.slice(5)
+              item.date2 = item.date.slice(-5)
+
+              item.week = weekList[new Date(item.date).getDay()]
               item.count = 0
 
               item.food_list.forEach(sitem => {
@@ -117,18 +138,28 @@ export default {
       })
     },
     chooseAll() {
-      this.foodList.forEach(item => {
-        if (item.count == 0) {
+      if (this.isChooseEveryDay) {
+        this.foodList.forEach(item => {
+          item.count = 0
           item.food_list.forEach((sitem, index) => {
-            if (index == 0) {
-              sitem.num = 1
-              item.count = 1
-            } else {
-              sitem.num = 0
-            }
+            sitem.num = 0
           })
-        }
-      })
+        })
+      } else {
+        this.foodList.forEach(item => {
+          if (item.count == 0) {
+            item.count = 1
+            item.food_list.forEach((sitem, index) => {
+              if (index == 0) {
+                sitem.num = 1
+              } else {
+                sitem.num = 0
+              }
+            })
+          }
+       
+        })
+      }
     },
     changeDate(index) {
       if (this.nowIndex == index) return
@@ -145,10 +176,19 @@ export default {
         return
       }
 
-      let food_list = JSON.stringify(this.foodList)
+      let result = []
+
+      this.foodList.forEach(item => {
+        result.push({
+          ...item,
+          food_list: item.food_list.filter(sitem => sitem.num > 0)
+        })
+      })
+
+      this.$store.commit('updateFoodList', result)
 
       wx.navigateTo({
-        url: `/pages/home/comfirmOrder/main?food_list=${food_list}`
+        url: `/pages/home/comfirmOrder/main?`
       })
     }
   },
@@ -158,140 +198,187 @@ export default {
 <style lang="less">
 @import '../../../assets/css/mixin.less';
 .page-home__chooseFood {
-  height: 100vh;
-  .user-info {
-    // border-top: 1rpx solid @borderColor;
-
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 80rpx;
-    line-height: 80rpx;
-  }
+  border-top: 1rpx solid @borderColor;
+  .full-page();
 
   .choose-food-area {
-    padding-top: 80rpx;
-    padding-bottom: @bottomColumnHeight;
+    padding-bottom: 60px;
     height: 100%;
-    .date-list {
-      width: 25%;
-      height: 100%;
-      background: #ccc;
-      text-align: center;
-      border-right: 10rpx solid #fff;
-      .date-list-item {
-        height: 80rpx;
-        line-height: 80rpx;
 
-        + .date-list-item {
-          border-top: 1rpx solid #eee;
+    .date-list-container {
+      position: relative;
+      padding-top: 40px;
+      width: 116px;
+      height: 100%;
+      border-right: 1rpx solid @borderColor;
+      text-align: center;
+      .choose-all {
+        position: absolute;
+        width: 115.5px;
+        left: 0;
+        top: 0;
+        // position: fixed;
+        // width: 115.5px;
+        // left: 0;
+        // top: 1rpx;
+        .lh(40px);
+
+        border-bottom: 1rpx solid @borderColor;
+
+        background: #fff;
+        color: #333;
+      }
+    }
+    .food-list-container {
+      width: 259px;
+      padding-left: 10.5px;
+      height: 100%;
+    }
+
+    .placeholder {
+      height: 24px;
+    }
+    .date-list {
+      height: 100%;
+      background: #f0f3fa;
+      font-size: 12px;
+
+      .date-list-item {
+        .lh(40px);
+        .flex-center();
+        font-size: 12px;
+        color: #666;
+
+        &.active {
+          background: #fff;
+          color: #333;
         }
       }
 
       .date {
-        margin-left: 20rpx;
+        margin-right: 6.5px;
       }
 
       .count {
-        margin-right: 20rpx;
+        .lh(20px);
+        width: 20px;
+        border-radius: 50%;
+        background: #ff1744;
+        color: #fff;
+
+        &.count_0 {
+          opacity: 0;
+        }
+        &.count_1 {
+          background: @blue;
+        }
       }
     }
 
     .food-list {
-      width: 75%;
+      // width: 75%;
       height: 100%;
 
       .food-list-item {
-        & + .food-list-item {
-          margin-top: 20rpx;
-        }
+        padding: 10px 0;
+        // & + .food-list-item {
+        //   margin-top: 30px;
+        // }
       }
 
       .img {
-        width: 25%;
-
         img {
           display: block;
-          width: 100%;
-          height: 180rpx;
+          .wh(60px);
         }
       }
 
       .text {
-        width: 75%;
-        padding-left: 20rpx;
+        height: 60px;
+        width: 187px;
+        padding: 0 12rpx;
       }
 
       .name {
-        font-size: 40rpx;
-        line-height: 1.2;
-        height: 96rpx;
-        overflow: hidden;
-        margin-bottom: 20rpx 0;
+        font-size: 14px;
+        padding: 10px 0;
+        .limit();
       }
 
       .buy {
       }
 
       .price {
-        font-size: 32rpx;
-        color: @red;
+        font-size: 16px;
+        color: #ff7c00;
       }
 
       .picker-num {
-        margin-right: 30rpx;
         &.picker-num_0 {
-          .minus,
+          .icon-dinner-minus,
           .num {
             display: none;
           }
         }
-        .minus,
-        .add {
-          width: 40rpx;
-          height: 40rpx;
-          border-radius: 50%;
-          line-height: 40rpx;
-          text-align: center;
-          color: #fff;
-        }
-
-        .minus {
-          background: @red;
-        }
-
-        .add {
-          background: @blue;
-        }
 
         .num {
-          margin: 0 20rpx;
+          width: 21px;
+          text-align: center;
+          font-size: 12px;
         }
       }
     }
   }
 
   .bottom-column {
-    
-    .left {
-      
-
-      span {
-        font-size: 30rpx;
-      }
+    height: 60px;
+    .user-info {
+      position: absolute;
+      left: 0;
+      top: -24px;
+      width: 100%;
+      .lh(24px);
+      text-align: center;
+      font-size: 12px;
+      color: #333;
+      background: rgba(255, 243, 205, 0.9);
     }
 
-    // .submit-btn {
-    //   width: 180rpx;
-    //   text-align: center;
-    //   background: #ccc;
-    //   color: #fff;
+    .pay-info {
+      .flex-between();
+      width: 100%;
+      height: 100%;
 
-    //   &.active {
-    //     background: @blue;
-    //   }
-    // }
+      .left {
+        // width: 150px;
+        // padding-left: 17px;
+        // padding-top: 14px;
+        // line-height: 1;
+        .total-price {
+          font-size: 20px;
+
+          margin-bottom: 5px;
+        }
+        .total-count {
+          font-size: 10px;
+          color: #151515;
+        }
+      }
+
+      .right {
+        // width: 120px;
+        // .flex-center();
+        // font-size: 16px;
+        // color: #fff;
+        line-height: 22px;
+        background: @blue;
+
+        &.disabled {
+          color: @gray;
+          background: #dfdfdf;
+        }
+      }
+    }
   }
 }
 </style>

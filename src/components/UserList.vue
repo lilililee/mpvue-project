@@ -31,8 +31,10 @@ export default {
     userData: [Array, Object],
     default: []
   },
-  data: {
-    isShowAddress: true
+  data() {
+    return {
+      isShowAddress: true
+    }
   },
 
   computed: {
@@ -45,7 +47,10 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    console.log(this.userData)
+    console.log(this.isShowAddress)
+  },
   methods: {}
 }
 </script>

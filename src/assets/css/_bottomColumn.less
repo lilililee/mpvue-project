@@ -1,25 +1,32 @@
 @import './mixin.less';
 
 .bottom-column {
-  height: @bottomColumnHeight;
+  height: 60px;
   position: fixed;
   width: 100%;
   left: 0;
   bottom: 0;
-  line-height: @bottomColumnHeight;
+  // line-height: 60px;
   background: #fff;
   .flex-between();
+  .left,
+  .right {
+    height: 100%;
+  }
 
   .left {
-    width: 70%;
-    padding-left: 15px;
+    width: 255px;
+    padding-left: 16px;
+    .flex-start();
   }
 
   .right {
-    width: 90px;
+    width: 120px;
+    font-size: 16px;
     text-align: center;
     background: #ccc;
     color: #fff;
+    .flex-center();
 
     &.active {
       background: @blue;

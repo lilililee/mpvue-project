@@ -3,25 +3,32 @@
 .panel {
   margin: 12px;
   margin-top: 0;
+  background: #fff;
+  padding:  0 16px;
+  font-size: 12px;
+
   .panel-header {
     .flex-between();
     height: 52px;
     line-height: 52px;
-    padding: 0 15px;
+    border-bottom: 1rpx solid @borderColor;
+    
     .panel-header__title {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: bold;
       
     }
 
     .panel-header__other {
-      font-size: 14px;
+      color: @gray;
+      strong{
+        color: #333;
+        display: inline-block;
+      }
     }
   }
 
   .panel-body {
-    background: #fff;
-    padding: 10px;
-    font-size: 14px;
+    line-height: 29px;
   }
 }

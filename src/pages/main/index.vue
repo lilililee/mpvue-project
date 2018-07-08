@@ -24,11 +24,11 @@
 </template>
 
 <script>
-import utils from '../../utils'
-import PageHome from '../../components/page/PageHome'
-import PageCalendar from '../../components/page/PageCalendar'
-import PageOrder from '../../components/page/PageOrder'
-import PageUser from '../../components/page/PageUser'
+import utils from '@/utils'
+import PageHome from './PageHome'
+import PageCalendar from './PageCalendar'
+import PageOrder from './PageOrder'
+import PageUser from './PageUser'
 
 let pageList = [
   {
@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       pageList,
-      nowPage: 'user' // home || calendar || order || user
+      nowPage: 'home' // home || calendar || order || user
     }
   },
 
@@ -83,10 +83,6 @@ export default {
         })
       }
 
-      // utils.$Message({
-      //   content: '警告的提示',
-      //   type: 'error'
-      // })
     }
   },
   components: {
@@ -102,6 +98,8 @@ export default {
 .page-main {
   // height: 100%;
   padding-bottom: @bottomColumnHeight;
+
+  
   .tab-bar {
     position: fixed;
     left: 0;
