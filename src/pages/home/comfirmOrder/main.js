@@ -7,8 +7,9 @@ app.$mount()
 export default {
   config: {
     "navigationBarTitleText": "确认下单",
-    // "navigationBarBackgroundColor": '#0095FF',
-    "navigationBarBackgroundColor": '#398BFE',
+    "navigationBarBackgroundColor": '#0095FF',
+    // "navigationBarBackgroundColor": '#398BFE',
+    // "navigationBarBackgroundColor": '#0091fa',
     "navigationBarTextStyle": 'white',
   }
 }

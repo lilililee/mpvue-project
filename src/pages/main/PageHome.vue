@@ -10,7 +10,7 @@
             </swiper>
         </div>
 
-        <i-notice-bar icon="systemprompt" :loop="true">
+        <i-notice-bar :loop="homeInfo.notice.desc.length>20">
             {{homeInfo.notice.desc}}
         </i-notice-bar>
 

@@ -48,8 +48,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.userData)
-    console.log(this.isShowAddress)
   },
   methods: {}
 }

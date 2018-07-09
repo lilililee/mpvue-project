@@ -161,6 +161,7 @@ export default {
 <style lang="less">
 @import '../assets/css/mixin';
 .c-order-list {
+    overflow: hidden;
   .panel-body {
     > ul {
       padding: 6px 0;
