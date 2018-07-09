@@ -11,7 +11,6 @@
       </scroll-view>
     </div>
 
-  
     <div class="bottom-column">
       <div class="left">
         <div>
@@ -20,7 +19,7 @@
         </div>
       </div>
 
-      <div class="right">
+      <div class="right" @click="submitOrder">
         <span>去支付</span>
       </div>
     </div>
@@ -36,7 +35,6 @@ export default {
   data() {
     return {
       userList: []
-     
     }
   },
   computed: {
@@ -90,21 +88,28 @@ export default {
           })
         })
       }
+    },
+    submitOrder() {
+      utils.ajax({
+        action: 'submitOrder',
+        method: 'POST',
+        data: {
+          user_id: this.nowUser.user_id,
+          role_id: this.nowUser.role_id,
+          address_id: this.nowUser.address_id,
+          total_price: this.totalMoney,
+          foods: this.foodList,
+          
+        },
+        success: res => {
+          if (res.code == 0) {
+            wx.reLaunch({
+              url: `/pages/pay/index/main?user=${JSON.stringify(this.nowUser)}&order_id_list=[${res.data.order_id}]&total_money=${this.totalMoney}`
+            })
+          }
+        }
+      })
     }
-    // getSingleUserInfo() {
-    //   utils.ajax({
-    //     action: 'getSingleUserInfo',
-    //     data: {
-    //       user_id: this.nowUser.user_id,
-    //       role_id: this.nowUser.role_id
-    //     },
-    //     success: res => {
-    //       if (res.code == 0) {
-    //         this.userList = [res.data]
-    //       }
-    //     }
-    //   })
-    // }
   },
   components: {
     UserList,
