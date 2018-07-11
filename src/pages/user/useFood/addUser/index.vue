@@ -225,8 +225,8 @@ page {
       margin: 0 42px;
 
       &.active {
-        color: @blue;
-        border-bottom-color: @blue;
+        color: @theme;
+        border-bottom-color: @theme;
       }
     }
   }

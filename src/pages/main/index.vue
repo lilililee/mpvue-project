@@ -74,7 +74,7 @@ export default {
       if (this.nowPage == 'calendar' || this.nowPage == 'user') {
         wx.setNavigationBarColor({
           frontColor: '#ffffff',
-          backgroundColor: '#0095ff'
+          backgroundColor: '#16B266'
         })
       } else {
         wx.setNavigationBarColor({
@@ -123,7 +123,7 @@ export default {
     }
 
     &.active {
-        color: @blue;
+        color: @theme;
     }
   }
 }

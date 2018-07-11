@@ -71,7 +71,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 10000,
+          // limit: 10000,      // 背景图如果大于这个限制会打包错误，如下单页面的背景
           name: utils.assetsPath('img/[name].[ext]')
         }
       },

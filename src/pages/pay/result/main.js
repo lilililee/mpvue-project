@@ -6,9 +6,9 @@ app.$mount()
 
 export default {
   config: {
-    "navigationBarTitleText": "收银台",
-    "navigationBarBackgroundColor": '#FF9531',
-    "navigationBarTextStyle": 'white',
+    "navigationBarTitleText": "支付结果",
+    // "navigationBarBackgroundColor": '#FF9531',
+    // "navigationBarTextStyle": 'white',
     // "backgroundColor": '#ffffff'
   }
 }

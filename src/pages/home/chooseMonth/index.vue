@@ -138,7 +138,7 @@ export default {
           color: @gray;
         }
         &.status_2 {
-          color: @blue;
+          color: @theme;
         }
         &.status_3 {
           color: #ff1744;

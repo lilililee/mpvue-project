@@ -76,11 +76,11 @@ export default {
       background: #fff;
 
       &.status_1 {
-        background: @blue;
+        background: @theme;
         color: #fff;
       }
       &.status_2 {
-        background: @blue;
+        background: @theme;
         color: #fff;
       }
     }

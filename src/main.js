@@ -3,7 +3,8 @@ import App from './App'
 import Vuex from 'vuex'
 import store from './store'
 import './assets/css/index.less'
-
+// const emitter = new EventEmitter()
+// emitter.setMaxListeners(0) //或者关闭最大监听阈值 
 // mpvue 不支持直接注入vuex store的方式
 Vue.prototype.$store = store
 
@@ -18,6 +19,7 @@ export default {
   config: {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
     pages: ['^pages/main/main'],
+    // pages: ['^pages/login/index/main'],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',

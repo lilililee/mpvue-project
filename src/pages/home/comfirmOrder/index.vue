@@ -103,8 +103,9 @@ export default {
         },
         success: res => {
           if (res.code == 0) {
+            let order_id_list = JSON.stringify([res.data.order_id])
             wx.reLaunch({
-              url: `/pages/pay/index/main?user=${JSON.stringify(this.nowUser)}&order_id_list=[${res.data.order_id}]&total_money=${this.totalMoney}`
+              url: `/pages/pay/index/main?order_id_list=${order_id_list}&total_money=${this.totalMoney}`
             })
           }
         }
@@ -125,7 +126,7 @@ export default {
   .page-container {
     .full-page();
     padding-bottom: 60px;
-    background: url(../../../assets/img/comfirm_oreder.png) top center no-repeat;
+    background: url(~@/assets/img/comfirm_order.png) top center no-repeat;
     background-size: contain;
 
     scroll-view {
@@ -152,7 +153,7 @@ export default {
     }
 
     .right {
-      background: #ff6633;
+      background: @orange;
     }
   }
 }

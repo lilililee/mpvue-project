@@ -1,8 +1,6 @@
 <template>
   <div class="page-user__userFood__index">
-    <a href="/pages/user/useFood/addUser/main" class="add-user">
-      <span>+ 添加用餐人</span>
-    </a>
+    <div @click="toAddUserPage" class="add-user">+ 添加用餐人</div>
     <user-list :userData="userList" @assistClick="deleteUser">
       <div class="c-user-list__assets flex-center">
         删除
@@ -48,12 +46,11 @@ export default {
         }
       })
     },
-    deleteUser(user,index) {
+    deleteUser(user, index) {
       this.isShowDelatePopbox = true
       this.deleteUserIndex = index
     },
     comfirmDelete() {
-      
       utils.ajax({
         action: 'deleteUser',
         method: 'POST',
@@ -64,9 +61,14 @@ export default {
         success: res => {
           if (res.code == 0) {
             this.isShowDelatePopbox = false
-            this.userList.splice(this.deleteUserIndex,1)
+            this.userList.splice(this.deleteUserIndex, 1)
           }
         }
+      })
+    },
+    toAddUserPage() {
+      wx.navigateTo({
+        url: `/pages/user/useFood/addUser/main`
       })
     }
   },
@@ -80,6 +82,7 @@ export default {
 @import '../../../../assets/css/mixin.less';
 .page-user__userFood__index {
   .add-user {
+    display: block;
     background: #fff;
     border: 1rpx solid @borderColor;
     text-align: center;

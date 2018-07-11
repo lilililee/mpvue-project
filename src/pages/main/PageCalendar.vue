@@ -182,7 +182,7 @@ export default {
     color: #fff;
     padding: 0 28px;
     height: 54px;
-    background: @blue;
+    background: @theme;
 
     .date {
       .flex-start();
@@ -208,7 +208,7 @@ export default {
   }
   .calendar-table {
     .table-header {
-      background: @blue;
+      background: @theme;
       color: #fff;
       font-size: 10px;
       height: 46px;
@@ -258,7 +258,7 @@ export default {
           .point {
             display: inline-block;
             .wh(4px);
-            background: @blue;
+            background: @theme;
             border-radius: 50%;
             margin-right: 3px;
           }
@@ -269,8 +269,8 @@ export default {
         }
 
         &.today {
-          border-color: @blue;
-          background: @blue;
+          border-color: @theme;
+          background: @theme;
           color: #fff;
 
           .status-name {

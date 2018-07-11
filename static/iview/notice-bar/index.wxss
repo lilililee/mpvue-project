@@ -9,7 +9,7 @@
 }
 .i-noticebar-title {
   margin-left: 12px;
-  color: #0080FF ;
+  color: #333 ;
 }
 
 .i-noticebar-content-wrap {

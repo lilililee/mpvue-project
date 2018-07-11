@@ -48,7 +48,7 @@ export default {
     color: #fff;
 
     &.active {
-      background: @blue;
+      background: @theme;
     }
   }
 }

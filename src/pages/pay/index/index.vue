@@ -1,5 +1,5 @@
 <template>
-  <div class="page-pay__index">
+  <div class="page-pay__index" v-if="queryInfo">
     <div class="total-price">
       <div class="price">{{queryInfo.total_money}}</div>
       <div class="text">需支付</div>
@@ -27,7 +27,7 @@
     </ul>
 
     <div class="btn-group">
-      <div class="btn btn__orange">
+      <div class="btn btn__orange" @click="pay">
         <span v-if="payWx > 0">微信支付 {{payWx}}元</span>
         <span v-else>确认支付</span>
       </div>
@@ -46,8 +46,8 @@ export default {
   data() {
     return {
       useCredit: config.system !== 'school',
-      queryInfo: {},
-      nowUser: {},
+      queryInfo: '',
+      // nowUser: {},
       accountInfo: {},
       payCredit: '',
       payBalance: ''
@@ -71,9 +71,9 @@ export default {
         if (tempTotalMoney - result <= 0) {
           this.payBalance = '0'
         }
-      }  
+      }
 
-      if (tempBalance + result > tempTotalMoney){
+      if (tempBalance + result > tempTotalMoney) {
         this.payBalance = String(tempTotalMoney - result)
       }
       this.payCredit = result
@@ -111,7 +111,7 @@ export default {
   mounted() {
     this.queryInfo = this.$root.$mp.query
     this.queryInfo.total_money = parseFloat(this.queryInfo.total_money).toFixed(2)
-    this.nowUser = JSON.parse(this.queryInfo.user)
+    // this.nowUser = JSON.parse(this.queryInfo.user)
     this.getAccountInfo()
   },
 
@@ -119,10 +119,7 @@ export default {
     getAccountInfo() {
       utils.ajax({
         action: 'getAccountInfo',
-        data: {
-          user_id: this.nowUser.user_id,
-          role_id: this.nowUser.role_id
-        },
+        data: {},
         loading: true,
         success: res => {
           if (res.code == 0) {
@@ -136,26 +133,22 @@ export default {
         action: 'pay',
         method: 'POST',
         data: {
-          user_id: this.nowUser.user_id,
-          role_id: this.nowUser.role_id,
-          order_id_list: this.$root.$mp.query.order_id_list,
-          total_money: this.$root.$mp.query.total_money
+          order_id_list: this.queryInfo.order_id_list,
+          total_money: this.queryInfo.total_money,
+          pay_balance: this.payBalance || '0',
+          pay_credit: this.payCredit || '0',
+          pay_wx: this.payWx
         },
         success: res => {
           if (res.code == 0) {
-          }
-        }
-      })
-    },
-    recharge() {
-      utils.ajax({
-        action: 'recharge',
-        method: 'POST',
-        data: {
-          money: this.payWx
-        },
-        success: res => {
-          if (res.code == 0) {
+            // 暂不处理微信支付
+            wx.redirectTo({
+              url: `/pages/pay/result/main?type=success&order_id_list=${this.queryInfo.order_id_list}&total_money=${this.queryInfo.total_money}`
+            })
+          } else {
+            wx.redirectTo({
+              url: `/pages/pay/result/main?type=fail&order_id_list=${this.queryInfo.order_id_list}&total_money=${this.queryInfo.total_money}`
+            })
           }
         }
       })

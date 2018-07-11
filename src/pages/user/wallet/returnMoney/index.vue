@@ -99,7 +99,7 @@ page {
     }
 
     .right {
-      color: @blue;
+      color: @theme;
     }
   }
 

@@ -100,7 +100,7 @@ export default {
     background: #fbf9fe;
 
     .comfirm {
-      color: @blue;
+      color: @theme;
     }
   }
 

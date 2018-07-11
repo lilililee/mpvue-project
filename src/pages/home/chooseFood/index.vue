@@ -270,7 +270,7 @@ export default {
           opacity: 0;
         }
         &.count_1 {
-          background: @blue;
+          background: @theme;
         }
       }
     }
@@ -371,7 +371,7 @@ export default {
         // font-size: 16px;
         // color: #fff;
         line-height: 22px;
-        background: @blue;
+        background: @theme;
 
         &.disabled {
           color: @gray;

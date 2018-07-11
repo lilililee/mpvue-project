@@ -39,6 +39,7 @@ page {
     background: #fff;
 }
 .page-protocol__index {
+  padding: 10px 20px;
   line-height: 48rpx;
 }
 </style>

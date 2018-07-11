@@ -122,7 +122,7 @@ export default {
     height: 128px;
     text-align: center;
     padding-top: 18px;
-    background: @blue;
+    background: @theme;
     .headimg {
       margin: auto;
       .wh(60px);
