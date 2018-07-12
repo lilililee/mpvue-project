@@ -1,10 +1,10 @@
 import _config from '../config'
 import _store from '../store'
 
-import {
-  $Toast,
-  $Message
-} from '../assets/iview/base/index'
+// import {
+//   $Toast,
+//   $Message
+// } from '../assets/iview/base/index'
 
 const formatNumber = (n) => {
   const str = n.toString()
@@ -147,8 +147,8 @@ const ajax = ({
 export default {
   _config,
   _store,
-  $Toast,
-  $Message,
+  // $Toast,
+  // $Message,
 
   formatNumber,
   formatDate,
