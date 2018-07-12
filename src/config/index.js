@@ -3,10 +3,15 @@ const domain = {
         develop: 'http://yapi.demo.qunar.com/mock/11228/',
         test: '',
         production: ''
-    }
+    },
+    company: {
+        develop: 'http://yapi.demo.qunar.com/mock/11228/',
+        test: '',
+        production: ''
+    },
 }
 
-const system = 'school'
+const system = 'company'
 const env = 'develop'
 
 const config = {

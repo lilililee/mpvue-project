@@ -7,8 +7,7 @@ app.$mount()
 export default {
   config: {
     "navigationBarTitleText": "订餐情况",
-    "navigationBarBackgroundColor": '#ffffff',
-    "navigationBarTextStyle": 'black',
-    // "backgroundColor": '#ffffff'
+    "navigationBarBackgroundColor": '#16B266',
+    "navigationBarTextStyle": 'white',
   }
 }

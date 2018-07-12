@@ -20,12 +20,14 @@
         <scroll-view scroll-y class="food-list" v-if="foodList.length" :scroll-top="scrollTop">
           <div class="food-list-item flex-between" v-for="(item, index) in foodList[nowIndex].food_list" :key="index">
             <div class="img">
-              <img :src="item.img" :alt="item.nam">
+              <img :src="item.img" :alt="item.name">
             </div>
             <div class="text">
               <div class="name">{{item.name}}</div>
               <div class="buy flex-between">
-                <div class="price">¥{{item.price}}</div>
+                <div class="price">
+                  <span>¥</span>{{item.price}}
+                </div>
                 <div class="picker-num flex-center" :class="'picker-num_' + item.num">
 
                   <i class="icon-dinner-minus " @click="handleNum(-1,item)"></i>
@@ -91,14 +93,16 @@ export default {
     },
     totalMoney() {
       if (!this.foodList.length) return 0
-      return this.foodList.reduce((prev, item) => {
-        return (
-          prev +
-          item.food_list.reduce((sprev, sitem) => {
-            return sprev + sitem.num * sitem.price
-          }, 0)
-        )
-      }, 0)
+      return this.foodList
+        .reduce((prev, item) => {
+          return (
+            prev +
+            item.food_list.reduce((sprev, sitem) => {
+              return sprev + sitem.num * sitem.price
+            }, 0)
+          )
+        }, 0)
+        .toFixed(2)
     },
     isChooseEveryDay() {
       return this.foodList.every(item => item.count > 0)
@@ -157,7 +161,6 @@ export default {
               }
             })
           }
-       
         })
       }
     },
@@ -188,7 +191,7 @@ export default {
       this.$store.commit('updateFoodList', result)
 
       wx.navigateTo({
-        url: `/pages/home/comfirmOrder/main?`
+        url: `/pages/home/comfirmOrder/main?menu_id=${this.$root.$mp.query.menu_id}`
       })
     }
   },
@@ -296,12 +299,12 @@ export default {
       .text {
         height: 60px;
         width: 187px;
-        padding: 0 12rpx;
+        padding: 0 12px;
       }
 
       .name {
         font-size: 14px;
-        padding: 10px 0;
+        padding: 8px 0 12px 0;
         .limit();
       }
 
@@ -311,6 +314,10 @@ export default {
       .price {
         font-size: 16px;
         color: #ff7c00;
+        span {
+          font-size: 10px;
+          vertical-align: 1px;
+        }
       }
 
       .picker-num {

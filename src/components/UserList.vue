@@ -16,7 +16,7 @@
                     </div>
                 </div>
 
-                <div class="assist" @click="$emit('assistClick', item, index)">
+                <div class="assist" @click="$emit('assistClick', item, index)" v-if="isUseAssist">
                     <slot></slot>
                 </div>
             </li>
@@ -29,6 +29,10 @@ import utils from '../utils'
 export default {
   props: {
     userData: [Array, Object],
+    isUseAssist: {
+        type: Boolean,
+        default: true
+    },
     default: []
   },
   data() {

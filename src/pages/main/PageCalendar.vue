@@ -1,5 +1,5 @@
 <template>
-  <div class="page-calendar__index">
+  <div class="page-calendar__index" >
     <div class="page-calendar__index__container">
       <div class="user-info">
         <div class="date">
@@ -13,7 +13,7 @@
         </div>
         <div class="user" @click="isShowListPicker= true">
           <div class="name">{{nowUser.name}}</div>
-          <div class="icon">▾</div>
+          <i class="icon-drop-down"></i>
         </div>
 
       </div>
@@ -45,14 +45,14 @@
         </div>
       </div>
 
-      <div class="switch-month">
+      <div class="switch-month"  v-if="bookingStatus">
         <div class="prev" @click="changeMonth(-1)">
-          <i class="icon icon-prev">左</i>
+          <i class="icon-arrow-left"></i>
           <span>上个月</span>
         </div>
         <div class="next" @click="changeMonth(1)">
           <span>下个月</span>
-          <i class="icon icon-next">右</i>
+          <i class="icon-arrow-right"></i>
         </div>
       </div>
     </div>
@@ -69,7 +69,7 @@ import ListPicker from '@/components/ListPicker'
 export default {
   data() {
     return {
-      bookingStatus: [], // 会处理成 7 的整数，不属于当月的天的状态用 -1 表示
+      bookingStatus: '', // 会处理成 7 的整数，不属于当月的天的状态用 -1 表示
 
       userList: [],
       today: {},

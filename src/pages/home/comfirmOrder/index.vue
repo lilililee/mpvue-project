@@ -99,6 +99,7 @@ export default {
           address_id: this.nowUser.address_id,
           total_price: this.totalMoney,
           foods: this.foodList,
+          menu_id:this.$root.$mp.query.menu_id
           
         },
         success: res => {

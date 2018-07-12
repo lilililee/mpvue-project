@@ -153,7 +153,7 @@ export default {
     .assist {
       .btn-group {
         .flex-end();
-        padding: 0;
+        // padding: 0;
       }
       .btn {
         margin-left: 12px;
