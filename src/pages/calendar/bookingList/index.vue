@@ -28,7 +28,7 @@
             </div>
 
             <div class="stop btn-group" v-if="item.status=='2'">
-              <div class="btn btn__mini"  @click="submitCancleBooking(item)">停餐</div>
+              <div class="btn btn__mini"  @click="submitCancelBooking(item)">停餐</div>
             </div>
             <div class="stop btn-group" v-if="item.status=='4'">
               <div class="btn btn__mini" >已停餐</div>
@@ -172,14 +172,14 @@ export default {
         url: `/pages/home/changeAddress/main?type=rlAddress&date=${this.date}`
       })
     },
-    submitCancleBooking(item) {
+    submitCancelBooking(item) {
       this.nowCancleFood = item
       this.isShowCanclePopbox = true
     },
     comfirmCancle() {
       this.isShowCanclePopbox = false
       utils.ajax({
-        action: 'submitCancleBooking',
+        action: 'submitCancelBooking',
         method: 'POST',
         data: {
           user_id: this.nowUser.user_id,
