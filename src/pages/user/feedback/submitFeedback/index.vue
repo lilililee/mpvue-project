@@ -1,17 +1,18 @@
 <template>
   <div class="page-user__feedback" v-if="isShowPage">
-    <div class="feedback-content">
-      <textarea v-model="feedbackContent" placeholder="请填写你想对我们说的话..."></textarea>
-    </div>
+    <form @submit="formSubmit" report-submit>
+      <div class="feedback-content">
+        <textarea name="feedback-content" v-model="feedbackContent" placeholder="请填写你想对我们说的话..."></textarea>
+      </div>
 
-    <div class="btn-group">
-      <div class="btn" :class="{disabled: feedbackContent == ''}" @click="submit">提交</div>
-
-      <!-- <div class="btn" v-if="feedbackContent != ''" @click="submit">提交</div>
-      <div class="btn disabled" v-else>提交</div> -->
-    </div>
+      <div class="btn-group">
+         <button  class="btn" :class="{disabled: feedbackContent == ''}" form-type="submit">提交</button>
+        <!-- <div class="btn" :class="{disabled: feedbackContent == ''}" @click="submit">提交</div> -->
+      </div>
+    </form>
 
     <popbox v-model="isShowPopbox" type="2" :popboxData="popboxData" @comfirm="back" ></popbox>
+    
   </div>
   </div>
 </template>
@@ -23,8 +24,9 @@ import Popbox from '@/components/Popbox'
 export default {
   data() {
     return {
-      isShowPage: false,      // hack 按钮颜色由蓝变灰
+      isShowPage: false, // hack 按钮颜色由蓝变灰
       feedbackContent: '',
+      formId: '',
 
       isShowPopbox: false,
       popboxData: {
@@ -39,13 +41,18 @@ export default {
   },
 
   methods: {
+    formSubmit(e){
+      this.formId = e.target.formId
+      this.submit()
+    },
     submit() {
       if (this.feedbackContent == '') return
       utils.ajax({
         action: 'submitFeedback',
         method: 'POST',
         data: {
-          content: this.feedbackContent
+          content: this.feedbackContent,
+          formId: this.formId
         },
         success: res => {
           if (res.code == 0) {
@@ -59,7 +66,7 @@ export default {
       utils.sleep(wx.navigateBack)
     }
   },
-  components: {Popbox}
+  components: { Popbox }
 }
 </script>
 <style lang="less">
