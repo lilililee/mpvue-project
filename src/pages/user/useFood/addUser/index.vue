@@ -152,22 +152,6 @@ export default {
   },
 
   methods: {
-    // getAreaList(areaType) {
-    //   utils.ajax({
-    //     action: 'getAreaList',
-    //     loading: true,
-
-    //     success: res => {
-    //       if (res.code == 0) {
-    //         this
-    //         areaList = res.data.list
-
-    //         this.nowArea.area1 = this.areaList[0]
-    //         this.nowArea.area2 = this.areaList[0].childs[0]
-    //       }
-    //     }
-    //   })
-    // },
     getAreaList(areaType, callback = () => {}) {
       let input = {}
       switch (areaType) {

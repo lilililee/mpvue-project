@@ -1,50 +1,98 @@
 <template>
-    <div class="page-order__index">
-        <div class="notice">
-            {{homeInfo.notice? homeInfo.notice.title: ''}}
-        </div>
+  <div class="page-order__index">
+    <ul class="top-bar">
+      <li :class="{active: activeType==0}" @click="changeActiveType(0)">全部</li>
+      <li :class="{active: activeType==1}" @click="changeActiveType(1)">未支付</li>
+      <li :class="{active: activeType==2}" @click="changeActiveType(2)">已支付</li>
+      <li :class="{active: activeType==3}" @click="changeActiveType(3)">已完成</li>
+    </ul>
 
-        <div class="banner">
-            <swiper :indicator-dots="true" :autoplay="true" interval="3000" duration="500">
-                <div v-for="item in homeInfo.banner" :key="item.img">
-                    <swiper-item>
-                        <image :src="item.img" class="slide-image" />
-                    </swiper-item>
+    <ul class="order-list">
+      <li v-for="(item, index) in orderList" :key="index">
+        <div class="left">
+          <div class="select">
+            <i class="icon-select" :class=""></i>
+          </div>
+          <div>
+            <div class="date-name">{{item.date_name}}</div>
+            <div class="info">
+              <img :src="item.user_info.head_img" alt="" class="img">
+              <div class="text">
+                <div class="name">
+                  <span>{{item.user_info.name}}</span>
+                  <i class="role" :class="'status_' + item.user_info.role_id">{{item.user_info.role_name}}</i>
                 </div>
-            </swiper>
+                <div class="count">
+                  共 {{item.total_days}} 天 {{item.total_num}} 份
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="user-list-container">
-         
+        <div class="right">
+          <div class="status" :class="'status_' + item.status">{{statusList[item.status]}}</div>
+          <div class="total-price">{{item.total_price}}</div>
         </div>
+      </li>
+    </ul>
 
-    </div>
+    <loading-tip :isOver="isOver"></loading-tip>
+
+  </div>
 </template>
 
 <script>
 import utils from '@/utils'
+import LoadingTip from '@/components/LoadingTip'
 
 export default {
   data() {
     return {
-      homeInfo: {}
+      activeType: 0, // 0,1,2,3
+      page: 1,
+      orderList: [],
+
+      statusList: ['待支付', '已支付', '已支付'],
+
+      isOver: false
     }
+  },
+  onReachBottom() {
+    !this.isOver && this.getFeedbackList()
   },
 
   mounted() {
-    this.getHomeInfo()
+    this.getUserOrderList()
   },
 
   methods: {
-    getHomeInfo() {
+    getUserOrderList() {
       utils.ajax({
-        action: 'getHomeInfo',
+        action: 'getUserOrderList',
+        data: {
+          type: String(this.activeType),
+          page: this.page
+        },
         success: res => {
           if (res.code == 0) {
-            this.homeInfo = res.data
+            if (res.data.list.length < 10) {
+              this.isOver = true
+            }
+            this.page++
+            this.orderList = this.orderList.concat(res.data.list)
           }
         }
       })
+    },
+    changeActiveType(type) {
+      if (type == this.activeType) return
+
+      this.page = 1
+      this.orderList = []
+      this.isOver = false
+      this.activeType = type
+      this.getUserOrderList()
     }
   },
   components: {

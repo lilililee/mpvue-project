@@ -32,7 +32,7 @@
         </div>
 
         <div class="company">
-            <img src="../../../assets/img/logo.png" altlogo class="logo">
+            <img src="../../../assets/img/logo.png" class="logo">
             <div class="copyright">©copyright 广州市日日健餐饮管理有限公司</div>
         </div>
 
