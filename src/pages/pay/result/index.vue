@@ -44,7 +44,7 @@ export default {
   methods: {
     toOrderPage() {
       wx.reLaunch({
-        url: '/pages/main/main'
+        url: `/pages/main/main?page=2`
       })
     },
     toHomePage() {

@@ -16,7 +16,7 @@
         <ul class="booking-list">
           <li v-for="(item, index) in bookingList" :key="index" :class="'status_'+item.status">
             <div class="img">
-              <img :src="item.img" :alt="item.name">
+              <img :src="item.img" :alt="item.name"  @error="onImageError(item)">
             </div>
             <div class="text">
               <div class="name">{{item.name}}</div>
@@ -41,10 +41,8 @@
       </scroll-view>
 
     </div>
-    <div class="empty" v-else>
-      <div class="img"></div>
-      <div class="text">当前日期没有订餐</div>
-    </div>
+    <empty v-else></empty>
+   
 
     <div class="toggle-date">
 
@@ -70,6 +68,7 @@ import utils from '@/utils'
 import config from '@/config'
 import UserList from '@/components//UserList'
 import Popbox from '@/components/Popbox'
+import Empty from '@/components/Empty'
 
 export default {
   data() {
@@ -205,11 +204,15 @@ export default {
       }
       this.scrollTop = 0
       this.getUserBookingList()
+    },
+    onImageError(item){
+      item.img = require('../../../assets/img/food_default.png')
     }
   },
   components: {
     UserList,
-    Popbox
+    Popbox,
+    Empty
   }
 }
 </script>
@@ -304,21 +307,21 @@ export default {
     }
   }
 
-  .empty {
-    .img {
-      display: block;
-      .wh(190px);
-      margin: 36px auto 5px auto;
-      background: url(~@/assets/img/empty.png) center center no-repeat;
-      background-size: contain;
-    }
+  // .empty {
+  //   .img {
+  //     display: block;
+  //     .wh(190px);
+  //     margin: 36px auto 5px auto;
+  //     background: url(~@/assets/img/empty.png) center center no-repeat;
+  //     background-size: contain;
+  //   }
 
-    .text {
-      font-size: 16px;
-      color: @gray;
-      text-align: center;
-    }
-  }
+  //   .text {
+  //     font-size: 16px;
+  //     color: @gray;
+  //     text-align: center;
+  //   }
+  // }
 
   .toggle-date {
     position: fixed;

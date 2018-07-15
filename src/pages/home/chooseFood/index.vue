@@ -20,7 +20,7 @@
         <scroll-view scroll-y class="food-list" v-if="foodList.length" :scroll-top="scrollTop">
           <div class="food-list-item flex-between" v-for="(item, index) in foodList[nowIndex].food_list" :key="index">
             <div class="img">
-              <img :src="item.img" :alt="item.name">
+              <img :src="item.img" :alt="item.name"  @error="onImageError(item)">
             </div>
             <div class="text">
               <div class="name">{{item.name}}</div>
@@ -193,6 +193,9 @@ export default {
       wx.navigateTo({
         url: `/pages/home/comfirmOrder/main?menu_id=${this.$root.$mp.query.menu_id}`
       })
+    },
+    onImageError(item){
+      item.img = require('../../../assets/img/food_default.png')
     }
   },
   components: {}

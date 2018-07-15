@@ -1,0 +1,26 @@
+@import './mixin.less';
+
+.c-role {
+  display: inline-block;
+  margin: 0 8px;
+  padding: 0 6px;
+  border: 1rpx solid transparent;
+  font-size: 12px;
+  background: #fff;
+  line-height: 18px;
+  border-radius: 2px;
+  // 1.学生  2.教师  3.员工
+  &.role_1 ,
+  &.role_3 {
+    border-color: #ffb9c6;
+    background: #ffeff2;
+    color: #ff5050;
+  }
+
+
+  &.role_2 {
+    border-color: #ae62f5;
+    background: rgba(174, 98, 245, 0.1);
+    color: #b46af9;
+  }
+}

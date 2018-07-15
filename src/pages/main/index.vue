@@ -6,11 +6,6 @@
     <page-order v-if="nowPage == 'order'"></page-order>
     <page-user v-if="nowPage == 'user'"></page-user>
 
-
-
-
-
-
     <div class="tab-bar flex-around">
       <div class="tab-bar-item" v-for="(item, index) in pageList" :key="index" :class="{active: nowPage==item.name}" @click="changePage(item)">
         <i :class="[item.icon,{active: nowPage==item.name}]"></i>
@@ -18,8 +13,6 @@
       </div>
     </div>
 
-    <!-- <i-toast id="toast" />
-    <i-message id="message" /> -->
   </div>
 </template>
 
@@ -34,33 +27,39 @@ let pageList = [
   {
     name: 'home',
     title: '首页',
-    icon: 'icon-navbar-home',
+    icon: 'icon-navbar-home'
   },
   {
     name: 'calendar',
     title: '日历',
-    icon: 'icon-navbar-calendar',
+    icon: 'icon-navbar-calendar'
   },
   {
     name: 'order',
     title: '订单',
-    icon: 'icon-navbar-order',
+    icon: 'icon-navbar-order'
   },
   {
     name: 'user',
     title: '我',
-    icon: 'icon-navbar-user',
+    icon: 'icon-navbar-user'
   }
 ]
 export default {
   data() {
     return {
       pageList,
-      nowPage: 'home' // home || calendar || order || user
+      nowPage: '' // home || calendar || order || user
     }
   },
 
-  mounted() {},
+
+  mounted() {
+    this.nowPage = ''
+    setTimeout(() => {
+      this.changePage(pageList[this.$root.$mp.query.page || 0])
+    })
+  },
 
   methods: {
     changePage(page) {
@@ -82,7 +81,6 @@ export default {
           backgroundColor: '#ffffff'
         })
       }
-
     }
   },
   components: {
@@ -99,7 +97,6 @@ export default {
   // height: 100%;
   padding-bottom: @bottomColumnHeight;
 
-  
   .tab-bar {
     position: fixed;
     left: 0;
@@ -119,11 +116,11 @@ export default {
 
     .title {
       margin-top: 2px;
-    font-size: 10px;
+      font-size: 10px;
     }
 
     &.active {
-        color: @theme;
+      color: @theme;
     }
   }
 }

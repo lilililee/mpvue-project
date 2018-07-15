@@ -8,7 +8,7 @@
                     </swiper-item>
                 </div>
             </swiper> -->
-      <image :src="homeInfo.banner[0].img" class="slide-image" />
+      <image :src="homeInfo.banner[0].img" @error="onImageError" class="slide-image" />
     </div>
 
     <i-notice-bar :loop="homeInfo.notice.desc.length>20" @click="toNoticePage">
@@ -112,6 +112,9 @@ export default {
       wx.navigateTo({
         url: `/pages/user/useFood/addUser/main`
       })
+    },
+    onImageError(){
+      this.homeInfo.banner[0].img = require('../../assets/img/banner_default.png')
     }
   },
   components: {

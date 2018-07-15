@@ -21,6 +21,7 @@ export default {
   font-size: 12px;
   color: @gray;
   text-align: center;
+  line-height: 17px;
 
   > div {
 
