@@ -14,6 +14,7 @@
         <div class="content">{{item.content}}</div>
       </li>
     </ul>
+
     <loading-tip :isOver="isOver"></loading-tip>
   </div>
 </template>
@@ -34,6 +35,10 @@ export default {
   onReachBottom() {
     !this.isOver && this.getFeedbackList()
   },
+  onUnload(){
+    this.page = 1
+    this.feedbackList = []
+  },
 
   mounted() {
     this.getFeedbackList()
@@ -43,6 +48,9 @@ export default {
     getFeedbackList() {
       utils.ajax({
         action: 'getFeedbackList',
+        data: {
+          page: this.page
+        },
         success: res => {
           if (res.code == 0) {
             if (res.data.list.length < 10) {
