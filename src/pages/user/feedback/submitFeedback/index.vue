@@ -52,7 +52,7 @@ export default {
         method: 'POST',
         data: {
           content: this.feedbackContent,
-          formId: this.formId
+          form_id: this.formId
         },
         success: res => {
           if (res.code == 0) {
