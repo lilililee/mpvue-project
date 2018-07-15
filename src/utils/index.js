@@ -30,6 +30,10 @@ const formatTime = (date) => {
   return `${t1} ${t2}`
 }
 
+const sleep = (callback, time = 1000) => {
+  setTimeout(callback, time)
+} 
+
 // 校验方法
 const validate = {
   test(str, regexp, msg) {
@@ -117,7 +121,7 @@ const ajax = ({
   // }
 
   log(`%c${action}(input)`, `color:#29bb7b`, data)
-  wx.request({
+  wx.request({ 
     url: _config.domain + action,
     method,
     data,
@@ -153,6 +157,8 @@ export default {
   formatNumber,
   formatDate,
   formatTime,
+
+  sleep,
 
   validate,
 

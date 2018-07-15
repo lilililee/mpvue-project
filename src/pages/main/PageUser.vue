@@ -1,73 +1,84 @@
 <template>
-    <div class="page-user__index">
-        <div class="page-user__index__container">
+  <div class="page-user__index">
+    <div class="page-user__index__container">
 
-            <div class="user-info">
-                <div class="headimg">
-                    <open-data type="userAvatarUrl"></open-data>
-                </div>
-                <div class="username">
-                    <open-data type="userNickName"></open-data>
-                </div>
-            </div>
-
-            <ul class="menu-list">
-                <li @click="toSubPage('wallet/index')">
-                    <div class="left">
-                        <i class="icon-menu-wallet"></i>
-                        <div class="title">钱包</div>
-                    </div>
-                    <div class="right">
-                        <i class="icon-arrow-right"></i>
-                    </div>
-                </li>
-                <li @click="toSubPage('useFood/index')">
-                    <div class="left">
-                        <i class="icon-menu-user"></i>
-                        <div class="title">用餐人</div>
-                    </div>
-                    <div class="right">
-                        <i class="icon-arrow-right"></i>
-                    </div>
-                </li>
-                <li @click="toSubPage('password')">
-                    <div class="left">
-                        <i class="icon-menu-password"></i>
-                        <div class="title">修改密码</div>
-                    </div>
-                    <div class="right">
-                        <i class="icon-arrow-right"></i>
-                    </div>
-                </li>
-                <li @click="toSubPage('feedback')">
-                    <div class="left">
-                        <i class="icon-menu-feedback"></i>
-                        <div class="title">用餐反馈</div>
-                    </div>
-                    <div class="right">
-                        <i class="icon-arrow-right"></i>
-                    </div>
-                </li>
-
-            </ul>
-
-            <div class="login-out">
-                <div class="login-out__btn" @click="isShowDelatePopbox=true">退出登录</div>
-            </div>
+      <div class="user-info">
+        <div class="headimg">
+          <open-data type="userAvatarUrl"></open-data>
         </div>
+        <div class="username">
+          <open-data type="userNickName"></open-data>
+        </div>
+      </div>
 
-        <popbox v-model="isShowDelatePopbox" :popboxData="popboxData" @comfirm="comfirmLoginout"></popbox>
+      <ul class="menu-list">
+        <li @click="toSubPage('wallet/index')">
+          <div class="left">
+            <i class="icon-menu-wallet"></i>
+            <div class="title">钱包</div>
+          </div>
+          <div class="right">
+            <i class="icon-arrow-right"></i>
+          </div>
+        </li>
+        <li @click="toSubPage('wallet/index')" v-if="system=='company'">
+          <div class="left">
+            <i class="icon-menu-shopping"></i>
+            <div class="title">积分商城</div>
+          </div>
+          <div class="right">
+            <i class="icon-arrow-right"></i>
+          </div>
+        </li>
+        <li @click="toUseFoodPage()">
+          <div class="left">
+            <i class="icon-menu-user"></i>
+            <div class="title">用餐人</div>
+          </div>
+          <div class="right">
+            <i class="icon-arrow-right"></i>
+          </div>
+        </li>
+        <li @click="toSubPage('password')">
+          <div class="left">
+            <i class="icon-menu-password"></i>
+            <div class="title">修改密码</div>
+          </div>
+          <div class="right">
+            <i class="icon-arrow-right"></i>
+          </div>
+        </li>
+        <li @click="toSubPage('feedback/index')">
+          <div class="left">
+            <i class="icon-menu-feedback"></i>
+            <div class="title">意见反馈</div>
+          </div>
+          <div class="right">
+            <i class="icon-arrow-right"></i>
+          </div>
+        </li>
+
+      </ul>
+
+      <div class="login-out">
+        <div class="login-out__btn" @click="isShowDelatePopbox=true">退出登录</div>
+      </div>
     </div>
+
+    <popbox v-model="isShowDelatePopbox" :popboxData="popboxData" @comfirm="comfirmLoginout"></popbox>
+  </div>
 </template>
 
 <script>
 import utils from '@/utils'
+import config from '@/config'
 import Popbox from '@/components/Popbox'
 
 export default {
   data() {
     return {
-    //   homeInfo: {},
+      //   homeInfo: {},
+      system: config.system,
 
       isShowDelatePopbox: false,
       popboxData: {
@@ -78,22 +89,39 @@ export default {
   },
 
   mounted() {
-    // this.getHomeInfo()
   },
 
   methods: {
-    // getHomeInfo() {
-    //   utils.ajax({
-    //     action: 'getHomeInfo',
-    //     success: res => {
-    //       if (res.code == 0) {
-    //         this.homeInfo = res.data
-    //       }
-    //     }
-    //   })
-    // },
+ 
     toSubPage(page) {
       wx.navigateTo({ url: `/pages/user/${page}/main` })
+    },
+    toUseFoodPage() {
+      if (this.system == 'company') {
+        utils.ajax({
+          action: 'getUserBindStatus',
+          success: res => {
+            if (res.code == 0) {
+              let page = ''
+              switch (res.data.status) {
+              // switch ('1') {
+                case '2': // 已绑定
+                  page = 'hasBind'
+                  break
+                case '3': // 后台号码不一致
+                  page = 'checkPhone'
+                  break
+                default:
+                  page = 'addUser'
+              }
+
+              wx.navigateTo({ url: `/pages/user/useFood/${page}/main?user_info=${JSON.stringify(res.data.user_info)}` })
+            }
+          }
+        })
+      } else {
+        wx.navigateTo({ url: `/pages/user/useFood/index/main` })
+      }
     },
     comfirmLoginout() {
       this.isShowDelatePopbox = false
@@ -106,7 +134,7 @@ export default {
     }
   },
   components: {
-      Popbox
+    Popbox
     // TabBar
     // UserList
   }
@@ -122,7 +150,9 @@ export default {
     height: 128px;
     text-align: center;
     padding-top: 18px;
-    background: @theme;
+    background: url(~@/assets/img/img_user.png) center center no-repeat;
+    background-size: contain;
+
     .headimg {
       margin: auto;
       .wh(60px);

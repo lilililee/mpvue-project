@@ -4,7 +4,7 @@
             <div class="hello">您好，</div>
             <div class="welcome">
                 <span>欢迎使用日日健订餐服务 ,</span>
-                <a href="/pages/login/register/main"> 立即注册</a>
+                <a hover-class="none" href="/pages/login/register/main"> 立即注册</a>
             </div>
         </div>
 
@@ -17,19 +17,18 @@
                 <div class="name">密码</div>
                 <input type="password" class="content password" v-model="password" placeholder="请输入密码">
                 <div class="assist">
-                    <a href="/pages/login/findPassword/main">忘记密码?</a>
+                    <a hover-class="none" href="/pages/login/findPassword/main">忘记密码?</a>
                 </div>
             </div>
         </div>
 
         <div class="link btn-group">
             <div class="btn" @click="login">登录</div>
-            <!-- <a class="btn" href="/pages/login/register/main">注册</a> -->
         </div>
 
         <div class="protocol">
             <span>登录/注册代表您已同意</span>
-            <a href="/pages/login/protocol/main">《日日健用户协议》</a>
+            <a hover-class="none" href="/pages/login/protocol/main">《日日健用户协议》</a>
         </div>
 
         <div class="company">

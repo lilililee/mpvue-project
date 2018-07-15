@@ -54,7 +54,7 @@ export default {
     },
     toPayPage() {
       wx.redirectTo({
-        url: `/pages/pay/index/main?order_id_list=${this.queryInfo.order_id_list}&total_money=${this.queryInfo.total_money}`
+        url: `/pages/pay/index/main?order_id_list=${this.this.queryInfo.order_id_list}&total_money=${this.this.queryInfo.total_money}`
       })
     },
 
@@ -63,8 +63,8 @@ export default {
         action: 'pay',
         method: 'POST',
         data: {
-          order_id_list: this.$root.$mp.query.order_id_list,
-          total_money: this.$root.$mp.query.total_money,
+          order_id_list: this.this.queryInfo.order_id_list,
+          total_money: this.this.queryInfo.total_money,
           pay_balance: this.payBalance || '0',
           pay_credit: this.payCredit || '0',
           pay_wx: this.payWx

@@ -98,21 +98,19 @@ export default {
           password: this.password
         },
         success: res => {
-          utils.ajax({
-            action: 'login',
-            method: 'POST',
-            data: {
-              phone: this.phone,
-              password: this.password
-            },
-            success: res => {
-                utils.showSuccess('注册成功', wx.navigateBack)
-            //   this.$store.commit('updateToken', res.data.token)
-            //   wx.reLaunch({
-            //     url: '/pages/main/main'
-            //   })
-            }
-          })
+          utils.showSuccess('注册成功', wx.navigateBack)
+          // utils.ajax({
+          //   action: 'login',
+          //   method: 'POST',
+          //   data: {
+          //     phone: this.phone,
+          //     password: this.password
+          //   },
+          //   success: res => {
+          //       utils.showSuccess('注册成功', wx.navigateBack)
+          
+          //   }
+          // })
         }
       })
     }

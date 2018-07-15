@@ -11,7 +11,7 @@
             </div>
           </div>
         </div>
-        <div class="user" @click="isShowListPicker= true">
+        <div class="user" @click="isShowListPicker= true" v-if="system=='school'">
           <div class="name">{{nowUser.name}}</div>
           <i class="icon-drop-down"></i>
         </div>
@@ -64,11 +64,14 @@
 
 <script>
 import utils from '@/utils'
+import config from '@/config'
 import UserList from '@/components/UserList'
 import ListPicker from '@/components/ListPicker'
 export default {
   data() {
     return {
+      system: config.system,
+
       bookingStatus: '', // 会处理成 7 的整数，不属于当月的天的状态用 -1 表示
 
       userList: [],
@@ -158,8 +161,9 @@ export default {
     },
 
     toBookingList(item) {
+      // console.log(item)
       wx.navigateTo({
-        url: `/pages/calendar/bookingList/main?empty=${item.status_id=='1'}&date=${item.date}`
+        url: `/pages/calendar/bookingList/main?date=${item.date}`
       })
     }
   },
@@ -182,7 +186,7 @@ export default {
     color: #fff;
     padding: 0 28px;
     height: 54px;
-    background: @theme;
+    background: #16B266;
 
     .date {
       .flex-start();
@@ -208,7 +212,7 @@ export default {
   }
   .calendar-table {
     .table-header {
-      background: @theme;
+      background: #16B266;
       color: #fff;
       font-size: 10px;
       height: 46px;
@@ -286,7 +290,7 @@ export default {
   }
 
   .switch-month {
-    padding: 0 30px;
+    padding: 0 25px;
     margin-top: 24px;
     font-size: 14px;
     color: @gray;
@@ -294,16 +298,17 @@ export default {
 
     .prev,
     .next {
-      width: 50%;
+      .flex-center();
+      // width: 50%;
     }
 
-    .prev {
-      .flex-start();
-    }
+    // .prev {
+    //   .flex-start();
+    // }
 
-    .next {
-      .flex-end();
-    }
+    // .next {
+    //   .flex-end();
+    // }
 
     span {
       margin: 0 8px;

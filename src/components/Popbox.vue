@@ -5,7 +5,10 @@
       <div class="content">
         {{popboxData.content}}
       </div>
-      <div class="btns">
+      <div class="btns" v-if="type=='2'">
+        <div class="comfirm" @click="comfirm">知道了</div>
+      </div>
+      <div class="btns" v-else>
         <div class="left" @click="cancle">取消</div>
         <div class="right" @click="comfirm">确定</div>
       </div>
@@ -19,15 +22,19 @@ import utils from '../utils'
 export default {
   props: {
     popboxData: Object,
-    value: Boolean
+    value: Boolean,
+    type: {
+      type: String,
+      default: '1'
+    }
   },
   mounted() {},
   methods: {
-    cancle(){
+    cancle() {
       this.$emit('input', false)
       this.$emit('cancle')
     },
-    comfirm(){
+    comfirm() {
       this.$emit('comfirm')
     }
   }
@@ -83,22 +90,27 @@ export default {
   .btns {
     border-top: 1rpx solid @borderColor;
     .flex-center();
+    color: @gray;
+    .lh(45px);
+    text-align: center;
 
     .left,
     .right {
       width: 50%;
-      .lh(45px);
-      text-align: center;
+
       font-size: 15px;
     }
 
     .left {
-      color: @gray;
       border-right: 1rpx solid @borderColor;
     }
 
     .right {
       color: @red;
+    }
+
+    .comfirm {
+      width: 100%;
     }
   }
 }

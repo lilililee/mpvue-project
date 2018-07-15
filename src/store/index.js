@@ -11,7 +11,13 @@ const store = new Vuex.Store({
 
     nowUser: {},
 
-    foodList: []
+    companyNowUser: {},   // 临时保存企业版在下单和某日订单的地址信息
+
+    foodList: [],
+
+    // xdAddress: {},    // 临时保存下单页面的修改地址id
+
+    // rlAddress: {}    // 临时保存日历页面的修改地址id
   },
   mutations: {
     updateToken: (state, token) => {
@@ -23,6 +29,12 @@ const store = new Vuex.Store({
     updateFoodList: (state, foodList) => {
       state.foodList = foodList
     },
+    updateCompanyNowUser: (state, companyNowUser) => {
+      state.companyNowUser = companyNowUser
+    },
+    updateState: (state, {field, data}) => {
+      state[field] = data
+    }
   }
 })
 

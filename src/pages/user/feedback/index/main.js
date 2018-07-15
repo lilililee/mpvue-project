@@ -6,7 +6,7 @@ app.$mount()
 
 export default {
   config: {
-    "navigationBarTitleText": "绑定用餐人",
+    "navigationBarTitleText": "意见反馈",
     "navigationBarBackgroundColor": '#ffffff',
     "navigationBarTextStyle": 'black',
     // "backgroundColor": '#ffffff'

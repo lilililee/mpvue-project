@@ -7,25 +7,29 @@
           <div class="title">{{item.title}}</div>
           <div class="date">{{item.date}}</div>
         </div>
-        <div class="right">
+        <div class="right credit" v-if="system=='company'">
+          <div class="money">{{item.money}}</div>
+          <div class="text" v-if="item.credit != '0'">积分抵扣 {{item.credit}} 分</div>
+        </div>
+        <div class="right" v-else>
           <div class="money">{{item.money}}</div>
         </div>
       </li>
     </ul>
 
-    <div class="loading-tip">
-      <div v-if="isOver">没有更多了</div>
-      <div v-else><img src="../../../../assets/img/loading.svg" alt="">加载中</div>
-    </div>
+    <loading-tip :isOver="isOver"></loading-tip>
   </div>
 </template>
 
 <script>
 import utils from '@/utils'
+import config from '@/config'
+import LoadingTip from '@/components/LoadingTip'
 
 export default {
   data() {
     return {
+      system: config.system,
       billList: [],
       page: 1,
       isOver: false
@@ -47,7 +51,7 @@ export default {
         data: {},
         success: res => {
           if (res.code == 0) {
-            if (res.data.list < 10) {
+            if (res.data.list.length < 10) {
               this.isOver = true
             }
             this.page++
@@ -57,7 +61,7 @@ export default {
       })
     }
   },
-  components: {}
+  components: {LoadingTip}
 }
 </script>
 <style lang="less">
@@ -70,6 +74,10 @@ export default {
       height: 66px;
       .flex-between();
       padding: 0 16px;
+
+      & + li {
+        .border-top();
+      }
     }
     .title {
       line-height: 16px;
@@ -83,20 +91,20 @@ export default {
 
     .money {
       font-size: 18px;
+      text-align: right;
     }
-  }
 
-  .loading-tip {
-    padding: 12px 0;
-    font-size: 12px;
-    color: @gray;
-    text-align: center;
+    .credit {
+      .money {
+        font-size: 14px;
+        line-height: 18px;
+        margin-bottom: 5px;
+      }
 
-    img {
-      width: 12px;
-      height: 12px;
-      margin-right: 8px;
-      vertical-align: middle;
+      .text {
+        font-size: 12px;
+        color: @red;
+      }
     }
   }
 }
