@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="btn-group">
-      <div class="btn btn__white">暂不支付</div>
+      <div class="btn btn__white" @click="toOrderPage">暂不支付</div>
     </div>
   </div>
 </template>
@@ -126,6 +126,11 @@ export default {
             this.accountInfo = res.data
           }
         }
+      })
+    },
+    toOrderPage() {
+      wx.redirectTo({
+        url: `/pages/main/main?page=2`
       })
     },
     pay() {

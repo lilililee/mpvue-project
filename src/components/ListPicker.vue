@@ -2,7 +2,7 @@
   <div class="c-user-picker" :class="{show:value}">
     <div class="content" :class="{show:value}">
       <div class="btns">
-        <div class="cancle" @click="cancle">取消</div>
+        <div class="cancel" @click="cancel">取消</div>
         <div class="comfirm" @click="comfirm">确定</div>
       </div>
       <picker-view indicator-style="height: 40px;" style="width: 100%; height: 210px;" @change="bindChange" v-if="isShowPickerView">
@@ -48,7 +48,7 @@ export default {
     bindChange(e) {
       this.listIndex = e.mp.detail.value[0]
     },
-    cancle() {
+    cancel() {
       this.$emit('input', false)
     },
     comfirm() {

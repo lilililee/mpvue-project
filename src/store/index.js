@@ -17,7 +17,7 @@ const store = new Vuex.Store({
 
     // xdAddress: {},    // 临时保存下单页面的修改地址id
 
-    // rlAddress: {}    // 临时保存日历页面的修改地址id
+    // calendar: {}    // 临时保存日历页面的修改地址id
   },
   mutations: {
     updateToken: (state, token) => {

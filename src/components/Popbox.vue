@@ -9,7 +9,7 @@
         <div class="comfirm" @click="comfirm">知道了</div>
       </div>
       <div class="btns" v-else>
-        <div class="left" @click="cancle">取消</div>
+        <div class="left" @click="cancel">取消</div>
         <div class="right" @click="comfirm">确定</div>
       </div>
     </div>
@@ -30,9 +30,9 @@ export default {
   },
   mounted() {},
   methods: {
-    cancle() {
+    cancel() {
       this.$emit('input', false)
-      this.$emit('cancle')
+      this.$emit('cancel')
     },
     comfirm() {
       this.$emit('comfirm')

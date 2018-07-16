@@ -57,7 +57,7 @@
       </div>
     </div>
 
-    <popbox v-model="isShowCanclePopbox" :popboxData="popboxData" @comfirm="comfirmCancle"></popbox>
+    <popbox v-model="isShowcancelPopbox" :popboxData="popboxData" @comfirm="comfirmcancel"></popbox>
   </div>
 
   </div>
@@ -76,8 +76,8 @@ export default {
       system: config.system,
       bookingList: '',
       date: '',
-      nowCancleFood: null,
-      isShowCanclePopbox: false,
+      nowcancelFood: null,
+      isShowcancelPopbox: false,
 
       scrollTop: 0,
 
@@ -110,9 +110,11 @@ export default {
   mounted() {
     this.date = this.$root.$mp.query.date
 
-    if (this.system == 'company') {
-      this.getUserAddress() // 后续地址更新会在修改地址的页面处理
-    }
+    // if (this.system == 'company') {
+    //   this.getUserAddress() // 后续地址更新会在修改地址的页面处理
+    // }
+
+    this.system == 'company' && this.getUserAddress()   // 后续地址更新会在修改地址的页面处理
 
     this.getUserBookingList()
   },
@@ -129,7 +131,8 @@ export default {
         loading: true,
         success: res => {
           if (res.code == 0) {
-            this.$store.commit('updateCompanyNowUser', {
+
+            this.system == 'company' && this.$store.commit('updateCompanyNowUser', {
               ...this.nowUser,
               address_id: res.data.address_id,
               address_name: res.data.address_name
@@ -168,15 +171,15 @@ export default {
     },
     changeAddress() {
       wx.navigateTo({
-        url: `/pages/home/changeAddress/main?type=rlAddress&date=${this.date}`
+        url: `/pages/home/changeAddress/main?type=calendar&date=${this.date}`
       })
     },
     submitCancelBooking(item) {
-      this.nowCancleFood = item
-      this.isShowCanclePopbox = true
+      this.nowcancelFood = item
+      this.isShowcancelPopbox = true
     },
-    comfirmCancle() {
-      this.isShowCanclePopbox = false
+    comfirmcancel() {
+      this.isShowcancelPopbox = false
       utils.ajax({
         action: 'submitCancelBooking',
         method: 'POST',
@@ -186,13 +189,13 @@ export default {
           list: JSON.stringify([
             {
               date: this.date,
-              food_id: this.nowCancleFood.food_id
+              food_id: this.nowcancelFood.food_id
             }
           ])
         },
         success: res => {
           if (res.code == 0) {
-            this.nowCancleFood.status = '4'
+            this.nowcancelFood.status = '4'
           }
         }
       })

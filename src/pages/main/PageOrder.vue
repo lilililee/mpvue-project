@@ -8,7 +8,7 @@
     </ul>
 
     <ul class="order-list">
-      <li v-for="(item, index) in orderList" :key="index">
+      <li v-for="(item, index) in orderList" :key="index" @click="toOrderDetailPage(item)">
         <div class="left">
           <div class="select" v-if="activeType==1">
             <i class="icon-select" :class="{active:item.is_check}" @click="item.is_check = !item.is_check"></i>
@@ -158,6 +158,11 @@ export default {
       })
       wx.reLaunch({
         url: `/pages/pay/index/main?order_id_list=${JSON.stringify(list)}&total_money=${this.checkTotalPrice}`
+      })
+    },
+    toOrderDetailPage(item) {
+      wx.navigateTo({
+        url: `/pages/order/orderDetail/main?user_id=${item.user_info.user_id}&role_id=${item.user_info.role_id}&order_id=${item.order_id}&status=${1}`
       })
     }
   },
@@ -316,7 +321,7 @@ export default {
       width: 120px;
       .lh(60px);
       color: #fff;
-      background: #ff9531;
+      background: #FF7C00;
       text-align: center;
 
       &.disabled {

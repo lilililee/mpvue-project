@@ -21,8 +21,7 @@ export default {
   computed: {
     companyNowUser() {
       return this.$store.state.companyNowUser
-    },
-   
+    }
   },
 
   mounted() {
@@ -42,15 +41,22 @@ export default {
         }
       })
     },
-    changeNowAddress(item) {
+    updateCompanyNowUser(item) {
       // 更新user信息
       this.$store.commit('updateCompanyNowUser', {
         ...this.companyNowUser,
         address_id: item.address_id,
         address_name: item.address_name
       })
+    },
+    changeNowAddress(item) {
+      if (this.companyNowUser.address_id == item.address_id) return
 
-      if ((this.$root.$mp.query.type == 'rlAddress')) {
+      if (this.$root.$mp.query.type == 'xdAddress') {
+        this.updateCompanyNowUser(item)
+      }
+
+      if (this.$root.$mp.query.type == 'calendar') {
         utils.ajax({
           action: 'changeUserAddress',
           method: 'POST',
@@ -60,7 +66,23 @@ export default {
             date: this.$root.$mp.query.date,
             address_id: item.address_id
           },
-          success: res => {}
+          success: res => {
+            this.updateCompanyNowUser(item)
+          }
+        })
+      } else if (this.$root.$mp.query.type == 'order') {
+        utils.ajax({
+          action: 'changeOrderAddress',
+          method: 'POST',
+          data: {
+            user_id: this.companyNowUser.user_id,
+            role_id: this.companyNowUser.role_id,
+            order_id: this.$root.$mp.query.order_id,
+            address_id: item.address_id
+          },
+          success: res => {
+            this.updateCompanyNowUser(item)
+          }
         })
       }
     }

@@ -43,12 +43,12 @@ export default {
 
   methods: {
     toOrderPage() {
-      wx.reLaunch({
+      wx.redirectTo({
         url: `/pages/main/main?page=2`
       })
     },
     toHomePage() {
-      wx.reLaunch({
+      wx.redirectTo({
         url: '/pages/main/main'
       })
     },

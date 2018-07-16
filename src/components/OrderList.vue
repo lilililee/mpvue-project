@@ -1,5 +1,5 @@
 <template>
-  <div class="c-order-list">
+  <div class="c-order-list" :class="'type_'+type">
     <div class="panel" v-for="(monthOrderItem, monthOrderIndex) in orderList" :key="monthOrderIndex">
       <div class="panel-header">
         <div class="panel-header__title">{{monthOrderItem.month_name}}月订餐情况</div>
@@ -11,12 +11,13 @@
       <div class="panel-body">
         <ul>
           <li class="day-item" v-for="(item, index) in monthOrderItem.food_list" :key="index" v-if="index<monthOrderItem.limit">
-            <div class="date">{{item.date2}}{{item.week}}
-              <span :class="{dup:item.count>1}">x{{item.count}}</span>
+            <div class="date">{{item.date2}} {{item.week}}
+              <span :class="{dup:item.count>1}" v-if="type!='status'">x{{item.count}}</span>
             </div>
             <ul class="foods">
-              <li class="food-item" v-for="(sitem, sindex) in item.food_list" :key="sindex" :class="'status_'+sitem.status">
+              <li class="food-item" v-for="(sitem, sindex) in item.food_list" :key="sindex" :class="'status_' + sitem.status">
                 <div class="name">{{sitem.name}}</div>
+                <div class="status" v-if="type=='status'">{{statusList[sitem.status]}}</div>
                 <div class="price">¥ {{sitem.price}}</div>
               </li>
             </ul>
@@ -37,23 +38,27 @@ let weekList = ['周日', '周一', '周二', '周三', '周四', '周五', '周
 
 export default {
   props: {
-    foodList: Array
+    foodList: Array,
+    type: {
+      type: String, // 当为status 表示要展示食品状态
+      default: ''
+    }
   },
   watch: {
     foodList() {
-
       this.handleFoodList()
     }
   },
   data() {
     return {
       orderList: [],
+      statusList: ['', '待支付', '已支付', '已完成', '已停餐'],
       limit: 5
     }
   },
   mounted() {
+    console.log(this.type)
     this.handleFoodList()
- 
   },
   methods: {
     handleFoodList() {
@@ -135,7 +140,7 @@ export default {
           let temp = [] // 保存重复菜品的数组
           item.food_list.forEach(sitem => {
             // 统计单天总份数
-            item.count += sitem.num
+            item.count += parseInt(sitem.num)
             // 统计该月总价格
             monthOrderItem.total_price += sitem.price * sitem.num
 
@@ -149,7 +154,10 @@ export default {
           item.food_list = temp
           // 统计该月总份数
           monthOrderItem.total_num += item.count
+          monthOrderItem.total_price
         })
+
+        monthOrderItem.total_price = monthOrderItem.total_price.toFixed(2)
       })
 
       this.orderList = tempOrderList
@@ -161,7 +169,8 @@ export default {
 <style lang="less">
 @import '../assets/css/mixin';
 .c-order-list {
-    overflow: hidden;
+  overflow: hidden;
+
   .panel-body {
     > ul {
       padding: 6px 0;
@@ -193,7 +202,7 @@ export default {
     .flex-between();
 
     .name {
-      width: 150px;
+      width: 125px;
       .limit();
     }
 
@@ -201,6 +210,41 @@ export default {
       text-align: right;
       width: 55px;
       color: @orange;
+    }
+  }
+
+  // 当要显示食品状态时的样式
+  &.type_status {
+    .date {
+      width: 80px;
+    }
+
+    .foods {
+      width: 240px;
+    }
+
+    .food-item {
+      &.status_2 {
+        .name,
+        .status,
+        .price {
+          color: #333;
+        }
+      }
+
+      &.status_3 {
+        .status,
+        .price {
+          color: @gray;
+        }
+      }
+      &.status_4 {
+        .name,
+        .status,
+        .price {
+          color: @red;
+        }
+      }
     }
   }
 
