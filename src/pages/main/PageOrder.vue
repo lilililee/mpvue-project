@@ -162,7 +162,7 @@ export default {
     },
     toOrderDetailPage(item) {
       wx.navigateTo({
-        url: `/pages/order/orderDetail/main?user_id=${item.user_info.user_id}&role_id=${item.user_info.role_id}&order_id=${item.order_id}&status=${1}`
+        url: `/pages/order/orderDetail/main?user_id=${item.user_info.user_id}&role_id=${item.user_info.role_id}&order_id=${item.order_id}&status=${item.status}`
       })
     }
   },
