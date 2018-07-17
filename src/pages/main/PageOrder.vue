@@ -46,16 +46,13 @@
 
     <div class="to-pay" v-if="activeType==1&&!isShowEmpty">
       <div class="left">
-
         <div class="select" @click="checkAll">
           <i class="icon-select" :class="{active:isCheckAll}"></i>全选
         </div>
-
         <div class="total-price">合计：
           <span>{{checkTotalPrice}}</span>
         </div>
       </div>
-
       <div class="right" v-if="checkOrderList.length" @click="toPay">去支付</div>
       <div class="right disabled" v-else>去支付</div>
     </div>
@@ -113,6 +110,7 @@ export default {
           type: String(this.activeType),
           page: this.page
         },
+        loading: this.page == 1,
         success: res => {
           if (res.code == 0) {
             if (res.data.list.length < 10) {
@@ -321,7 +319,7 @@ export default {
       width: 120px;
       .lh(60px);
       color: #fff;
-      background: #FF7C00;
+      background: #ff7c00;
       text-align: center;
 
       &.disabled {

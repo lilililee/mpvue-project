@@ -48,7 +48,9 @@ export default {
     getBillList() {
       utils.ajax({
         action: 'getBillList',
-        data: {},
+        data: {
+          page: this.page
+        },
         success: res => {
           if (res.code == 0) {
             if (res.data.list.length < 10) {

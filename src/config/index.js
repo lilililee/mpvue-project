@@ -11,7 +11,7 @@ const domain = {
     },
 }
 
-const system = 'company'
+const system = 'school'
 const env = 'develop'
 
 const config = {

@@ -53,11 +53,10 @@ export default {
     return {
       orderList: [],
       statusList: ['', '待支付', '已支付', '已完成', '已停餐'],
-      limit: 5
+  
     }
   },
   mounted() {
-    console.log(this.type)
     this.handleFoodList()
   },
   methods: {
@@ -133,7 +132,7 @@ export default {
         monthOrderItem.total_price = 0
         monthOrderItem.limit = 5
         monthOrderItem.food_list.forEach(item => {
-          item.date2 = item.date.slice(5).replace('/', '2')
+          item.date2 = item.date.slice(5).replace('/', '-')
           item.week = weekList[new Date(item.date).getDay()]
           item.count = 0
 
