@@ -171,11 +171,11 @@ export default {
 .c-order-list {
   overflow: hidden;
 
-  .panel-body {
-    > ul {
-      padding: 6px 0;
-    }
-  }
+//   .panel-body {
+//     > ul {
+//       padding: 6px 0;
+//     }
+//   }
   .day-item {
     display: flex;
     justify-content: space-between;

@@ -27,7 +27,7 @@
             <div class="info">
               <div class="top">
                 <div class="name">{{item.name}}</div>
-                <div class="role">{{item.role_name}}</div>
+                <div class="c-role" :class="'role_' + item.role_id">{{item.role_name}}</div>
               </div>
 
             </div>
@@ -54,115 +54,108 @@
 </template>
 
 <script>
-import utils from '@/utils'
-import UserList from '@/components//UserList'
+    import utils from '@/utils'
+    import UserList from '@/components//UserList'
 
-export default {
-  data() {
-    return {
-      homeInfo: {},
-      userList: []
-    }
-  },
+    export default {
+        data() {
+            return {
+                homeInfo: {},
+                userList: []
+            }
+        },
 
-  mounted() {
-    this.getHomeInfo()
-    this.getUserList()
-  },
+        mounted() {
+            this.getHomeInfo()
+            this.getUserList()
+        },
 
-  methods: {
-    getHomeInfo() {
-      utils.ajax({
-        action: 'getHomeInfo',
-        success: res => {
-          if (res.code == 0) {
-            this.homeInfo = res.data
-          }
+        methods: {
+            getHomeInfo() {
+                utils.ajax({
+                    action: 'getHomeInfo',
+                    success: res => {
+                        if (res.code == 0) {
+                            this.homeInfo = res.data
+                        }
+                    }
+                })
+            },
+            getUserList() {
+                utils.ajax({
+                    action: 'getUserList',
+                    loading: true,
+                    success: res => {
+                        if (res.code == 0) {
+                            this.userList = res.data.list
+                            this.$store.commit('updateNowUser', this.userList[0])
+                        }
+                    }
+                })
+            },
+            toChooseMonth(user, type) {
+                // 更新当前用户
+                this.$store.commit('updateNowUser', user)
+
+                wx.navigateTo({
+                    url: `/pages/home/chooseMonth/main?type=${type}`
+                })
+            },
+
+            toNoticePage() {
+                if (!this.homeInfo.notice) return
+                wx.navigateTo({
+                    url: `/pages/home/notice/main?notice_id=${this.homeInfo.notice.notice_id}`
+                })
+            },
+            toAddUserPage() {
+                wx.navigateTo({
+                    url: `/pages/user/useFood/addUser/main`
+                })
+            },
+            onImageError() {
+                this.homeInfo.banner[0].img = require('../../assets/img/banner_default.png')
+            }
+        },
+        components: {
+            UserList
         }
-      })
-    },
-    getUserList() {
-      utils.ajax({
-        action: 'getUserList',
-        loading: true,
-        success: res => {
-          if (res.code == 0) {
-            this.userList = res.data.list
-            this.$store.commit('updateNowUser', this.userList[0])
-          }
-        }
-      })
-    },
-    toChooseMonth(user, type) {
-      // 更新当前用户
-      this.$store.commit('updateNowUser', user)
-
-      wx.navigateTo({
-        url: `/pages/home/chooseMonth/main?type=${type}`
-      })
-    },
-
-    toNoticePage() {
-      if (!this.homeInfo.notice) return
-      wx.navigateTo({
-        url: `/pages/home/notice/main?notice_id=${this.homeInfo.notice.notice_id}`
-      })
-    },
-    toAddUserPage() {
-      wx.navigateTo({
-        url: `/pages/user/useFood/addUser/main`
-      })
-    },
-    onImageError(){
-      this.homeInfo.banner[0].img = require('../../assets/img/banner_default.png')
     }
-  },
-  components: {
-    UserList
-  }
-}
 </script>
 <style lang="less">
-@import '../../assets/css/mixin.less';
-.page-home__index {
-  swiper {
-    height: 200px;
-  }
-
-  .slide-image {
-    display: block;
-    width: 100%;
-    height: 200px;
-  }
-
-  .user-list-container {
-    margin-top: 12px;
-
-    .add-user-area {
-      text-align: center;
-      .add-user {
-        display: block;
-        .lh(66px);
-        background: #fff;
-      }
-
-      .tips {
-        font-size: 12px;
-        color: @gray;
-        margin-top: 12px;
-      }
+    @import '../../assets/css/mixin.less';
+    .page-home__index {
+        swiper {
+            height: 200px;
+        }
+        .slide-image {
+            display: block;
+            width: 100%;
+            height: 200px;
+        }
+        .user-list-container {
+            margin-top: 12px;
+            .add-user-area {
+                text-align: center;
+                .add-user {
+                    display: block;
+                    .lh(66px);
+                    background: #fff;
+                }
+                .tips {
+                    font-size: 12px;
+                    color: @gray;
+                    margin-top: 12px;
+                }
+            }
+            .assist {
+                .btn-group {
+                    .flex-end(); // padding: 0;
+                }
+                .btn {
+                    margin-left: 12px;
+                }
+            }
+        }
     }
-
-    .assist {
-      .btn-group {
-        .flex-end();
-        // padding: 0;
-      }
-      .btn {
-        margin-left: 12px;
-      }
-    }
-  }
-}
 </style>
-

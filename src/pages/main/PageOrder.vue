@@ -77,7 +77,7 @@ export default {
 
       isShowEmpty: false,
 
-      statusList: ['', '待支付', '已支付', '已支付'], // 对应状态 1 2 3
+      statusList: ['', '待支付', '已支付', '已完成'], // 对应状态 1 2 3
 
       isOver: false
     }

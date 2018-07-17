@@ -1,12 +1,12 @@
 const domain = {
     school: {
         develop: 'http://yapi.demo.qunar.com/mock/11228/',
-        test: '',
+        test: 'https://rrj.bestwang.cn/mp/school/',
         production: ''
     },
     company: {
         develop: 'http://yapi.demo.qunar.com/mock/11228/',
-        test: '',
+        test: 'https://rrj.bestwang.cn/mp/school/',
         production: ''
     },
 }

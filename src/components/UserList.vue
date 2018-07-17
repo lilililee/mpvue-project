@@ -9,7 +9,7 @@
                 <div class="info">
                     <div class="top">
                         <div class="name">{{item.name}}</div>
-                        <div class="role">{{item.role_name}}</div>
+                        <div class="c-role" :class="'role_' + item.role_id">{{item.role_name}}</div>
                     </div>
                     <div class="bottom" v-if="isShowAddress">
                         <div class="address" v-if="item.address_name">{{item.address_name}}</div>
