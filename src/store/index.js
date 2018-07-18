@@ -17,7 +17,7 @@ const store = new Vuex.Store({
   mutations: {
 
     updateNowUser: (state, nowUser) => {
-      state.nowUser = nowUser
+      state.nowUser = nowUser || {}   // 在userList.length为0时为undefined
     },
     updateFoodList: (state, foodList) => {
       state.foodList = foodList

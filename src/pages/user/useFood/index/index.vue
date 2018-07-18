@@ -30,9 +30,11 @@ export default {
       }
     }
   },
+  onShow(){
+    this.getUserList()
+  },
 
   mounted() {
-    this.getUserList()
   },
 
   methods: {
@@ -62,6 +64,9 @@ export default {
           if (res.code == 0) {
             this.isShowDelatePopbox = false
             this.userList.splice(this.deleteUserIndex, 1)
+            if(this.userList.length == 0) {
+              this.$store.commit('updateNowUser', {})
+            }
           }
         }
       })

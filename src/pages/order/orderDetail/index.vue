@@ -31,7 +31,7 @@
 
     <div class="bottom-column" v-if=" queryInfo.status == '2'">
       <div class="left">
-        共 {{orderInfo.total_num}} 份,已停餐 {{orderInfo.cancle_num}} 份
+        共 {{orderInfo.total_num}} 份,已停餐 {{orderInfo.cancel_num}} 份
       </div>
 
       <div class="right" @click="toStopFoodPage">
