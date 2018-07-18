@@ -32,16 +32,18 @@ export default {
     }
   },
 
+  onShow(){
+    this.page = 1
+    this.feedbackList = []
+    this.getFeedbackList()
+  },
+
   onReachBottom() {
     !this.isOver && this.getFeedbackList()
   },
-  onUnload(){
-    this.page = 1
-    this.feedbackList = []
-  },
 
   mounted() {
-    this.getFeedbackList()
+    
   },
 
   methods: {
