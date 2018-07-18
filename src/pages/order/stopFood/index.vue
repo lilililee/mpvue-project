@@ -1,5 +1,5 @@
 <template>
-  <div class="page-user__stop_food">
+  <div class="page-user__stop_food" :class="{'x-padding': isIphoneX}">
 
     <ul class="food-list">
       <li v-for="(item,index) in foodList" :key="index" :class="'status_' + item.status" @click="item.status=='2' && (item.is_check = !item.is_check)">
@@ -18,7 +18,7 @@
       </li>
     </ul>
 
-    <div class="bottom-column">
+    <div class="bottom-column"  :class="{'x-border': isIphoneX}">
       <div class="left">
         <div class="select" @click="checkAll">
           <i class="icon-select" :class="{active:isCheckAll}"></i>全选
@@ -40,6 +40,8 @@ import Popbox from '@/components/Popbox'
 export default {
   data() {
     return {
+      isIphoneX: utils.isIphoneX,
+
       foodList: [],
 
       isShowCancelPopbox: false,

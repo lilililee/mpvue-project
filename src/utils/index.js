@@ -6,6 +6,16 @@ import _store from '../store'
 //   $Message
 // } from '../assets/iview/base/index'
 
+let isIphoneX = false
+
+wx.getSystemInfo({
+  success: function(res) {
+    if(res.model == 'iPhone X') {
+      isIphoneX = true
+    }
+  }
+})
+
 const formatNumber = (n) => {
   const str = n.toString()
   return str[1] ? str : `0${str}`
@@ -162,6 +172,7 @@ export default {
   _store,
   // $Toast,
   // $Message,
+  isIphoneX,
 
   formatNumber,
   formatDate,

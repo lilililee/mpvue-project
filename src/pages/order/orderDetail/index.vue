@@ -1,5 +1,5 @@
 <template>
-  <div class="page-user__order_detail" v-if="orderInfo" :class="'status_' + queryInfo.status">
+  <div class="page-user__order_detail" v-if="orderInfo"  :class="[{'x-margin': isIphoneX},'status_' + queryInfo.status]">
     <div class="top-pay" v-if="queryInfo.status == '1'">
       <div class="text">
         <span>需支付</span>
@@ -29,7 +29,7 @@
 
     </div>
 
-    <div class="bottom-column" v-if=" queryInfo.status == '2'">
+    <div class="bottom-column"  :class="{'x-border': isIphoneX}" v-if=" queryInfo.status == '2'">
       <div class="left">
         共 {{orderInfo.total_num}} 份,已停餐 {{orderInfo.cancel_num}} 份
       </div>
@@ -53,6 +53,7 @@ import OrderBrief from '@/components/OrderBrief'
 export default {
   data() {
     return {
+      isIphoneX: utils.isIphoneX,
       system: config.system,
       queryInfo: {},
       orderInfo: null,

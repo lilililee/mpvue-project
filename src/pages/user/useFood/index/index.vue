@@ -1,5 +1,5 @@
 <template>
-  <div class="page-user__userFood__index">
+  <div class="page-user__userFood__index" :class="{'x-margin': isIphoneX}">
     <div @click="toAddUserPage" class="add-user">+ 添加用餐人</div>
     <user-list :userData="userList" @assistClick="deleteUser">
       <div class="c-user-list__assets flex-center">
@@ -19,6 +19,7 @@ import Popbox from '@/components/Popbox'
 export default {
   data() {
     return {
+      isIphoneX: utils.isIphoneX,
       userList: [],
       isShowDelatePopbox: false,
 

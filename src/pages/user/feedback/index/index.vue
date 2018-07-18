@@ -1,5 +1,5 @@
 <template>
-  <div class="page-user__feedback_index">
+  <div class="page-user__feedback_index" :class="{'x-margin': isIphoneX}">
     <a class="to-feedback" href="/pages/user/feedback/submitFeedback/main" hover-class="none">
       我要反馈问题
     </a>
@@ -26,13 +26,14 @@ import LoadingTip from '@/components/LoadingTip'
 export default {
   data() {
     return {
+      isIphoneX: utils.isIphoneX,
       feedbackList: [],
       page: 1,
       isOver: false
     }
   },
 
-  onShow(){
+  onShow() {
     this.page = 1
     this.feedbackList = []
     this.getFeedbackList()
@@ -42,9 +43,7 @@ export default {
     !this.isOver && this.getFeedbackList()
   },
 
-  mounted() {
-    
-  },
+  mounted() {},
 
   methods: {
     getFeedbackList() {

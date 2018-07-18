@@ -1,12 +1,12 @@
 <template>
 
-  <div class="page-main">
+  <div class="page-main" :class="{'x-margin': isIphoneX}">
     <page-home v-if="nowPage == 'home'" :showTimes="showTimes"></page-home>
     <page-calendar v-if="nowPage == 'calendar'"></page-calendar>
     <page-order v-if="nowPage == 'order'"></page-order>
     <page-user v-if="nowPage == 'user'"></page-user>
 
-    <div class="tab-bar flex-around">
+    <div class="tab-bar flex-around"  :class="{'x-border': isIphoneX}">
       <div class="tab-bar-item" v-for="(item, index) in pageList" :key="index" :class="{active: nowPage==item.name}" @click="changePage(item)">
         <i :class="[item.icon,{active: nowPage==item.name}]"></i>
         <div class="title">{{item.title}}</div>
@@ -48,6 +48,7 @@ let pageList = [
 export default {
   data() {
     return {
+      isIphoneX: utils.isIphoneX,
       pageList,
       nowPage: '', // home || calendar || order || user
       showTimes: 0,
@@ -59,7 +60,7 @@ export default {
     }
   },
   onShow() {
-    this.showTimes ++ 
+    this.showTimes ++   // 针对添加用餐人后通知首页更新数据
   },
   beforeCreate() {
     if (!wx.getStorageSync('token')) {
@@ -79,8 +80,6 @@ export default {
   methods: {
     changePage(page) {
       if (this.nowPage == page.name) return
-
-      console.log(this.$store.state)
       if (page.name == 'calendar' && !this.nowUser.user_id) {
         utils.showMsg('请先添加用餐人')
         return
@@ -90,7 +89,6 @@ export default {
       })
       this.nowPage = page.name
 
-      // setTimeout()
       if (this.nowPage == 'calendar' || this.nowPage == 'user') {
         wx.setNavigationBarColor({
           frontColor: '#ffffff',

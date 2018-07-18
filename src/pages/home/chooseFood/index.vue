@@ -1,7 +1,7 @@
 <template>
   <div class="page-home__chooseFood" v-if="foodList.length">
 
-    <div class="choose-food-area flex">
+    <div class="choose-food-area flex" :class="{'x-padding': isIphoneX}">
       <div class="date-list-container">
         <div class="choose-all" @click="chooseAll" v-if="isChooseEveryDay">取消全选</div>
         <div class="choose-all" @click="chooseAll" v-else>全选</div>
@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <div class="bottom-column">
+    <div class="bottom-column" :class="{'x-border': isIphoneX}">
       <div class="user-info flex-center">
         订餐人：{{nowUser.name}}({{nowUser.role_name}})
       </div>
@@ -76,6 +76,7 @@ let weekList = ['周日', '周一', '周二', '周三', '周四', '周五', '周
 export default {
   data() {
     return {
+      isIphoneX: utils.isIphoneX,
       foodList: [],
       nowIndex: 0,
       scrollTop: 0

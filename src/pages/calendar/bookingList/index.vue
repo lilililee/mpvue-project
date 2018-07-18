@@ -1,6 +1,6 @@
 <template>
   <div class="page-calendar__booking_list" v-if="bookingList">
-    <div class="page-container" v-if="bookingList.length">
+    <div class="page-container" v-if="bookingList.length"  :class="{'x-padding': isIphoneX}">
       <scroll-view scroll-y  :scroll-top="scrollTop">
         <!-- solt内不能写v-if -->
         <div class="user-list-container" v-if="system=='company'">
@@ -44,7 +44,7 @@
     <empty v-else></empty>
    
 
-    <div class="toggle-date">
+    <div class="toggle-date" :class="{'x-border': isIphoneX}">
 
       <div class="prev" @click="changeDay(-1)">
         <i class="icon-arrow-left"></i>
@@ -73,6 +73,7 @@ import Empty from '@/components/Empty'
 export default {
   data() {
     return {
+      isIphoneX: utils.isIphoneX,
       system: config.system,
       bookingList: '',
       date: '',
@@ -332,13 +333,13 @@ export default {
     bottom: 0;
     width: 100%;
     height: 60px;
-    padding: 0 10px;
     .flex-between();
     background: #ffffff;
     box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05);
 
     .prev,
     .next {
+      padding: 0 10px;
       .flex-center();
       font-size: 14px;
       color: @gray;

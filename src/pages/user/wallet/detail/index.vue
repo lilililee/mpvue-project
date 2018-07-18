@@ -1,5 +1,5 @@
 <template>
-  <div class="page-user__wallet__detail">
+  <div class="page-user__wallet__detail" :class="{'x-margin': isIphoneX}">
      
     <ul class="bill-list">
       <li v-for="(item, index) in billList" :key="index">
@@ -29,6 +29,7 @@ import LoadingTip from '@/components/LoadingTip'
 export default {
   data() {
     return {
+      isIphoneX: utils.isIphoneX,
       system: config.system,
       billList: [],
       page: 1,

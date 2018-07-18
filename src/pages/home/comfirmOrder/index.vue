@@ -1,6 +1,6 @@
 <template>
   <div class="page-home__comfirm_order">
-    <div class="page-container">
+    <div class="page-container"  :class="{'x-padding': isIphoneX}">
       <scroll-view scroll-y>
         <div class="user-list-container" v-if="system=='company'">
           <user-list :userData="companyNowUser" @assistClick="changeAddress">
@@ -16,7 +16,7 @@
       </scroll-view>
     </div>
 
-    <div class="bottom-column">
+    <div class="bottom-column" :class="{'x-border': isIphoneX}">
       <div class="left">
         <div>
           <div class="total-price">¥{{totalMoney}}</div>
@@ -40,6 +40,7 @@ import OrderList from '@/components/OrderList'
 export default {
   data() {
     return {
+      isIphoneX: utils.isIphoneX,
       system: config.system,
       userList: []
       // orderList:[]

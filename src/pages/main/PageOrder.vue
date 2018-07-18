@@ -44,7 +44,7 @@
 
     <loading-tip v-if="!isShowEmpty" :isOver="isOver"></loading-tip>
 
-    <div class="to-pay" v-if="activeType==1&&!isShowEmpty">
+    <div class="to-pay"  :class="{'x-margin': isIphoneX}" v-if="activeType==1&&!isShowEmpty">
       <div class="left">
         <div class="select" @click="checkAll">
           <i class="icon-select" :class="{active:isCheckAll}"></i>全选
@@ -68,6 +68,8 @@ import Empty from '@/components/Empty'
 export default {
   data() {
     return {
+      isIphoneX: utils.isIphoneX,
+      
       activeType: 0, // 0,1,2,3
       page: 1,
       orderList: [],

@@ -12,7 +12,7 @@ const domain = {
 }
 
 const system = 'school'
-const env = 'test'
+const env = 'develop'
 
 const config = {
     // 环境配置
