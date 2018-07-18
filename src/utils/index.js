@@ -8,13 +8,12 @@ import _store from '../store'
 
 let isIphoneX = false
 
-wx.getSystemInfoSync({
-  success: function(res) {
-    if(res.model == 'iPhone X') {
-      isIphoneX = true
-    }
-  }
-})
+const resSystemInfo = wx.getSystemInfoSync()
+
+if (resSystemInfo.model == 'iPhone X') {
+  isIphoneX = true
+}
+
 
 const formatNumber = (n) => {
   const str = n.toString()
