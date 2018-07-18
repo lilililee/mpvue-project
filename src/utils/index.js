@@ -8,7 +8,7 @@ import _store from '../store'
 
 let isIphoneX = false
 
-wx.getSystemInfo({
+wx.getSystemInfoSync({
   success: function(res) {
     if(res.model == 'iPhone X') {
       isIphoneX = true
