@@ -1,42 +1,42 @@
 <template>
-    <div class="page-login__index">
-        <div class="top">
-            <div class="hello">您好，</div>
-            <div class="welcome">
-                <span>欢迎使用日日健订餐服务 ,</span>
-                <a hover-class="none" href="/pages/login/register/main"> 立即注册</a>
-            </div>
-        </div>
-
-        <div class="form">
-            <div class="input">
-                <div class="name">手机号</div>
-                <input type="number" class="content phone" v-model="phone" placeholder="请输入手机号">
-            </div>
-            <div class="input">
-                <div class="name">密码</div>
-                <input type="password" class="content password" v-model="password" placeholder="请输入密码">
-                <div class="assist">
-                    <a hover-class="none" href="/pages/login/findPassword/main">忘记密码?</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="link btn-group">
-            <div class="btn" @click="login">登录</div>
-        </div>
-
-        <div class="protocol">
-            <span>登录/注册代表您已同意</span>
-            <a hover-class="none" href="/pages/login/protocol/main">《日日健用户协议》</a>
-        </div>
-
-        <div class="company">
-            <img src="../../../assets/img/logo.png" class="logo">
-            <div class="copyright">©copyright 广州市日日健餐饮管理有限公司</div>
-        </div>
-
+  <div class="page-login__index">
+    <div class="top">
+      <div class="hello">您好，</div>
+      <div class="welcome">
+        <span>欢迎使用日日健订餐服务 ,</span>
+        <a hover-class="none" href="/pages/login/register/main"> 立即注册</a>
+      </div>
     </div>
+
+    <div class="form">
+      <div class="input">
+        <div class="name">手机号</div>
+        <input type="number" class="content phone" v-model="phone" placeholder="请输入手机号">
+      </div>
+      <div class="input">
+        <div class="name">密码</div>
+        <input type="password" class="content password" v-model="password" placeholder="请输入密码">
+        <div class="assist">
+          <a hover-class="none" href="/pages/login/findPassword/main">忘记密码?</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="link btn-group">
+      <div class="btn" @click="login">登录</div>
+    </div>
+
+    <div class="protocol">
+      <span>登录/注册代表您已同意</span>
+      <a hover-class="none" href="/pages/login/protocol/main">《日日健用户协议》</a>
+    </div>
+
+    <div class="company">
+      <img src="../../../assets/img/logo.png" class="logo">
+      <div class="copyright">©copyright 广州市日日健餐饮管理有限公司</div>
+    </div>
+
+  </div>
 </template>
 
 <script>
@@ -60,18 +60,29 @@ export default {
       if (utils.validate.isEmpty(this.password, '密码')) return
       if (utils.validate.notPassword(this.password)) return
 
-      utils.ajax({
-        action: 'login',
-        method: 'POST',
-        data: {
-          phone: this.phone,
-          password: this.password
-        },
+      wx.login({
         success: res => {
-          this.$store.commit('updateToken', res.data.token)
-          wx.reLaunch({
-            url: '/pages/main/main'
-          })
+          if (res.code) {
+            utils.ajax({
+              action: 'login',
+              method: 'POST',
+              data: {
+                phone: this.phone,
+                password: this.password,
+                code: res.code
+              },
+              success: res2 => {
+                if(res2.code==0) {
+                  wx.setStorageSync('token', res2.data.token)
+                  wx.reLaunch({
+                    url: '/pages/main/main'
+                  })
+                }
+              }
+            })
+          } else {
+            utils.showMsg('登录失败！' + res.errMsg)
+          }
         }
       })
     }
@@ -115,8 +126,6 @@ page {
       }
     }
   }
-
-
 
   .link {
     margin-top: 72rpx;

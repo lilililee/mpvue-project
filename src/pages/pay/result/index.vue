@@ -57,24 +57,6 @@ export default {
         url: `/pages/pay/index/main?order_id_list=${this.this.queryInfo.order_id_list}&total_money=${this.this.queryInfo.total_money}`
       })
     },
-
-    pay() {
-      utils.ajax({
-        action: 'pay',
-        method: 'POST',
-        data: {
-          order_id_list: this.this.queryInfo.order_id_list,
-          total_money: this.this.queryInfo.total_money,
-          pay_balance: this.payBalance || '0',
-          pay_credit: this.payCredit || '0',
-          pay_wx: this.payWx
-        },
-        success: res => {
-          if (res.code == 0) {
-          }
-        }
-      })
-    }
   },
   components: {}
 }

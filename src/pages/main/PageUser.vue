@@ -88,11 +88,9 @@ export default {
     }
   },
 
-  mounted() {
-  },
+  mounted() {},
 
   methods: {
- 
     toSubPage(page) {
       wx.navigateTo({ url: `/pages/user/${page}/main` })
     },
@@ -104,7 +102,7 @@ export default {
             if (res.code == 0) {
               let page = ''
               switch (res.data.status) {
-              // switch ('1') {
+                // switch ('1') {
                 case '2': // 已绑定
                   page = 'hasBind'
                   break
@@ -126,8 +124,7 @@ export default {
     comfirmLoginout() {
       this.isShowDelatePopbox = false
       // 清除登录信息
-      this.$store.commit('updateToken', '')
-
+      wx.setStorageSync('token', '')
       wx.reLaunch({
         url: '/pages/login/index/main'
       })

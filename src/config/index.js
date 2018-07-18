@@ -6,13 +6,13 @@ const domain = {
     },
     company: {
         develop: 'http://yapi.demo.qunar.com/mock/11228/',
-        test: 'https://rrj.bestwang.cn/mp/school/',
+        test: 'https://rrj.bestwang.cn/mp/company/',
         production: ''
     },
 }
 
 const system = 'school'
-const env = 'develop'
+const env = 'test'
 
 const config = {
     // 环境配置

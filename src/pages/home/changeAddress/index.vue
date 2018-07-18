@@ -67,7 +67,9 @@ export default {
             address_id: item.address_id
           },
           success: res => {
-            this.updateCompanyNowUser(item)
+            if(res.code==0) {
+              this.updateCompanyNowUser(item)
+            }
           }
         })
       } else if (this.$root.$mp.query.type == 'order') {
@@ -81,7 +83,9 @@ export default {
             address_id: item.address_id
           },
           success: res => {
-            this.updateCompanyNowUser(item)
+            if(res.code==0) {
+              this.updateCompanyNowUser(item)
+            }
           }
         })
       }

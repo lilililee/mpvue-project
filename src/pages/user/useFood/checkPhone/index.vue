@@ -64,6 +64,7 @@ export default {
 
       utils.ajax({
         action: 'getCode',
+        method: 'POST',
         data: {
           phone: this.userInfo.phone
         },

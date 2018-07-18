@@ -55,6 +55,7 @@ export default {
 
       utils.ajax({
         action: 'getCode',
+        method: 'POST',
         data: {
           phone: this.phone
         },
@@ -98,19 +99,10 @@ export default {
           password: this.password
         },
         success: res => {
-          utils.showSuccess('注册成功', wx.navigateBack)
-          // utils.ajax({
-          //   action: 'login',
-          //   method: 'POST',
-          //   data: {
-          //     phone: this.phone,
-          //     password: this.password
-          //   },
-          //   success: res => {
-          //       utils.showSuccess('注册成功', wx.navigateBack)
-          
-          //   }
-          // })
+          if(res.code == 0) {
+            utils.showSuccess('注册成功', wx.navigateBack)
+          }
+        
         }
       })
     }

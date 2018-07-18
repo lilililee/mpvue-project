@@ -56,6 +56,7 @@ export default {
 
       utils.ajax({
         action: 'getCode',
+        method: 'POST',
         data: {
           phone: this.phone
         },
@@ -99,21 +100,10 @@ export default {
           password: this.password
         },
         success: res => {
-          utils.ajax({
-            action: 'login',
-            method: 'POST',
-            data: {
-              phone: this.phone,
-              password: this.password
-            },
-            success: res => {
-                utils.showSuccess('找回成功', wx.navigateBack)
-            //   this.$store.commit('updateToken', res.data.token)
-            //   wx.navigateTo({
-            //     url: '/pages/main/main'
-            //   })
-            }
-          })
+          if(res.code==0) {
+            utils.showSuccess('找回成功', wx.navigateBack)
+          }
+          
         }
       })
     }

@@ -10,7 +10,7 @@
 	"miniprogramRoot": "./dist/",
 	"compileType": "miniprogram",
 	"appid": "wx428bb7d3fb2dcbcf",
-	"projectname": "mpvue-school-app",
+	"projectname": "mpvue-school-app-test",
 	"libVersion": "2.1.1",
 	"condition": {
 		"search": {

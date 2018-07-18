@@ -1,14 +1,12 @@
 <template>
-  <div class="page-calendar__index" >
+  <div class="page-calendar__index">
     <div class="page-calendar__index__container">
       <div class="user-info">
         <div class="date">
-          <div class="month">{{today.month}}月</div>
+          <div class="month">{{nowMonthInfo.nowMonth}}月</div>
           <div class="other">
-            <div class="year">{{today.year}}年</div>
-            <div class="day">{{today.day}}日
-              <span>今天</span>
-            </div>
+            <div class="year">{{nowMonthInfo.year}}年</div>
+            <div class="count">订餐天数{{countInfo.day_count}}天，共{{countInfo.item_count}}份</div>
           </div>
         </div>
         <div class="user" @click="isShowListPicker= true" v-if="system=='school'">
@@ -32,26 +30,27 @@
         </div>
         <div class="table-body">
           <div class="tr" v-for="(item, index) in bookingStatus" :key="index">
-            <div class="td" v-for="(sitem, sindex) in item" :key="sindex" :class="{disabled:!sitem.isNowMonth,today:sitem.isToday}" @click="toBookingList(sitem)">
+            <div class="td" v-for="(sitem, sindex) in item" :key="sindex" :class="{disabled:!sitem.isNowMonth}" @click="toBookingList(sitem)">
 
               <span> {{sitem.day}}</span>
               <!-- 1未订餐 2已订餐 3已完成 -->
-              <div class="status-name" v-if="sitem.status_id!=='1'">  
+              <div class="status-name" v-if="sitem.status_id!=='1'">
                 <i class="point" v-if="sitem.status_id=='2'"></i>
-                <span>{{sitem.status_name}}</span>
+                <span class="active" v-if="sitem.status_id=='2'">{{sitem.booking_num}}份</span>
+                <span v-else>{{sitem.status_name}}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="switch-month"  v-if="bookingStatus">
+      <div class="switch-month" v-if="bookingStatus">
         <div class="prev" @click="changeMonth(-1)">
           <i class="icon-arrow-left"></i>
-          <span>上个月</span>
+          <span>{{nowMonthInfo.prveMonth}}月</span>
         </div>
         <div class="next" @click="changeMonth(1)">
-          <span>下个月</span>
+          <span>{{nowMonthInfo.nextMonth}}月</span>
           <i class="icon-arrow-right"></i>
         </div>
       </div>
@@ -72,28 +71,44 @@ export default {
     return {
       system: config.system,
 
+      countInfo: {},
       bookingStatus: '', // 会处理成 7 的整数，不属于当月的天的状态用 -1 表示
 
       userList: [],
       today: {},
       nowMonth: '',
-      isShowListPicker: false,
-     
-
-      
+      isShowListPicker: false
     }
   },
   computed: {
     nowUser() {
       return this.$store.state.nowUser
+    },
+    nowMonthInfo(){
+      let month = new Date(this.nowMonth)
+      return {
+        year: month.getFullYear(),
+        prveMonth: (month.getMonth() + 12 + 0) % 12 || 12,
+        nowMonth: (month.getMonth() + 12 + 1) % 12 || 12,
+        nextMonth: (month.getMonth() + 12 + 2) % 12 || 12
+      }
+    },
+    prevMonthName() {
+      return (new Date(this.nowMonth).getMonth() || 12) + '月'
+    },
+    nextMonthName() {
+      return ((new Date(this.nowMonth).getMonth() + 12 + 2) % 12 || 12) + '月'
     }
   },
 
   mounted() {
     this.initToday()
-    this.getUserList()
 
-    
+    if (this.system == 'school') {
+      this.getUserBookingStatus()
+    } else {
+      this.getUserList()
+    }
   },
 
   methods: {
@@ -126,14 +141,16 @@ export default {
           user_id: this.nowUser.user_id,
           role_id: this.nowUser.role_id
         },
-        loading:true,
+        loading: true,
         success: res => {
           if (res.code == 0) {
             // 加入状态参数
             res.data.list.forEach(item => {
-              item.day = String(parseInt(item.date.slice(-2)))  
-              item.isNowMonth = item.date.slice(0, 7) == this.today.date.slice(0, 7)
-              item.isToday = item.date == this.today.date
+              item.day = String(parseInt(item.date.slice(-2)))
+              // item.isNowMonth = item.date.slice(0, 7) == this.today.date.slice(0, 7)
+              item.isNowMonth = item.date.slice(0, 7) == this.nowMonth
+              // item.isToday = item.date == this.today.date
+              // item.status_name = item.status =='2'? item.booking_num + '份' : item.status_name
             })
 
             // 转化成二元数组
@@ -144,6 +161,7 @@ export default {
               tempCount++
             }
 
+            this.countInfo = res.data.count
             this.bookingStatus = result
           }
         }
@@ -178,7 +196,7 @@ export default {
 
 .page-calendar__index {
   .page-calendar__index__container {
-   .full-page();
+    .full-page();
     background: #fff;
   }
   .user-info {
@@ -186,7 +204,7 @@ export default {
     color: #fff;
     padding: 0 28px;
     height: 54px;
-    background: #16B266;
+    background: #16b266;
 
     .date {
       .flex-start();
@@ -200,7 +218,7 @@ export default {
 
     .other {
       font-size: 10px;
-      .day {
+      .count {
         margin-top: 7px;
       }
     }
@@ -212,7 +230,7 @@ export default {
   }
   .calendar-table {
     .table-header {
-      background: #16B266;
+      background: #16b266;
       color: #fff;
       font-size: 10px;
       height: 46px;
@@ -233,15 +251,17 @@ export default {
       margin: 8px 3px;
       text-align: center;
 
-      &.status_1 {
-        .status-name {
-          display: none;
+      .status-name {
+        .active {
+          color: @theme;
         }
       }
-      &.status_2 {
-      }
-      &.status_3 {
-      }
+      // &.status_1 {
+      // }
+      // &.status_2 {
+      // }
+      // &.status_3 {
+      // }
     }
 
     .table-body {

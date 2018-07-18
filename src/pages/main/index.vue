@@ -52,7 +52,13 @@ export default {
       nowPage: '' // home || calendar || order || user
     }
   },
-
+  beforeCreate() {
+    if (!wx.getStorageSync('token')) {
+      wx.reLaunch({
+        url: '/pages/login/index/main'
+      })
+    }
+  },
 
   mounted() {
     this.nowPage = ''

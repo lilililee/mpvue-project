@@ -32,7 +32,7 @@ const formatTime = (date) => {
 
 const sleep = (callback, time = 1000) => {
   setTimeout(callback, time)
-} 
+}
 
 // 校验方法
 const validate = {
@@ -110,8 +110,9 @@ const ajax = ({
   }
 
   // 登陆后的请求都需要token
-  let header = {}
-  _store.state.token && (header.token = _store.state.token)
+  let header = {
+    token: wx.getStorageSync('token') || ''
+  }
 
 
   // 加载速度太快会导致页面抖动
@@ -121,13 +122,21 @@ const ajax = ({
   // }
 
   log(`%c${action}(input)`, `color:#29bb7b`, data)
-  wx.request({ 
+  wx.request({
     url: _config.domain + action,
     method,
     data,
     header,
     success(res) {
       log(`%c${action}(res)`, `color:#5b8de2`, res.data)
+
+      if (res.data.code == 9002) {
+        wx.reLaunch({
+          url: '/pages/login/index/main'
+        })
+        return
+      }
+
       if (res.data.code != 0) {
         showMsg(res.data.message)
       }
