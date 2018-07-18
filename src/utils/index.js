@@ -9,8 +9,8 @@ import _store from '../store'
 let isIphoneX = false
 
 const resSystemInfo = wx.getSystemInfoSync()
-
-if (resSystemInfo.model == 'iPhone X') {
+console.log(resSystemInfo)
+if (resSystemInfo.model.indexOf('iPhone X') != -1) {
   isIphoneX = true
 }
 
