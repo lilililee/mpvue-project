@@ -105,9 +105,9 @@ export default {
     this.initToday()
 
     if (this.system == 'school') {
-      this.getUserBookingStatus()
-    } else {
       this.getUserList()
+    } else {
+      this.getUserBookingStatus()
     }
   },
 

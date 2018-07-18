@@ -62,6 +62,9 @@ import config from '@/config'
 import UserList from '@/components//UserList'
 
 export default {
+   props: {
+    showTimes: Number
+  },
   data() {
     return {
       system: config.system,
@@ -69,7 +72,13 @@ export default {
       userList: []
     }
   },
-
+  watch:{
+    showTimes(val) {
+      if(val > 0) {
+        this.getUserList()
+      }
+    }
+  },
   mounted() {
     this.getHomeInfo()
     this.getUserList()
@@ -93,7 +102,7 @@ export default {
         success: res => {
           if (res.code == 0) {
             this.userList = res.data.list
-            this.$store.commit('updateNowUser', this.userList[0])
+            this.$store.commit('updateNowUser', this.userList[0] || {})
           }
         }
       })

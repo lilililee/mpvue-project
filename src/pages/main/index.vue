@@ -1,7 +1,7 @@
 <template>
 
   <div class="page-main">
-    <page-home v-if="nowPage == 'home'"></page-home>
+    <page-home v-if="nowPage == 'home'" :showTimes="showTimes"></page-home>
     <page-calendar v-if="nowPage == 'calendar'"></page-calendar>
     <page-order v-if="nowPage == 'order'"></page-order>
     <page-user v-if="nowPage == 'user'"></page-user>
@@ -49,8 +49,17 @@ export default {
   data() {
     return {
       pageList,
-      nowPage: '' // home || calendar || order || user
+      nowPage: '', // home || calendar || order || user
+      showTimes: 0,
     }
+  },
+  computed: {
+    nowUser() {
+      return this.$store.state.nowUser
+    }
+  },
+  onShow() {
+    this.showTimes ++ 
   },
   beforeCreate() {
     if (!wx.getStorageSync('token')) {
@@ -70,6 +79,12 @@ export default {
   methods: {
     changePage(page) {
       if (this.nowPage == page.name) return
+
+      console.log(this.$store.state)
+      if (page.name == 'calendar' && !this.nowUser.user_id) {
+        utils.showMsg('请先添加用餐人')
+        return
+      }
       wx.setNavigationBarTitle({
         title: page.title
       })

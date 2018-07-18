@@ -90,7 +90,7 @@ const hideLoading = () => {
 }
 
 const log = (...args) => {
-  console.log(...args)
+  _config.env != 'production' && console.log(...args)
 }
 
 
