@@ -44,6 +44,7 @@ export default {
         success: res => {
           if (res.code == 0) {
             this.userList = res.data.list
+            this.$store.commit('updateNowUser', this.userList[0] || {})
           }
         }
       })
