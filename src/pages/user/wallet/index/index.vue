@@ -38,11 +38,10 @@
 
 <script>
 import utils from '@/utils'
-import config from '@/config'
 export default {
   data() {
     return {
-      system: config.system,
+      system: utils._config.system,
       activeIndex: 0,
       accountInfo: {}
     }

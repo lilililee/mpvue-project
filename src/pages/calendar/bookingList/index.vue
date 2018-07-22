@@ -65,7 +65,6 @@
 
 <script>
 import utils from '@/utils'
-import config from '@/config'
 import UserList from '@/components//UserList'
 import Popbox from '@/components/Popbox'
 import Empty from '@/components/Empty'
@@ -74,7 +73,7 @@ export default {
   data() {
     return {
       isIphoneX: utils.isIphoneX,
-      system: config.system,
+      system: utils._config.system,
       bookingList: '',
       date: '',
       nowcancelFood: null,

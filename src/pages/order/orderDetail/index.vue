@@ -45,7 +45,6 @@
 
 <script>
 import utils from '@/utils'
-import config from '@/config'
 import UserList from '@/components//UserList'
 import OrderList from '@/components/OrderList'
 import Popbox from '@/components/Popbox'
@@ -54,7 +53,7 @@ export default {
   data() {
     return {
       isIphoneX: utils.isIphoneX,
-      system: config.system,
+      system: utils._config.system,
       queryInfo: {},
       orderInfo: null,
 

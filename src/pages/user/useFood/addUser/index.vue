@@ -114,13 +114,12 @@
 
 <script>
 import utils from '@/utils'
-import config from '@/config'
 import ListPicker from '@/components/ListPicker'
 
 export default {
   data() {
     return {
-      system: config.system,
+      system: utils._config.system,
 
       activeTab: 0,
       isShowListPicker: false,

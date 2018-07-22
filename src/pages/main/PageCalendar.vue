@@ -63,13 +63,12 @@
 
 <script>
 import utils from '@/utils'
-import config from '@/config'
 import UserList from '@/components/UserList'
 import ListPicker from '@/components/ListPicker'
 export default {
   data() {
     return {
-      system: config.system,
+      system: utils._config.system,
 
       countInfo: {},
       bookingStatus: '', // 会处理成 7 的整数，不属于当月的天的状态用 -1 表示

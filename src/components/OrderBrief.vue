@@ -58,14 +58,13 @@
 
 <script>
 import utils from '../utils'
-import config from '@/config'
 export default {
   props: {
     orderInfo: Object
   },
   data() {
     return {
-      system: config.system
+      system: utils._config.system
     }
   }
 }

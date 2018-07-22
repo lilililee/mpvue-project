@@ -17,6 +17,7 @@
         <div class="right">¥ {{item.price}}</div>
       </li>
     </ul>
+    
 
     <div class="bottom-column"  :class="{'x-border': isIphoneX}">
       <div class="left">

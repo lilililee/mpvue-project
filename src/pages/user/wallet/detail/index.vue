@@ -23,14 +23,13 @@
 
 <script>
 import utils from '@/utils'
-import config from '@/config'
 import LoadingTip from '@/components/LoadingTip'
 
 export default {
   data() {
     return {
       isIphoneX: utils.isIphoneX,
-      system: config.system,
+      system: utils._config.system,
       billList: [],
       page: 1,
       isOver: false

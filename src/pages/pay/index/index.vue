@@ -40,12 +40,11 @@
 
 <script>
 import utils from '@/utils'
-import config from '@/config'
 
 export default {
   data() {
     return {
-      useCredit: config.system !== 'school',
+      useCredit: utils._config.system !== 'school',
       queryInfo: '',
       // nowUser: {},
       accountInfo: {},

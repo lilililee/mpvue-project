@@ -58,7 +58,6 @@
 
 <script>
 import utils from '@/utils'
-import config from '@/config'
 import UserList from '@/components//UserList'
 
 export default {
@@ -67,7 +66,7 @@ export default {
   },
   data() {
     return {
-      system: config.system,
+      system: utils._config.system,
       homeInfo: {},
       userList: []
     }

@@ -71,14 +71,12 @@
 
 <script>
 import utils from '@/utils'
-import config from '@/config'
 import Popbox from '@/components/Popbox'
 
 export default {
   data() {
     return {
-      //   homeInfo: {},
-      system: config.system,
+      system: utils._config.system,
 
       isShowDelatePopbox: false,
       popboxData: {
