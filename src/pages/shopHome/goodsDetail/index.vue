@@ -30,7 +30,7 @@
         <div class="text">{{cartNum}}</div>
       </div>
       <div class="add" @click="addToCart">加入购物车</div>
-      <div class="buy">直接购买</div>
+      <div class="buy" @click="toComfirmOrderPage">直接购买</div>
     </div>
   </div>
 </template>
@@ -80,6 +80,10 @@ export default {
                 expect_time: res.data.expect_time
               }
             })
+            this.$store.commit('updateState', {
+              field: 'cartNum',
+              value: res.data.car_num * 1
+            })
           }
         }
       })
@@ -87,6 +91,15 @@ export default {
     toAddressPage(){
       wx.navigateTo({
         url: `/pages/shopHome/changeAddress/main`
+      })
+    },
+    toComfirmOrderPage(){
+      let goodsList = [{
+        ...this.goodsInfo,
+        num: 1
+      }]
+      wx.navigateTo({
+        url: `/pages/shopHome/comfirmOrder/main?goods_list=${JSON.stringify(goodsList)}`
       })
     },
     addToCart() {

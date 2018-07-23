@@ -67,7 +67,7 @@ export default {
       }, 0)
     },
     totalMoney() {
-      if (!this.foodList.length) return 0
+      if (!this.foodList.length) return '0.00'
       return this.foodList.reduce((prev, item) => {
         return (
           prev +
