@@ -75,7 +75,7 @@ export default {
                 if(res2.code==0) {
                   wx.setStorageSync('token', res2.data.token)
                   wx.reLaunch({
-                    url: '/pages/main/main'
+                    url: utils._config.system =='shop'? '/pages/shopMain/main' : '/pages/main/main'
                   })
                 }
               }

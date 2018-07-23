@@ -99,10 +99,9 @@ export default {
           password: this.password
         },
         success: res => {
-          if(res.code == 0) {
+          if (res.code == 0) {
             utils.showSuccess('注册成功', wx.navigateBack)
           }
-        
         }
       })
     }
@@ -111,12 +110,11 @@ export default {
 </script>
 <style lang="less">
 page {
-    background: #fff;
+  background: #fff;
 }
 .page-login__register {
   .link {
     margin-top: 72rpx;
-
   }
 }
 </style>

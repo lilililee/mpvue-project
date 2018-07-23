@@ -110,8 +110,8 @@ bind.addEventListener('click', function () {
         after.style.display = 'block'
 
       } else {
-
         alert(res.message)
+        hasSendBind = false
       }
     }
   })
