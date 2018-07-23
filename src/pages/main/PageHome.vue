@@ -61,9 +61,7 @@ import utils from '@/utils'
 import UserList from '@/components//UserList'
 
 export default {
-   props: {
-    showTimes: Number
-  },
+  
   data() {
     return {
       system: utils._config.system,

@@ -9,9 +9,14 @@ const domain = {
         test: 'https://rrj.bestwang.cn/mp/company/',
         production: ''
     },
+    shop: {
+        develop: 'http://yapi.demo.qunar.com/mock/11228/shop/',
+        test: 'https://rrj.bestwang.cn/mp/company/',
+        production: ''
+    }
 }
 
-const system = 'school'
+const system = 'company'
 const env = 'develop'
 
 const config = {

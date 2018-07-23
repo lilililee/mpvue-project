@@ -1,0 +1,130 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100px;
+}
+
+body {
+  font: .14rem/1 -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", STHeiti, "Microsoft Yahei", Tahoma, Simsun, sans-serif;
+  color: #333;
+}
+
+input {
+  border: none;
+  outline: none;
+  resize: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  -webkit-appearance: none;
+  /*屏蔽阴影*/
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /*ios android去除自带阴影的样式*/
+}
+
+#app {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  font-size: .14rem;
+}
+
+.top {
+  display: block;
+  width: 100%;
+}
+
+.after {
+  display: none;
+  text-align: center;
+  font-size: .16rem;
+  padding-top: .4rem;
+}
+
+.form {
+  padding: 0 .2rem;
+  margin-top: .2rem;
+}
+
+.form .input {
+  display: flex;
+  display: -webkit-box;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  height: .56rem;
+  font-size: .16rem;
+  line-height: .56rem;
+}
+
+.form .input .name {
+  width: 20%;
+}
+
+.form .input .content {
+  display: block;
+  width: 55%;
+  height: 100%;
+  font-size: .16rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.form .input .assist {
+  width: 25%;
+  text-align: center;
+ 
+  font-size: .14rem;
+  color: #16B266;
+  text-align: right;
+}
+
+form .input .assist.disabled {
+  color: #999;
+}
+
+
+.bind {
+  background: #16B266;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  border-radius: .04rem;
+  margin: .36rem .2rem 0;
+  height: .46rem;
+  line-height: .46rem;
+  font-size: .18rem;
+  text-align: center;
+  color: #fff;
+}
+
+.company {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  padding-bottom: .24rem;
+  font-size: .12rem;
+  color: #666666;
+  line-height: .17rem;
+  text-align: center;
+}
+
+.logo {
+  display: inline-block;
+  width: .6rem;
+  height: .6rem;
+  margin-bottom: .06rem;
+}

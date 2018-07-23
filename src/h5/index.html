@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>消息推送</title>
+  <link rel="stylesheet" href="./assets/index.css">
+  <script>
+    window.DOMAIN = 'http://yapi.demo.qunar.com/mock/11228/h5/'
+
+  </script>
+</head>
+
+<body>
+  <div id="app">
+    <img src="./assets/top.png" class="top">
+
+
+    <div class="before">
+      <div class="form">
+        <div class="input">
+          <div class="name">手机号</div>
+          <input type="number" class="content phone" placeholder="请输入手机号">
+          <div class="assist get-code">获取验证码</div>
+
+        </div>
+        <div class="input">
+          <div class="name">验证码</div>
+          <input type="number" class="content code" placeholder="请输入验证码">
+        </div>
+      </div>
+
+      <div class="bind">确认绑定</div>
+    </div>
+
+    <div class="after">
+        当前绑定手机号：<span class="bind-phone"></span>
+    </div>
+
+    <div class="company">
+      <img src="./assets/logo.png" class="logo">
+      <div class="copyright">©copyright 广州市日日健餐饮管理有限公司</div>
+    </div>
+  </div>
+
+  <script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
+  <script src="./assets/index.js"></script>
+</body>
+
+</html>

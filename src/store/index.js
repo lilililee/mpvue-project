@@ -13,6 +13,9 @@ const store = new Vuex.Store({
 
     foodList: [],
 
+
+    cartNum: '',
+
   },
   mutations: {
 
@@ -25,8 +28,8 @@ const store = new Vuex.Store({
     updateCompanyNowUser: (state, companyNowUser) => {
       state.companyNowUser = companyNowUser
     },
-    updateState: (state, {field, data}) => {
-      state[field] = data
+    updateState: (state, {field, value}) => {
+      state[field] = value
     }
   }
 })
