@@ -25,7 +25,7 @@
     </div>
 
     <div class="bottom" :class="{'x-border': isIphoneX}">
-      <div class="cart">
+      <div class="cart" @click="toCartPage">
         <i class="icon-cart"></i>
         <div class="text">{{cartNum}}</div>
       </div>
@@ -91,6 +91,11 @@ export default {
     toAddressPage(){
       wx.navigateTo({
         url: `/pages/shopHome/changeAddress/main`
+      })
+    },
+    toCartPage(){
+      wx.reLaunch({
+        url: `/pages/shopMain/main?page=1`
       })
     },
     toComfirmOrderPage(){

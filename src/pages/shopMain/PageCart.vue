@@ -1,192 +1,168 @@
 <template>
-  <div class="page-calendar__index">
-    <div class="page-calendar__index__container">
-      <div class="user-info">
-        <div class="date">
-          <div class="month">{{nowMonthInfo.nowMonth}}月</div>
-          <div class="other">
-            <div class="year">{{nowMonthInfo.year}}年</div>
-            <div class="count">订餐天数{{countInfo.day_count}}天，共{{countInfo.item_count}}份</div>
-          </div>
-        </div>
-        <div class="user" @click="isShowListPicker= true" v-if="system=='school'">
-          <div class="name">{{nowUser.name}}</div>
-          <i class="icon-drop-down"></i>
-        </div>
-
+  <div class="page-cart__index">
+    <div class="top">
+      <div class="select" @click="checkAll">
+        <i class="icon-select" :class="{active:isCheckAll}"></i>全选
       </div>
 
-      <div class="table calendar-table">
-        <div class="table-header">
-          <div class="tr">
-            <div class="td">日</div>
-            <div class="td">一</div>
-            <div class="td">二</div>
-            <div class="td">三</div>
-            <div class="td">四</div>
-            <div class="td">五</div>
-            <div class="td">六</div>
-          </div>
-        </div>
-        <div class="table-body">
-          <div class="tr" v-for="(item, index) in bookingStatus" :key="index">
-            <div class="td" v-for="(sitem, sindex) in item" :key="sindex" :class="{disabled:!sitem.isNowMonth}" @click="toBookingList(sitem)">
-
-              <span> {{sitem.day}}</span>
-              <!-- 1未订餐 2已订餐 3已完成 -->
-              <div class="status-name" v-if="sitem.status_id!=='1'">
-                <i class="point" v-if="sitem.status_id=='2'"></i>
-                <span class="active" v-if="sitem.status_id=='2'">{{sitem.booking_num}}份</span>
-                <span v-else>{{sitem.status_name}}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="switch-month" v-if="bookingStatus">
-        <div class="prev" @click="changeMonth(-1)">
-          <i class="icon-arrow-left"></i>
-          <span>{{nowMonthInfo.prveMonth}}月</span>
-        </div>
-        <div class="next" @click="changeMonth(1)">
-          <span>{{nowMonthInfo.nextMonth}}月</span>
-          <i class="icon-arrow-right"></i>
-        </div>
-      </div>
+      <div class="edit" @click="isEdit = !isEdit">{{isEdit? '取消编辑': '编辑'}}</div>
     </div>
 
-    <list-picker v-model="isShowListPicker" :list="userList" @comfirm="comfirmUser"></list-picker>
+    <ul class="goods-list">
+      <li v-for="(item,index) in goodsList" :key="item.goods_id">
+        <div class="select">
+          <i class="icon-select" :class="{active:item.is_check}" @click="item.is_check = !item.is_check"></i>
+        </div>
+        <img :src="item.img" class="img" @error="onImageError(item)">
+        <div class="info" :class="{'is-edit': isEdit}">
+          <div class="name">{{item.name}}</div>
+          <div class="bottom">
+            <div class="price">¥{{item.price}}</div>
+
+            <div class="change-num" v-if="!isEdit">
+              <i class="icon-shop-minus" :class="{active: item.num > 1}" @click="addToCart(item, -1)"></i>
+              <span>{{item.num}}</span>
+              <i class="icon-shop-plus active" @click="addToCart(item, 1)"></i>
+            </div>
+
+          </div>
+        </div>
+        <div class="remove" v-if="isEdit" @click="addToCart(item, 0, index)">移除</div>
+      </li>
+    </ul>
+
+    <div class="bottom-column" :class="{'x-margin': isIphoneX}">
+      <div class="left">
+        合计：
+        <span>{{checkTotalPrice}}</span>
+      </div>
+
+      <div class="right" :class="{'disabled': isEdit || checkGoodsList.length == 0}" @click="toComfirmOrderPage">去结算</div>
+    </div>
+
+    <!-- <list-picker v-model="isShowListPicker" :list="userList" @comfirm="comfirmUser"></list-picker> -->
 
   </div>
 </template>
 
 <script>
 import utils from '@/utils'
-import UserList from '@/components/UserList'
 import ListPicker from '@/components/ListPicker'
 export default {
   data() {
     return {
       system: utils._config.system,
+      isIphoneX: utils.isIphoneX,
 
-      countInfo: {},
-      bookingStatus: '', // 会处理成 7 的整数，不属于当月的天的状态用 -1 表示
+      goodsList: [],
 
-      userList: [],
-      today: {},
-      nowMonth: '',
-      isShowListPicker: false
+      isEdit: false
+
+      // isShowListPicker: false
     }
   },
   computed: {
-    nowUser() {
-      return this.$store.state.nowUser
+    cartNum() {
+      return this.$store.state.cartNum
     },
-    nowMonthInfo(){
-      let month = new Date(this.nowMonth)
-      return {
-        year: month.getFullYear(),
-        prveMonth: (month.getMonth() + 12 + 0) % 12 || 12,
-        nowMonth: (month.getMonth() + 12 + 1) % 12 || 12,
-        nextMonth: (month.getMonth() + 12 + 2) % 12 || 12
-      }
+    checkGoodsList() {
+      return this.goodsList.filter(item => item.is_check)
     },
-    prevMonthName() {
-      return (new Date(this.nowMonth).getMonth() || 12) + '月'
+    isCheckAll() {
+      return this.checkGoodsList.length == this.goodsList.length && this.goodsList.length != 0
     },
-    nextMonthName() {
-      return ((new Date(this.nowMonth).getMonth() + 12 + 2) % 12 || 12) + '月'
+    checkTotalPrice() {
+      return this.checkGoodsList
+        .reduce((prev, item) => {
+          return prev + item.price * item.num
+        }, 0)
+        .toFixed(2)
     }
   },
 
   mounted() {
-    this.initToday()
-
-    if (this.system == 'school') {
-      this.getUserList()
-    } else {
-      this.getUserBookingStatus()
-    }
+    this.getCartGoodsList()
   },
 
   methods: {
-    initToday() {
-      let date = new Date()
-      this.today.date = utils.formatDate(date)
-      this.today.year = String(date.getFullYear())
-      this.today.month = String(date.getMonth() + 1)
-      this.today.day = String(utils.formatNumber(date.getDate()))
-
-      this.nowMonth = this.today.date.slice(0, 7)
-    },
-    getUserList() {
+    getCartGoodsList() {
       utils.ajax({
-        action: 'getUserList',
+        action: 'getCartGoodsList',
         success: res => {
           if (res.code == 0) {
-            this.userList = res.data.list
-            this.$store.commit('updateNowUser', this.userList[0] || {})
-            this.getUserBookingStatus()
-          }
-        }
-      })
-    },
-    getUserBookingStatus() {
-
-      utils.ajax({
-        action: 'getUserBookingStatus',
-        data: {
-          date: this.nowMonth,
-          user_id: this.nowUser.user_id,
-          role_id: this.nowUser.role_id
-        },
-        loading: true,
-        success: res => {
-          if (res.code == 0) {
-            // 加入状态参数
+            let cartNum = 0
             res.data.list.forEach(item => {
-              item.day = String(parseInt(item.date.slice(-2)))
-              // item.isNowMonth = item.date.slice(0, 7) == this.today.date.slice(0, 7)
-              item.isNowMonth = item.date.slice(0, 7) == this.nowMonth
-              // item.isToday = item.date == this.today.date
-              // item.status_name = item.status =='2'? item.booking_num + '份' : item.status_name
+              item.is_check = false
+              cartNum += item.num * 1
             })
 
-            // 转化成二元数组
-            let tempCount = 1
-            let result = []
-            while (tempCount * 7 <= res.data.list.length) {
-              result.push(res.data.list.slice((tempCount - 1) * 7, tempCount * 7))
-              tempCount++
-            }
+            this.$store.commit('updateState', {
+              field: 'cartNum',
+              value: cartNum
+            })
 
-            this.countInfo = res.data.count
-            this.bookingStatus = result
+            this.goodsList = res.data.list
           }
         }
       })
     },
-    comfirmUser(item, index) {
-      this.$store.commit('updateNowUser', this.userList[index])
-      this.nowMonth = this.today.date.slice(0, 7)
-      this.getUserBookingStatus()
+    checkAll() {
+      if (this.isCheckAll) {
+        this.goodsList.forEach(item => {
+          item.is_check = false
+        })
+      } else {
+        this.goodsList.forEach(item => {
+          item.is_check = true
+        })
+      }
     },
-    changeMonth(num) {
-      let date = this.nowMonth.split('-')
-      this.nowMonth = utils.formatDate(new Date(date[0] * 1, date[1] * 1 + num - 1)).slice(0, 7)
-      this.getUserBookingStatus()
-    },
+    addToCart(item, num, index) {
+      if (num == -1 && item.num == 1) return
+      utils.ajax({
+        action: 'changeCartGoods',
+        method: 'POST',
+        data: {
+          goods_id: item.goods_id,
+          num: num
+        },
+        success: res => {
+          if (res.code == 0) {
+            if (num == 0) {
+              this.$store.commit('updateState', {
+                field: 'cartNum',
+                value: this.cartNum + -item.num * 1
+              })
+              this.goodsList.splice(index, 1)
 
-    toBookingList(item) {
-      // console.log(item)
-      wx.navigateTo({
-        url: `/pages/calendar/bookingList/main?date=${item.date}`
+              utils.showSuccess('移除成功')
+            } else {
+              item.num = item.num * 1 + num
+              this.$store.commit('updateState', {
+                field: 'cartNum',
+                value: this.cartNum + num
+              })
+            }
+          }
+        }
       })
+    },
+    changeGoodsNum(item, num) {
+      let result = item.num * 1 + num
+      result > 0 && (item.num = result)
+    },
+    toComfirmOrderPage() {
+      if (this.isEdit || this.checkGoodsList.length == 0) return
+      let goodsList = this.checkGoodsList
+      wx.navigateTo({
+        url: `/pages/shopHome/comfirmOrder/main?goods_list=${JSON.stringify(goodsList)}`
+      })
+    },
+    onImageError(item) {
+      item.img = require('../../assets/img/goods_default.png')
     }
   },
   components: {
-    UserList,
     ListPicker
   }
 }
@@ -194,144 +170,102 @@ export default {
 <style lang="less">
 @import '../../assets/css/mixin.less';
 
-.page-calendar__index {
-  .page-calendar__index__container {
-    .full-page();
-    background: #fff;
-  }
-  .user-info {
+.page-cart__index {
+  padding-top: 44px;
+  padding-bottom: 60px;
+  .top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 44px;
     .flex-between();
-    color: #fff;
-    padding: 0 28px;
-    height: 54px;
-    background: #16b266;
+    padding: 0 16px;
+    background: #fff;
 
-    .date {
+    .select {
       .flex-start();
-      width: 200px;
-    }
 
-    .month {
-      font-size: 30px;
-      margin-right: 6px;
+      i {
+        margin-right: 8px;
+      }
     }
+  }
 
-    .other {
-      font-size: 10px;
-      .count {
-        margin-top: 7px;
+  .goods-list {
+    padding: 0 16px;
+    background: #fff;
+    margin-top: 12px;
+    li {
+      .flex-start();
+      height: 94px;
+
+      + li {
+        .border-top();
       }
     }
 
-    .user {
-      .flex-end();
-      font-size: 16px;
-    }
-  }
-  .calendar-table {
-    .table-header {
-      background: #16b266;
-      color: #fff;
-      font-size: 10px;
-      height: 46px;
-    }
-    .table-body {
-      color: #333;
+    .select {
+      margin-right: 8px;
     }
 
-    .tr {
-      .flex-center();
+    .img {
+      .wh(60px);
+      margin-right: 8px;
+    }
+
+    .info {
+      width: 243px;
+
+      &.is-edit {
+        width: 181px;
+      }
+    }
+
+    .name {
+      font-size: 14px;
+      line-height: 20px;
+      height: 40px;
       overflow: hidden;
     }
 
-    .td {
-      .flex-center();
-      width: 44px; // 1/ 7
-      height: 44px;
-      margin: 8px 3px;
-      text-align: center;
-
-      .status-name {
-        .active {
-          color: @theme;
-        }
-      }
-      // &.status_1 {
-      // }
-      // &.status_2 {
-      // }
-      // &.status_3 {
-      // }
+    .bottom {
+      .flex-between();
+      height: 40px;
     }
 
-    .table-body {
-      .td {
-        position: relative;
-        border: 1rpx solid transparent;
-        border-radius: 50%;
+    .price {
+      color: #ff5050;
+    }
 
-        .status-name {
-          position: absolute;
-          width: 100%;
-          left: 0;
-          bottom: 0;
-          font-size: 9px;
-          color: #aaaaaa;
-          .flex-center();
+    .change-num {
+      .flex-end();
+      span {
+        display: inline-block;
+        width: 30px;
+        font-size: 12px;
+        margin: 0 3px;
 
-          .point {
-            display: inline-block;
-            .wh(4px);
-            background: @theme;
-            border-radius: 50%;
-            margin-right: 3px;
-          }
-        }
-
-        &.disabled {
-          color: #ccc;
-        }
-
-        &.today {
-          border-color: @theme;
-          background: @theme;
-          color: #fff;
-
-          .status-name {
-            display: none;
-          }
-        }
-
-        &.border-gray {
-          border: 1rpx solid rgba(0, 0, 0, 0.1);
-        }
+        .lh(20px);
+        background: #f5f5f5;
+        text-align: center;
       }
+    }
+    .remove {
+      width: 53px;
+      color: #ff5050;
+      text-align: right;
     }
   }
 
-  .switch-month {
-    padding: 0 25px;
-    margin-top: 24px;
-    font-size: 14px;
-    color: @gray;
-    .flex-between();
+  .bottom-column {
+    bottom: 50px;
+    .right {
+      background: @orange;
 
-    .prev,
-    .next {
-      .flex-center();
-      // width: 50%;
-    }
-
-    // .prev {
-    //   .flex-start();
-    // }
-
-    // .next {
-    //   .flex-end();
-    // }
-
-    span {
-      margin: 0 8px;
+      &.disabled {
+        opacity: 0.5;
+      }
     }
   }
 }

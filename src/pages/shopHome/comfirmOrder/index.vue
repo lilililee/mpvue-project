@@ -1,5 +1,5 @@
 <template>
-  <div class="page-home__comfirm_order" :class="{'x-padding': isIphoneX}">
+  <div class="page-home__comfirm_order" :style="{paddingBottom: isIphoneX?'118px':'84px'}">
     <scroll-view scroll-y>
       <div class="user-list-container">
         <user-list :userData="nowUser" @assistClick="changeAddress">
@@ -56,7 +56,6 @@ export default {
   mounted() {
     this.goodsList = JSON.parse(this.$root.$mp.query.goods_list)
     this.getPreOrderInfo()
-    console.log(this.goodsList)
   },
 
   methods: {
@@ -92,8 +91,7 @@ export default {
         data: {
           address_id: this.nowUser.address_id,
           total_money: this.totalMoney,
-          goods_list: JSON.stringify(this.goodsList),
-         
+          goods_list: JSON.stringify(this.goodsList)
         },
         success: res => {
           if (res.code == 0) {
@@ -124,7 +122,7 @@ export default {
 
   scroll-view {
     height: 100%;
-    padding-bottom: 24px;
+    // padding-bottom: 24px;
   }
 
   .user-list-container {
