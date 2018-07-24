@@ -32,6 +32,7 @@ import utils from '@/utils'
 export default {
   data() {
     return {
+      system : utils._config.system,
       queryInfo: ''
     }
   },
@@ -43,12 +44,12 @@ export default {
   methods: {
     toOrderPage() {
       wx.redirectTo({
-        url: `/pages/main/main?page=2`
+        url: this.system == 'shop'? `/pages/shopMain/main?page=2`: `/pages/main/main?page=2`
       })
     },
     toHomePage() {
       wx.redirectTo({
-        url: '/pages/main/main'
+        url: this.system == 'shop'? `/pages/shopMain/main`: `/pages/main/main`
       })
     },
     toPayPage() {

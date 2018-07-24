@@ -5,7 +5,7 @@
       <div class="text">需支付</div>
     </div>
     <ul class="pay-detail">
-      <li v-if="useCredit">
+      <li v-if="system != 'school'">
         <div class="title">
           <div class="name">积分抵扣</div>
           <div class="num">本月可用积分
@@ -44,9 +44,8 @@ import utils from '@/utils'
 export default {
   data() {
     return {
-      useCredit: utils._config.system !== 'school',
+      system : utils._config.system,
       queryInfo: '',
-      // nowUser: {},
       accountInfo: {},
       payCredit: '',
       payBalance: ''
@@ -56,7 +55,7 @@ export default {
     payCredit(val) {
       let tempCredit = parseFloat(val) || 0
       let tempBalance = parseFloat(this.payBalance) || 0
-      let result = val //== 0 && val.indexOf('.') == -1 ? '0' : String(parseFloat(val))
+      let result = val
       if (tempCredit > parseFloat(this.accountInfo.credit)) {
         this.payCredit = this.accountInfo.credit
         return
@@ -110,7 +109,6 @@ export default {
   mounted() {
     this.queryInfo = this.$root.$mp.query
     this.queryInfo.total_money = parseFloat(this.queryInfo.total_money).toFixed(2)
-    // this.nowUser = JSON.parse(this.queryInfo.user)
     this.getAccountInfo()
   },
 
@@ -129,7 +127,7 @@ export default {
     },
     toOrderPage() {
       wx.redirectTo({
-        url: `/pages/main/main?page=2`
+        url: this.system == 'shop'? `/pages/shopMain/main?page=2`: `/pages/main/main?page=2`
       })
     },
     pay() {

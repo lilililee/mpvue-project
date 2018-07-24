@@ -13,16 +13,14 @@
     </scroll-view>
 
     <div class="bottom-column" :class="{'x-border': isIphoneX}">
+      <div class="top">现在下单预计{{nowUser.expect_time}}后到货</div>
       <div class="left">
-        <div>
-          <div class="total-price">¥{{totalMoney}}</div>
-          <div class="total-count"> 共{{totalDay}}天{{totalNum}}份</div>
-        </div>
+        合计：
+        <span>¥{{totalMoney}}</span>
+
       </div>
 
-      <div class="right" @click="submitOrder">
-        <span>去支付</span>
-      </div>
+      <div class="right" @click="submitOrder">去支付</div>
 
     </div>
   </div>
@@ -46,19 +44,12 @@ export default {
     nowUser() {
       return this.$store.state.nowUser
     },
-
     totalMoney() {
-      // if (!this.foodList.length) return '0.00'
-      // return this.foodList
-      //   .reduce((prev, item) => {
-      //     return (
-      //       prev +
-      //       item.food_list.reduce((sprev, sitem) => {
-      //         return sprev + sitem.num * sitem.price
-      //       }, 0)
-      //     )
-      //   }, 0)
-      //   .toFixed(2)
+      return this.goodsList
+        .reduce((prev, item) => {
+          return prev + (item.price * 1 + item.carriage * 1) * item.num
+        }, 0)
+        .toFixed(2)
     }
   },
 
@@ -69,7 +60,7 @@ export default {
   },
 
   methods: {
-     getPreOrderInfo() {
+    getPreOrderInfo() {
       utils.ajax({
         action: 'getPreOrderInfo',
 
@@ -81,10 +72,10 @@ export default {
             this.$store.commit('updateState', {
               field: 'nowUser',
               value: {
-                ...res.data.user_info
+                ...res.data.user_info,
+                expect_time: res.data.expect_time
               }
             })
-           
           }
         }
       })
@@ -99,12 +90,10 @@ export default {
         action: 'submitOrder',
         method: 'POST',
         data: {
-          user_id: this.nowUser.user_id,
-          role_id: this.nowUser.role_id,
-          address_id: this.system == 'company' ? this.companyNowUser.address_id : this.nowUser.address_id,
-          total_price: this.totalMoney,
-          foods: JSON.stringify(this.foodList),
-          menu_id: this.$root.$mp.query.menu_id
+          address_id: this.nowUser.address_id,
+          total_money: this.totalMoney,
+          goods_list: JSON.stringify(this.goodsList),
+         
         },
         success: res => {
           if (res.code == 0) {
@@ -135,7 +124,7 @@ export default {
 
   scroll-view {
     height: 100%;
-    // padding-bottom: 60px;
+    padding-bottom: 24px;
   }
 
   .user-list-container {
@@ -151,15 +140,21 @@ export default {
   }
 
   .bottom-column {
+    .top {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      top: -24px;
+      .lh(24px);
+      font-size: 12px;
+      color: #ff0707;
+      text-align: center;
+
+      background: rgba(255, 243, 205, 0.9);
+    }
     .left {
-      line-height: 1;
-      .total-price {
+      span {
         font-size: 20px;
-        margin-bottom: 5px;
-      }
-      .total-count {
-        font-size: 10px;
-        color: #151515;
       }
     }
 
