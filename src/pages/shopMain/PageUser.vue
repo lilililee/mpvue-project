@@ -30,6 +30,15 @@
             <i class="icon-arrow-right"></i>
           </div>
         </li>
+        <li @click="toSubPage('wallet/index')" v-if="system=='shop'">
+          <div class="left">
+            <i class="icon-menu-serve"></i>
+            <div class="title">订餐服务</div>
+          </div>
+          <div class="right">
+            <i class="icon-arrow-right"></i>
+          </div>
+        </li>
         <li @click="toUseFoodPage()">
           <div class="left">
             <i class="icon-menu-user"></i>
@@ -93,7 +102,7 @@ export default {
       wx.navigateTo({ url: `/pages/user/${page}/main` })
     },
     toUseFoodPage() {
-      if (this.system == 'company') {
+      if (this.system == 'company' || this.system == 'shop') {
         utils.ajax({
           action: 'getUserBindStatus',
           success: res => {

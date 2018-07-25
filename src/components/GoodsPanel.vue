@@ -8,10 +8,13 @@
           <div class="bottom">
             <div class="price">¥{{item.price}}</div>
 
-            <div class="change-num">
+            <div class="change-num" v-if="useChangeNum">
               <i class="icon-shop-minus" :class="{active: item.num > 1}" @click="changeGoodsNum(item, -1)"></i>
               <span>{{item.num}}</span>
               <i class="icon-shop-plus active" @click="changeGoodsNum(item, 1)"></i>
+            </div>
+            <div class="change-num" v-else>
+              X {{item.num}}
             </div>
 
           </div>
@@ -38,7 +41,11 @@ import utils from '../utils'
 
 export default {
   props: {
-    goodsList: Array
+    goodsList: Array,
+    useChangeNum: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {}
@@ -59,6 +66,13 @@ export default {
   methods: {
     changeGoodsNum(item, num){
       let result = item.num * 1 + num
+      if (result > 0) {
+        item.num = result
+        this.$emit('changeNum', {
+          item,
+          num
+        })
+      }
       result > 0 && (item.num = result)
     },
     onImageError(item) {
@@ -74,6 +88,7 @@ export default {
 .c-goods-panle {
   background: #fff;
   padding: 0 16px;
+  margin-bottom: 12px;
   .goods-list {
     li {
       .flex-between();
@@ -107,10 +122,10 @@ export default {
 
     .change-num {
       .flex-end();
+        font-size: 12px;
       span {
         display: inline-block;
         width: 30px;
-        font-size: 12px;
         margin: 0 3px;
 
         .lh(20px);

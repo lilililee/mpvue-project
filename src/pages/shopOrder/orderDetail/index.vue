@@ -1,5 +1,5 @@
 <template>
-  <div class="page-user__order_detail" v-if="orderInfo"  :class="[{'x-margin': isIphoneX},'status_' + queryInfo.status]">
+  <div class="page-user__order_detail" v-if="orderInfo" :class="[{'x-margin': isIphoneX},'status_' + queryInfo.status]">
     <div class="top-pay" v-if="queryInfo.status == '1'">
       <div class="text">
         <span>需支付</span>
@@ -8,35 +8,28 @@
 
       <div class="pay-btn" @click="toPay">去支付</div>
     </div>
-
     <div class="order-content">
       <!-- 企业版支付页才能修改 -->
-      <div class="user-list-container" v-if="system=='company' && queryInfo.status == '1'">
-        <user-list :userData="companyNowUser" @assistClick="changeAddress">
+      <div class="user-list-container" v-if="queryInfo.status == '1'">
+        <user-list :userData="nowUser" @assistClick="changeAddress">
           <div class="c-user-list__assets">修改地址</div>
         </user-list>
       </div>
       <div class="user-list-container" v-else>
-        <user-list :userData="orderInfo.user_info">
+        <user-list :userData="nowUser">
+
         </user-list>
       </div>
 
-      <order-list :foodList="orderInfo.list" :type="queryInfo.status!='1'? 'status':''"></order-list>
+      <div class="goods-panel-container">
+        <goods-panel :goodsList="orderInfo.list" :useChangeNum="queryInfo.status == '1'" @changeNum="changeOrderGoods"></goods-panel>
+      </div>
 
       <order-brief :orderInfo="orderInfo"></order-brief>
 
       <div class="cancel-order-btn" v-if="queryInfo.status=='1'" @click="isShowCancelPopbox = true">取消订单</div>
+      <div class="call-service-btn" v-if="queryInfo.status=='2'" @click="callService">售后电话 {{orderInfo.service_phone}}</div>
 
-    </div>
-
-    <div class="bottom-column"  :class="{'x-border': isIphoneX}" v-if=" queryInfo.status == '2'">
-      <div class="left">
-        共 {{orderInfo.total_num}} 份,已停餐 {{orderInfo.cancel_num}} 份
-      </div>
-
-      <div class="right" @click="toStopFoodPage">
-        停餐
-      </div>
     </div>
 
     <popbox v-model="isShowCancelPopbox" :popboxData="popboxData" @comfirm="comfirmCancelOrder"></popbox>
@@ -46,7 +39,7 @@
 <script>
 import utils from '@/utils'
 import UserList from '@/components//UserList'
-import OrderList from '@/components/OrderList'
+import GoodsPanel from '@/components/GoodsPanel'
 import Popbox from '@/components/Popbox'
 import OrderBrief from '@/components/OrderBrief'
 export default {
@@ -57,8 +50,6 @@ export default {
       queryInfo: {},
       orderInfo: null,
 
-      isMouted: false,
-
       isShowCancelPopbox: false,
 
       popboxData: {
@@ -68,21 +59,21 @@ export default {
     }
   },
   computed: {
-    companyNowUser() {
-      return this.$store.state.companyNowUser
+    nowUser() {
+      return this.$store.state.nowUser
     }
   },
-
-  onShow(e){
-    this.isMouted && this.getUserOrderInfo()
+  watch: {
+    nowUser(val) {    
+      this.orderInfo.expect_time = this.nowUser.expect_time
+      
+    }
   },
 
   mounted() {
     this.queryInfo = this.$root.$mp.query
-    this.getUserOrderInfo()
+    this.getOrderInfo()
     this.setTitle()
-
-    this.isMouted = true
   },
 
   methods: {
@@ -95,7 +86,7 @@ export default {
           frontColor: '#ffffff',
           backgroundColor: '#FF7C00'
         })
-      } else if (this.queryInfo.status == '2') {
+      } else {
         wx.setNavigationBarTitle({
           title: '订单已支付'
         })
@@ -103,22 +94,12 @@ export default {
           frontColor: '#000000',
           backgroundColor: '#ffffff'
         })
-      } else {
-        wx.setNavigationBarTitle({
-          title: '订单已完成'
-        })
-        wx.setNavigationBarColor({
-          frontColor: '#000000',
-          backgroundColor: '#ffffff'
-        })
       }
     },
-    getUserOrderInfo() {
+    getOrderInfo() {
       utils.ajax({
-        action: 'getUserOrderInfo',
+        action: 'getOrderInfo',
         data: {
-          user_id: this.queryInfo.user_id,
-          role_id: this.queryInfo.role_id,
           order_id: this.queryInfo.order_id
         },
         loading: true,
@@ -126,23 +107,43 @@ export default {
           if (res.code == 0) {
             this.orderInfo = res.data
 
-            this.system == 'company' &&
-              this.$store.commit('updateCompanyNowUser', {
-                ...this.orderInfo.user_info
-              })
+            this.$store.commit('updateState', {
+              field: 'nowUser',
+              value: {
+                ...res.data.user_info,
+                expect_time: res.data.expect_time
+              }
+            })
           }
         }
       })
     },
+    changeOrderGoods({item, num}) {
+      utils.ajax({
+        action: 'changeOrderGoods',
+        method: 'POST',
+        data: {
+          order_id: this.queryInfo.order_id,
+          goods_id: item.goods_id,
+          num
+        },
+        success: res => {
+          if (res.code == 0) {
+            
+          }
+        }
+      })
+    },
+    
     toPay() {
       wx.reLaunch({
-        url: `/pages/pay/index/main?order_id_list=${JSON.stringify([this.orderInfo.order_id])}&total_money=${this.orderInfo.total_price}`
+        url: `/pages/pay/index/main?order_id_list=${JSON.stringify([this.orderInfo.order_id])}&total_money=${this.orderInfo.total_money}`
       })
     },
 
     changeAddress() {
       wx.navigateTo({
-        url: `/pages/home/changeAddress/main?type=order&order_id=${this.orderInfo.order_id}`
+        url: `/pages/shopHome/changeAddress/main?order_id=${this.orderInfo.order_id}`
       })
     },
 
@@ -152,41 +153,28 @@ export default {
         action: 'cancelOrder',
         method: 'POST',
         data: {
-          user_id: this.orderInfo.user_info.user_id,
-          role_id: this.orderInfo.user_info.role_id,
           order_id: this.orderInfo.order_id
         },
         success: res => {
           if (res.code == 0) {
             utils.showSuccess('取消成功', () => {
               wx.reLaunch({
-                url: `/pages/main/main?page=2`
+                url: `/pages/shopMain/main?page=2`
               })
             })
           }
         }
       })
     },
-    toStopFoodPage() {
-      let foodList = []
-      this.orderInfo.list.forEach(item => {
-        let food_list = item.food_list.filter(sitem => (sitem.status == '2'))
-
-        if(food_list.length) {
-          foodList.push({
-            ...item,
-            food_list: food_list
-          })
-        }
-      })
-      wx.navigateTo({
-        url: `/pages/order/stopFood/main?food_list=${JSON.stringify(foodList)}&user_id=${this.orderInfo.user_info.user_id}&role_id=${this.orderInfo.user_info.role_id}`
+    callService() {
+      wx.makePhoneCall({
+        phoneNumber: this.orderInfo.service_phone
       })
     }
   },
   components: {
     UserList,
-    OrderList,
+    GoodsPanel,
     Popbox,
     OrderBrief
   }
@@ -197,9 +185,6 @@ export default {
 .page-user__order_detail {
   &.status_1 {
     padding-top: 80px;
-  }
-  &.status_2 {
-    padding-bottom: 60px;
   }
   .top-pay {
     position: fixed;
@@ -239,12 +224,17 @@ export default {
     }
   }
 
+  .goods-panel-container {
+    padding: 0 12px;
+  }
+
   .c-order-brief {
     .panel {
       margin-bottom: 0;
     }
   }
-  .cancel-order-btn {
+  .cancel-order-btn,
+  .call-service-btn {
     margin: 12px 12px 0;
     .lh(44px);
     text-align: center;

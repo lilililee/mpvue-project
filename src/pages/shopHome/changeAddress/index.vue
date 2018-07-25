@@ -40,23 +40,43 @@ export default {
         }
       })
     },
-   
+
     changeNowAddress(item) {
       if (this.nowUser.address_id == item.address_id) return
 
-      utils.ajax({
-        action: 'getExceptTime',
-        success: res => {
-          if (res.code == 0) {
-            
-            this.$store.commit('updateNowUser', {
-              ...this.nowUser,
-              address_id: item.address_id,
-              address_name: item.address_name,
-              expect_time: res.data.expect_time
-            })
+      // 如果在订单详情页修改地址会同时修改订单地址
+      let orderId = this.$root.$mp.query.order_id
+      if (orderId) {
+        utils.ajax({
+          action: 'changeOrderAddress',
+          method: 'POST',
+          data: {
+            order_id: orderId,
+            address_id: item.address_id
+          },
+          success: res => {
+            if (res.code == 0) {
+              this.updateNowUser(item, res)
+            }
           }
-        }
+        })
+      } else {
+        utils.ajax({
+          action: 'getExceptTime',
+          success: res => {
+            if (res.code == 0) {
+              this.updateNowUser(item, res)
+            }
+          }
+        })
+      }
+    },
+    updateNowUser(item, res) {
+      this.$store.commit('updateNowUser', {
+        ...this.nowUser,
+        address_id: item.address_id,
+        address_name: item.address_name,
+        expect_time: res.data.expect_time
       })
     }
   },

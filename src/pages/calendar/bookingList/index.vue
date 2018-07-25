@@ -41,7 +41,7 @@
       </scroll-view>
 
     </div>
-    <empty v-else></empty>
+    <empty text="当前日期没有订餐" v-else></empty>
    
 
     <div class="toggle-date" :class="{'x-border': isIphoneX}">

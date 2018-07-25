@@ -6,7 +6,7 @@
 
             </div>
             <div class="panel-body">
-                <ul>
+                <ul v-if="system!='shop'">
                     <li>
                         <div class="left">订单编号</div>
                         <div class="right">{{orderInfo.order_no}}</div>
@@ -48,6 +48,39 @@
                             <div class="right">¥ {{orderInfo.cancel_money}}</div>
                         </li>
                     </template>
+
+                </ul>
+                <ul v-else>
+                    <li>
+                        <div class="left">订单编号</div>
+                        <div class="right">{{orderInfo.order_no}}</div>
+                    </li>
+                    <template v-if="orderInfo.status=='2'">
+                      
+                            <li v-if="orderInfo.pay_balance > 0">
+                                <div class="left">余额支付</div>
+                                <div class="right">¥ {{orderInfo.pay_balance}}</div>
+                            </li>
+                            <li v-if="orderInfo.pay_credit > 0 && system=='company'">
+                                <div class="left">积分支付</div>
+                                <div class="right">¥ {{orderInfo.pay_credit}}</div>
+                            </li>
+                            <li v-if="orderInfo.pay_wx > 0 ">
+                                <div class="left">微信支付</div>
+                                <div class="right">¥ {{orderInfo.pay_wx}}</div>
+                            </li>
+                        
+                    </template>
+                    <li v-if="orderInfo.status=='1'">
+                        <div class="left">下单时间</div>
+                        <div class="right">{{orderInfo.start_time}}</div>
+                    </li>
+                    <li>
+                        <div class="left">预计到货时间</div>
+                        <div class="right">现在下单预计 {{orderInfo.expect_time}} 后到货</div>
+                    </li>
+
+                   
 
                 </ul>
 

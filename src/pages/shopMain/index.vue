@@ -108,11 +108,6 @@ export default {
     getCartGoodsList() {
       utils.ajax({
         action: 'getCartGoodsList',
-        data: {
-          page: this.page,
-          type: '0'
-        },
-        loading: this.page == 1,
         success: res => {
           if (res.code == 0) {
             this.$store.commit('updateState', {

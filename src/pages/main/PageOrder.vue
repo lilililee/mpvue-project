@@ -40,7 +40,7 @@
       </li>
     </ul>
 
-    <empty v-if="isShowEmpty"></empty>
+    <empty v-if="isShowEmpty" text="没有找到订单"></empty>
 
     <loading-tip v-if="!isShowEmpty" :isOver="isOver"></loading-tip>
 

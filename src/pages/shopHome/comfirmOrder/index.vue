@@ -81,7 +81,7 @@ export default {
     },
     changeAddress() {
       wx.navigateTo({
-        url: `/pages/shopHome/changeAddress/main?`
+        url: `/pages/shopHome/changeAddress/main`
       })
     },
     submitOrder() {

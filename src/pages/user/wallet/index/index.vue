@@ -1,6 +1,6 @@
 <template>
     <div class="page-user__wallet__index">
-        <ul class="wallet-bar" v-if="system=='company'">
+        <ul class="wallet-bar" v-if="system=='company' || system=='shop'">
           <li :class="{active:activeIndex==0}" @click="activeIndex=0">余额</li>
           <li :class="{active:activeIndex==1}" @click="activeIndex=1">积分</li>
         </ul>
