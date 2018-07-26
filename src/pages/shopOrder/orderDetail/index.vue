@@ -3,7 +3,7 @@
     <div class="top-pay" v-if="queryInfo.status == '1'">
       <div class="text">
         <span>需支付</span>
-        <strong>{{orderInfo.total_price}}</strong>
+        <strong>{{totalMoney}}</strong>
       </div>
 
       <div class="pay-btn" @click="toPay">去支付</div>
@@ -61,12 +61,22 @@ export default {
   computed: {
     nowUser() {
       return this.$store.state.nowUser
+    },
+
+    totalMoney() {
+      if (!this.orderInfo) return '0.00'
+      return this.orderInfo.list
+        .reduce((prev, item) => {
+          return prev + (item.price * 1 + item.carriage * 1) * item.num
+        }, 0)
+        .toFixed(2)
     }
   },
   watch: {
-    nowUser(val) {    
-      this.orderInfo.expect_time = this.nowUser.expect_time
-      
+    nowUser(val) {
+      if (this.orderInfo) {
+        this.orderInfo.expect_time = this.nowUser.expect_time
+      }
     }
   },
 
@@ -118,7 +128,7 @@ export default {
         }
       })
     },
-    changeOrderGoods({item, num}) {
+    changeOrderGoods({ item, num }) {
       utils.ajax({
         action: 'changeOrderGoods',
         method: 'POST',
@@ -129,15 +139,14 @@ export default {
         },
         success: res => {
           if (res.code == 0) {
-            
           }
         }
       })
     },
-    
+
     toPay() {
       wx.reLaunch({
-        url: `/pages/pay/index/main?order_id_list=${JSON.stringify([this.orderInfo.order_id])}&total_money=${this.orderInfo.total_money}`
+        url: `/pages/pay/index/main?order_id_list=${JSON.stringify([this.orderInfo.order_id])}&total_money=${this.totalMoney}`
       })
     },
 

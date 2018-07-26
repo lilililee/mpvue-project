@@ -55,30 +55,30 @@ export default {
 
   mounted() {
     this.goodsList = JSON.parse(this.$root.$mp.query.goods_list)
-    this.getPreOrderInfo()
+    // this.getPreOrderInfo()
   },
 
   methods: {
-    getPreOrderInfo() {
-      utils.ajax({
-        action: 'getPreOrderInfo',
+    // getPreOrderInfo() {
+    //   utils.ajax({
+    //     action: 'getPreOrderInfo',
 
-        loading: true,
-        success: res => {
-          if (res.code == 0) {
-            this.preOrderInfo = res.data
+    //     loading: true,
+    //     success: res => {
+    //       if (res.code == 0) {
+    //         this.preOrderInfo = res.data
 
-            this.$store.commit('updateState', {
-              field: 'nowUser',
-              value: {
-                ...res.data.user_info,
-                expect_time: res.data.expect_time
-              }
-            })
-          }
-        }
-      })
-    },
+    //         this.$store.commit('updateState', {
+    //           field: 'nowUser',
+    //           value: {
+    //             ...res.data.user_info,
+    //             expect_time: res.data.expect_time
+    //           }
+    //         })
+    //       }
+    //     }
+    //   })
+    // },
     changeAddress() {
       wx.navigateTo({
         url: `/pages/shopHome/changeAddress/main`

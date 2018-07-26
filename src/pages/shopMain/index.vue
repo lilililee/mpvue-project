@@ -57,14 +57,14 @@ export default {
     }
   },
 
-  computed:{
+  computed: {
     cartNum() {
       return this.$store.state.cartNum
     }
   },
 
   onReachBottom() {
-    this.onReachBottomTimes ++
+    this.onReachBottomTimes++
   },
 
   beforeCreate() {
@@ -81,7 +81,7 @@ export default {
       this.changePage(pageList[this.$root.$mp.query.page || 0])
     })
 
-    this.getCartGoodsList()
+    this.getUserList()
   },
 
   methods: {
@@ -105,19 +105,20 @@ export default {
         })
       }
     },
-    getCartGoodsList() {
+
+    getUserList() {
       utils.ajax({
-        action: 'getCartGoodsList',
+        action: 'getUserList',
         success: res => {
           if (res.code == 0) {
             this.$store.commit('updateState', {
-              field: 'cartNum',
-              value: res.data.list.length
+              field: 'nowUser',
+              value: res.data.list[0] || {}
             })
           }
         }
       })
-    },
+    }
   },
   components: {
     PageHome,

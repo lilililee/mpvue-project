@@ -51,10 +51,15 @@ export default {
         success: res => {
           if (res.code == 0) {
             this.homeInfo = res.data
+            this.$store.commit('updateState', {
+              field: 'cartNum',
+              value: res.data.cart_num * 1
+            })
           }
         }
       })
     },
+    
     getGoodsList() {
       utils.ajax({
         action: 'getGoodsList',

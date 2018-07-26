@@ -56,27 +56,20 @@ export default {
           },
           success: res => {
             if (res.code == 0) {
-              this.updateNowUser(item, res)
+              this.updateNowUser(item)
             }
           }
         })
       } else {
-        utils.ajax({
-          action: 'getExceptTime',
-          success: res => {
-            if (res.code == 0) {
-              this.updateNowUser(item, res)
-            }
-          }
-        })
+        this.updateNowUser(item)
       }
     },
-    updateNowUser(item, res) {
+    updateNowUser(item) {
       this.$store.commit('updateNowUser', {
         ...this.nowUser,
         address_id: item.address_id,
         address_name: item.address_name,
-        expect_time: res.data.expect_time
+        expect_time: item.expect_time
       })
     }
   },

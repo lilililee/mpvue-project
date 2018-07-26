@@ -72,18 +72,18 @@ export default {
           if (res.code == 0) {
             this.goodsInfo = res.data
 
-            this.$store.commit('updateState', {
-              field: 'nowUser',
-              value: {
-                address_id: this.goodsInfo.address_id,
-                address_name: this.goodsInfo.address_name,
-                expect_time: res.data.expect_time
-              }
-            })
-            this.$store.commit('updateState', {
-              field: 'cartNum',
-              value: res.data.car_num * 1
-            })
+            // this.$store.commit('updateState', {
+            //   field: 'nowUser',
+            //   value: {
+            //     address_id: this.goodsInfo.address_id,
+            //     address_name: this.goodsInfo.address_name,
+            //     expect_time: res.data.expect_time
+            //   }
+            // })
+            // this.$store.commit('updateState', {
+            //   field: 'cartNum',
+            //   value: res.data.car_num * 1
+            // })
           }
         }
       })
