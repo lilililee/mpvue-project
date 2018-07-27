@@ -68,13 +68,12 @@ export default {
 
   mounted() {
     this.handlerFoodList()
-    console.log(this.checkList)
   },
 
   methods: {
     handlerFoodList() {
       let foodList = JSON.parse(this.$root.$mp.query.food_list) // 传递的只有status为'2'的食品
-      // console.log(foodList)
+
       let resultFoodList = []
       foodList.forEach(item => {
         let date_name = `${item.date2} ${item.week}`

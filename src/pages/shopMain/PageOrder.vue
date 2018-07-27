@@ -72,6 +72,7 @@ export default {
         loading: this.page == 1,
         success: res => {
           if (res.code == 0) {
+            res.data.list = res.data.list || []
             if (res.data.list.length < 10) {
               this.isOver = true
             }

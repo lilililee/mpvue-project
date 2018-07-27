@@ -82,6 +82,7 @@ export default {
     })
 
     this.getUserList()
+    this.getCartNum()
   },
 
   methods: {
@@ -114,6 +115,19 @@ export default {
             this.$store.commit('updateState', {
               field: 'nowUser',
               value: res.data.list[0] || {}
+            })
+          }
+        }
+      })
+    },
+    getCartNum() {
+      utils.ajax({
+        action: 'getCartNum',
+        success: res => {
+          if (res.code == 0) {
+            this.$store.commit('updateState', {
+              field: 'cartNum',
+              value: res.data.cart_num * 1
             })
           }
         }

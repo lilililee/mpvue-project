@@ -85,13 +85,20 @@ export default {
       })
     },
     submitOrder() {
+      let goodsList = []
+      this.goodsList.forEach(item => {
+          goodsList.push({
+              goods_id: item.goods_id,
+              num: item.num,
+          })
+      })
       utils.ajax({
         action: 'submitOrder',
         method: 'POST',
         data: {
           address_id: this.nowUser.address_id,
           total_money: this.totalMoney,
-          goods_list: JSON.stringify(this.goodsList)
+          goods_list: JSON.stringify(goodsList)
         },
         success: res => {
           if (res.code == 0) {
