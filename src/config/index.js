@@ -16,7 +16,7 @@ const domain = {
     }
 }
 
-const system = 'shop'       // 使用商城系统时 ../src/main.js  pages参数需要修改为商城首页入口
+const system = 'company'       // 使用商城系统时 ../src/main.js  pages参数需要修改为商城首页入口
 const env = 'develop'
 
 const config = {

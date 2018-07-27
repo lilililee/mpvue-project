@@ -253,11 +253,18 @@ export default {
 
       let area = `${area1_id}-${area2_id}`
 
-      if (this.activeTab == 0) {
-        if (utils.validate.isEmpty(area3_id, '$请选择年级')) return
-        if (utils.validate.isEmpty(area4_id, '$请选择班级')) return
-        area += `-${area3_id}-${area4_id}`
+      if ( this.system == 'school') {
+          if (this.activeTab == 0) {
+
+            if (utils.validate.isEmpty(area3_id, '$请选择年级')) return
+            if (utils.validate.isEmpty(area4_id, '$请选择班级')) return
+            area += `-${area3_id}-${area4_id}`
+          }
+      } else {
+           if (utils.validate.isEmpty(area3_id, '$请选择职业')) return
+           area += `-${area3_id}`
       }
+    
       if (utils.validate.isEmpty(this.userName, '姓名')) return
 
       utils.ajax({

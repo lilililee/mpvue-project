@@ -61,6 +61,9 @@ import utils from '@/utils'
 import UserList from '@/components//UserList'
 
 export default {
+ props: {
+     showTimes: Number
+ },
   
   data() {
     return {
@@ -98,7 +101,7 @@ export default {
         loading: true,
         success: res => {
           if (res.code == 0) {
-            this.userList = res.data.list
+            this.userList = res.data.list || []
             this.$store.commit('updateNowUser', this.userList[0] || {})
           }
         }
