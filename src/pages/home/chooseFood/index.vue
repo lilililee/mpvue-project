@@ -56,11 +56,11 @@
           </div>
         </div>
 
-        <div class="right" v-if="isChooseEveryDay" @click="comfirmOrder">
+        <div class="right" v-if="isCanMakeOrder" @click="comfirmOrder">
           <span>确认下单</span>
         </div>
         <div class="right disabled" v-else>
-          <span>按日期订满<br/>才能下单</span>
+          <span>{{system == 'school'? '按日期订满' : '至少选中一个'}}<br/>才能下单</span>
         </div>
       </div>
     </div>
@@ -76,6 +76,7 @@ let weekList = ['周日', '周一', '周二', '周三', '周四', '周五', '周
 export default {
   data() {
     return {
+      system: utils._config.system,
       isIphoneX: utils.isIphoneX,
       foodList: [],
       nowIndex: 0,
@@ -107,6 +108,9 @@ export default {
     },
     isChooseEveryDay() {
       return this.foodList.every(item => item.count > 0)
+    },
+    isCanMakeOrder() {
+        return this.system == 'school'? this.isChooseEveryDay : this.foodList.some(item => item.count > 0)
     }
   },
 
@@ -176,14 +180,10 @@ export default {
     },
 
     comfirmOrder() {
-      if (!this.isChooseEveryDay) {
-        return
-      }
-
       let result = []
 
       this.foodList.forEach(item => {
-        result.push({
+        item.count > 0 && result.push({
           ...item,
           food_list: item.food_list.filter(sitem => sitem.num > 0)
         })
