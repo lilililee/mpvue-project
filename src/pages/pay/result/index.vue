@@ -54,7 +54,7 @@ export default {
     },
     toPayPage() {
       wx.redirectTo({
-        url: `/pages/pay/index/main?order_id_list=${this.this.queryInfo.order_id_list}&total_money=${this.this.queryInfo.total_money}`
+        url: `/pages/pay/index/main?order_id_list=${this.queryInfo.order_id_list}&total_money=${this.queryInfo.total_money}`
       })
     },
   },

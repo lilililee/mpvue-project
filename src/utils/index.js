@@ -105,18 +105,30 @@ const log = (...args) => {
 
 // const isLoading = false
 
+// 请求拦截状态
+let blockStatus = {}
+
 const ajax = ({
   action,
   method = 'GET',
   data = {},
   loading = false,
+  block = false,
   success = () => {},
   fail = () => {},
   complete = () => {}
 }) => {
-  if (loading) {
-    showLoading()
+  // 所有post都会有拦截功能
+  method == 'POST' && (block = true)
+  if (block) {
+    if (blockStatus[action]) {
+      return
+    } else {
+      blockStatus[action] = true
+    }
   }
+
+  loading && showLoading()
 
   // 登陆后的请求都需要token
   let header = {
@@ -140,9 +152,18 @@ const ajax = ({
       log(`%c${action}(res)`, `color:#5b8de2`, res.data)
 
       if (res.data.code == 9002) {
-        wx.reLaunch({
-          url: '/pages/login/index/main'
-        })
+
+        let pages = getCurrentPages() //获取加载的页面
+        let currentPage = pages[pages.length - 1] //获取当前页面的对象
+        let url = currentPage.route //当前页面url
+        // let options = currentPage.options //如果要获取url中所带的参数可以查看options
+
+        if (url !== 'pages/login/index/main') {
+
+          wx.reLaunch({
+            url: '/pages/login/index/main'
+          })
+        }
         return
       }
 
@@ -152,15 +173,15 @@ const ajax = ({
 
       success(res.data)
 
-      if (loading) {
-        hideLoading()
-      }
+
     },
     fail(e) {
       log(e)
       fail(e)
     },
     complete() {
+      loading && hideLoading()
+      block && (blockStatus[action] = false)
       complete()
     }
   })

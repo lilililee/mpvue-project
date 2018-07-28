@@ -6,13 +6,14 @@
       </div>
 
       <div class="btn-group">
-         <button  class="btn" :class="{disabled: feedbackContent == ''}" form-type="submit">提交</button>
+        <button class="btn" :class="{disabled: feedbackContent == ''}" form-type="submit" plain>提交</button>
         <!-- <div class="btn" :class="{disabled: feedbackContent == ''}" @click="submit">提交</div> -->
       </div>
     </form>
 
-    <popbox v-model="isShowPopbox" type="2" :popboxData="popboxData" @comfirm="back" ></popbox>
-    
+    <popbox v-model="isShowPopbox" type="2" :popboxData="popboxData" @comfirm="back"></popbox>
+
+    <company-copyright></company-copyright>
   </div>
   </div>
 </template>
@@ -20,6 +21,7 @@
 <script>
 import utils from '@/utils'
 import Popbox from '@/components/Popbox'
+import CompanyCopyright from '@/components/CompanyCopyright'
 
 export default {
   data() {
@@ -37,11 +39,12 @@ export default {
   },
 
   mounted() {
+    this.feedbackContent = ''
     this.isShowPage = true
   },
 
   methods: {
-    formSubmit(e){
+    formSubmit(e) {
       this.formId = e.target.formId
       this.submit()
     },
@@ -66,7 +69,7 @@ export default {
       utils.sleep(wx.navigateBack)
     }
   },
-  components: { Popbox }
+  components: { Popbox, CompanyCopyright }
 }
 </script>
 <style lang="less">
@@ -75,6 +78,7 @@ page {
   background: #fff;
 }
 .page-user__feedback {
+  .full-page();
   .feedback-content {
     height: 141px;
     margin-top: 20px;
@@ -92,6 +96,7 @@ page {
       line-height: 24px;
     }
   }
+
 }
 </style>
 

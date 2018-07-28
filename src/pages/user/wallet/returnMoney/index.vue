@@ -20,11 +20,15 @@
       <div class="btn btn__orange" @click="returnMoney">确定提现</div>
     </div>
 
+    <div class="tips">提现款将返还到您的微信钱包</div>
+
+    <company-copyright></company-copyright>
   </div>
 </template>
 
 <script>
 import utils from '@/utils'
+import CompanyCopyright from '@/components/CompanyCopyright'
 
 export default {
   data() {
@@ -35,14 +39,18 @@ export default {
   },
 
   mounted() {
+    this.inputMoney = ''
+    
     this.balance = this.$root.$mp.query.balance
   },
 
   methods: {
     returnMoney() {
       if (utils.validate.isEmpty(this.inputMoney, '提现金额')) return
-      if (this.inputMoney > this.balance) {
+
+      if (this.inputMoney * 1 > this.balance * 1) {
         utils.showMsg('提现金额不能超过余额')
+        return
       }
       utils.ajax({
         action: 'returnMoney',
@@ -58,7 +66,7 @@ export default {
       })
     }
   },
-  components: {}
+  components: { CompanyCopyright }
 }
 </script>
 <style lang="less">
@@ -67,9 +75,10 @@ page {
   background: #fff;
 }
 .page-user__wallent__returnMoney {
+  .full-page();
   .return-content {
     padding: 0 20px;
-    padding-top: 47px;
+    padding-top: 24px;
   }
 
   .money {
@@ -107,7 +116,16 @@ page {
     margin-top: 36px;
     .btn {
       font-size: 16px;
+     
     }
+  }
+
+  .tips {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #999999;
+
+    text-align: center;
   }
 }
 </style>

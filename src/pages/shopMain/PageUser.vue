@@ -200,6 +200,7 @@ export default {
   .login-out {
     margin-top: 16px;
     padding: 0 12px;
+    
     .login-out__btn {
       background: #fff;
       .lh(44px);

@@ -56,9 +56,6 @@ export default {
       system: utils._config.system,
       queryInfo: {},
       orderInfo: null,
-
-      isMouted: false,
-
       isShowCancelPopbox: false,
 
       popboxData: {
@@ -74,15 +71,13 @@ export default {
   },
 
   onShow(e){
-    this.isMouted && this.getUserOrderInfo()
+    
+    this.queryInfo = this.$root.$mp.query
+    this.getUserOrderInfo()
   },
 
   mounted() {
-    this.queryInfo = this.$root.$mp.query
-    this.getUserOrderInfo()
     this.setTitle()
-
-    this.isMouted = true
   },
 
   methods: {

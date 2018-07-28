@@ -27,7 +27,6 @@ export default {
 
   mounted() {
     this.feedbackInfo = JSON.parse(this.$root.$mp.query.feedback_item)
-    console.log(this.feedbackInfo)
   },
 
   methods: {},

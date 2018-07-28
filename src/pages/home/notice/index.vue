@@ -52,16 +52,22 @@ export default {
 </script>
 <style lang="less">
 @import '../../../assets/css/mixin.less';
+page {
+  background: #fff;
+}
 .page-home__notice {
+  .border-top();
   padding: 24px 20px;
 
   .notice-title {
     font-size: 18px;
+    line-height: 25px;
     text-align: center;
   }
 
   .notice-date {
     font-size: 12px;
+    line-height: 17px;
     color: @gray;
     margin: 6px 0 24px 0;
     text-align: center;

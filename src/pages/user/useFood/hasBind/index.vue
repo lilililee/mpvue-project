@@ -10,15 +10,13 @@
       <div class="position">{{userInfo.position}}</div>
     </div>
 
-    <div class="bottom">
-      <img src="../../../../assets/img/logo.png" class="logo">
-      <div class="copyright">©copyright 广州市日日健餐饮管理有限公司</div>
-    </div>
+    <company-copyright :useImg="true"></company-copyright>
   </div>
 </template>
 
 <script>
 import utils from '@/utils'
+import CompanyCopyright from '@/components/CompanyCopyright'
 
 export default {
   data() {
@@ -35,7 +33,7 @@ export default {
   methods: {
    
   },
-  components: {}
+  components: {CompanyCopyright}
 }
 </script>
 <style lang="less">
@@ -75,24 +73,6 @@ page {
     }
   }
 
-  .bottom {
-    position: absolute;
-    width: 100%;
-    left: 0;
-    bottom: 0;
-    padding-bottom: 24px;
-
-    font-size: 12px;
-    color: #666666;
-    line-height: 17px;
-
-    text-align: center;
-    .logo {
-      display: inline-block;
-      .wh(60px);
-      margin-bottom: 6px;
-    }
-  }
 }
 </style>
 

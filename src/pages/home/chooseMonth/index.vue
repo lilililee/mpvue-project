@@ -63,10 +63,7 @@ export default {
                   next = res.data.list[index + 1].months[0]
                 }
                 if (next) {
-                  // 第一个判断才为正确判断
-                  // if (item.is_bind == '1' && next.is_bind == '1' && item.menu_id == next.menu_id) {
-                  if (sitem.is_bind == '1' && next.is_bind == '1') {
-                    // if (1) {
+                  if (item.is_bind == '1' && next.is_bind == '1' && item.menu_id == next.menu_id) {
                     sitem.has_next_bind = true
                     next.has_prev_bind = (sindex + 1) % 4 == 0
                   } else {

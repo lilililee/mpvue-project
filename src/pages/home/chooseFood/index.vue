@@ -52,7 +52,7 @@
         <div class="left">
           <div>
             <div class="total-price">¥{{totalMoney}}</div>
-            <div class="total-count"> 共{{foodList.length}}天{{totalNum}}份</div>
+            <div class="total-count"> 共 {{foodList.length}} 天 {{totalNum}} 份</div>
           </div>
         </div>
 
@@ -115,6 +115,7 @@ export default {
   },
 
   mounted() {
+    this.nowIndex = 0    // 再次进入页面时重置下标
     this.getFoodList()
     // console.log(this.$root.$mp)
   },
@@ -132,7 +133,7 @@ export default {
         success: res => {
           if (res.code == 0) {
             res.data.list.forEach(item => {
-              item.date2 = item.date.slice(-5)
+              item.date2 = item.date.slice(-5).replace('-','/')
 
               item.week = weekList[new Date(item.date).getDay()]
               item.count = 0
@@ -237,6 +238,7 @@ export default {
       }
     }
     .food-list-container {
+      background: #fff;
       width: 259px;
       padding-left: 10.5px;
       height: 100%;
@@ -247,7 +249,7 @@ export default {
     }
     .date-list {
       height: 100%;
-      background: #f0f3fa;
+      // background: #f0f3fa;
       font-size: 12px;
 
       .date-list-item {

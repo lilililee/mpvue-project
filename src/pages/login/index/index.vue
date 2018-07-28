@@ -31,16 +31,17 @@
       <a hover-class="none" href="/pages/login/protocol/main">《日日健用户协议》</a>
     </div>
 
-    <div class="company">
+    <!-- <div class="company">
       <img src="../../../assets/img/logo.png" class="logo">
       <div class="copyright">©copyright 广州市日日健餐饮管理有限公司</div>
-    </div>
-
+    </div> -->
+    <company-copyright :useImg="true"></company-copyright>
   </div>
 </template>
 
 <script>
 import utils from '../../../utils'
+import CompanyCopyright from '@/components/CompanyCopyright'
 export default {
   data() {
     return {
@@ -72,10 +73,10 @@ export default {
                 code: res.code
               },
               success: res2 => {
-                if(res2.code==0) {
+                if (res2.code == 0) {
                   wx.setStorageSync('token', res2.data.token)
                   wx.reLaunch({
-                    url: utils._config.system =='shop'? '/pages/shopMain/main' : '/pages/main/main'
+                    url: utils._config.system == 'shop' ? '/pages/shopMain/main' : '/pages/main/main'
                   })
                 }
               }
@@ -86,7 +87,8 @@ export default {
         }
       })
     }
-  }
+  },
+  components: { CompanyCopyright }
 }
 </script>
 <style lang="less">
@@ -147,24 +149,24 @@ page {
     }
   }
 
-  .company {
-    position: absolute;
-    width: 100%;
-    left: 0;
-    bottom: 0;
-    padding-bottom: 24px;
+  // .company {
+  //   position: absolute;
+  //   width: 100%;
+  //   left: 0;
+  //   bottom: 0;
+  //   padding-bottom: 24px;
 
-    font-size: 12px;
-    color: #666666;
-    line-height: 17px;
+  //   font-size: 12px;
+  //   color: #666666;
+  //   line-height: 17px;
 
-    text-align: center;
-    .logo {
-      display: inline-block;
-      .wh(60px);
-      margin-bottom: 6px;
-    }
-  }
+  //   text-align: center;
+  //   .logo {
+  //     display: inline-block;
+  //     .wh(60px);
+  //     margin-bottom: 6px;
+  //   }
+  // }
 }
 </style>
 

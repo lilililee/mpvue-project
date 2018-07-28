@@ -29,7 +29,7 @@
 
     <empty v-if="isShowEmpty" text="没有找到订单"></empty>
 
-    <loading-tip v-if="!isShowEmpty" :isOver="isOver"></loading-tip>
+    <loading-tip v-if="!isShowEmpty && page > 1" :isOver="isOver"></loading-tip>
 
   </div>
 </template>

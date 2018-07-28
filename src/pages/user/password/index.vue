@@ -2,7 +2,6 @@
   <div class="page-user_password">
 
     <div class="form">
-
       <div class="input">
         <div class="name">旧密码</div>
         <input type="password" class="content password" v-model="password" placeholder="请输入旧密码">
@@ -20,11 +19,14 @@
     <div class="link btn-group">
       <div class="btn btn_big" :class="{disabled:!(password&&newPassword&&newPassword2)}" @click="register">确认</div>
     </div>
+
+    <company-copyright :useImg="true"></company-copyright>
   </div>
 </template>
 
 <script>
 import utils from '../../../utils'
+import CompanyCopyright from '@/components/CompanyCopyright'
 export default {
   data() {
     return {
@@ -67,14 +69,17 @@ export default {
         }
       })
     }
-  }
+  },
+  components: { CompanyCopyright }
 }
 </script>
 <style lang="less">
+@import '~@/assets/css/mixin.less';
 page {
   background: #fff;
 }
 .page-user_password {
+  .full-page();
   .link {
     margin-top: 36px;
   }

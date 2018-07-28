@@ -1,6 +1,6 @@
 <template>
-  <div class="c-user-picker" :class="{show:value}">
-    <div class="content" :class="{show:value}">
+  <div class="c-user-picker" :class="{show:value}"  >
+    <div class="content" :class="{show:value,'x-border': isIphoneX}">
       <div class="btns">
         <div class="cancel" @click="cancel">取消</div>
         <div class="comfirm" @click="comfirm">确定</div>
@@ -36,6 +36,7 @@ export default {
   },
   data() {
     return {
+      isIphoneX: utils.isIphoneX,
       listIndex: 0,
       isShowPickerView: true
      

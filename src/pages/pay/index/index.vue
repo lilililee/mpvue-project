@@ -44,7 +44,7 @@ import utils from '@/utils'
 export default {
   data() {
     return {
-      system : utils._config.system,
+      system: utils._config.system,
       queryInfo: '',
       accountInfo: {},
       payCredit: '',
@@ -107,6 +107,8 @@ export default {
     }
   },
   mounted() {
+    this.payCredit = ''
+    this.payBalance = ''
     this.queryInfo = this.$root.$mp.query
     this.queryInfo.total_money = parseFloat(this.queryInfo.total_money).toFixed(2)
     this.getAccountInfo()
@@ -127,7 +129,7 @@ export default {
     },
     toOrderPage() {
       wx.redirectTo({
-        url: this.system == 'shop'? `/pages/shopMain/main?page=2`: `/pages/main/main?page=2`
+        url: this.system == 'shop' ? `/pages/shopMain/main?page=2` : `/pages/main/main?page=2`
       })
     },
     pay() {
@@ -144,13 +146,24 @@ export default {
         success: res => {
           if (res.code == 0) {
             // 暂不处理微信支付
-            wx.redirectTo({
-              url: `/pages/pay/result/main?type=success&order_id_list=${this.queryInfo.order_id_list}&total_money=${this.queryInfo.total_money}`
-            })
-          } else {
-            wx.redirectTo({
-              url: `/pages/pay/result/main?type=fail&order_id_list=${this.queryInfo.order_id_list}&total_money=${this.queryInfo.total_money}`
-            })
+            if (res.data.need_wechat_pay) {
+              wx.requestPayment({
+                ...res.data.js_sdk,
+                timeStamp: res.data.js_sdk.timeStamp || res.data.js_sdk.timestamp,
+                success: resWx => {
+                  utils.log('success', resWx)
+                  wx.redirectTo({
+                    url: `/pages/pay/result/main?type=success&order_id_list=${this.queryInfo.order_id_list}&total_money=${this.queryInfo.total_money}`
+                  })
+                },
+                fail: resWx => {
+                  utils.log('fail', resWx)
+                  wx.redirectTo({
+                    url: `/pages/pay/result/main?type=fail&order_id_list=${this.queryInfo.order_id_list}&total_money=${this.queryInfo.total_money}`
+                  })
+                }
+              })
+            }
           }
         }
       })

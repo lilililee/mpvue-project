@@ -1,15 +1,15 @@
 <template>
-  <div class="page-user__wallet__detail" :class="{'x-margin': isIphoneX}">
+  <div class="page-user__wallet_credit_detail" :class="{'x-margin': isIphoneX}">
      
-    <ul class="bill-list">
-      <li v-for="(item, index) in billList" :key="index">
+    <ul class="credit-list">
+      <li v-for="(item, index) in creditList" :key="index">
         <div class="left">
           <div class="title">{{item.title}}</div>
           <div class="date">{{item.date}}</div>
         </div>
-        
-        <div class="right" >
-          <div class="money">{{item.money}}</div>
+     
+        <div class="right">
+          <div class="money">{{item.credit}}分</div>
         </div>
       </li>
     </ul>
@@ -27,24 +27,24 @@ export default {
     return {
       isIphoneX: utils.isIphoneX,
       system: utils._config.system,
-      billList: [],
+      creditList: [],
       page: 1,
       isOver: false
     }
   },
 
   onReachBottom() {
-    !this.isOver && this.getBillList()
+    !this.isOver && this.getCreditList()
   },
 
   mounted() {
-    this.getBillList()
+    this.getCreditList()
   },
 
   methods: {
-    getBillList() {
+    getCreditList() {
       utils.ajax({
-        action: 'getBillList',
+        action: 'getCreditList',
         data: {
           page: this.page
         },
@@ -54,7 +54,7 @@ export default {
               this.isOver = true
             }
             this.page++
-            this.billList = this.billList.concat(res.data.list)
+            this.creditList = this.creditList.concat(res.data.list)
           }
         }
       })
@@ -66,8 +66,8 @@ export default {
 <style lang="less">
 @import '../../../../assets/css/mixin.less';
 
-.page-user__wallet__detail {
-  .bill-list {
+.page-user__wallet_credit_detail {
+  .credit-list {
     background: #fff;
     li {
       height: 66px;

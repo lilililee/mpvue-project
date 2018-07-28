@@ -4,9 +4,9 @@
       <div class="panel-header">
         <div class="panel-header__title">{{monthOrderItem.month_name}}月订餐情况</div>
         <div class="panel-header__other">共
-          <strong>{{monthOrderItem.days}}</strong>天
-          <strong>{{monthOrderItem.total_num}}</strong>份，合计
-          <strong>{{monthOrderItem.total_price}}</strong>元</div>
+          <strong>{{monthOrderItem.days}}</strong> 天
+          <strong>{{monthOrderItem.total_num}}</strong> 份，合计
+          <strong>{{monthOrderItem.total_price}}</strong> 元</div>
       </div>
       <div class="panel-body">
         <ul>

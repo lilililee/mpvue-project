@@ -16,7 +16,7 @@
         </i-notice-bar>
 
         <!-- 由于不支持slot scoped ,不能使用组件形式 -->
-        <div class="user-list-container">
+        <div class="user-list-container" v-if="userList">
 
             <div class="c-user-list" v-if="userList.length">
                 <ul>
@@ -69,7 +69,7 @@ export default {
     return {
       system: utils._config.system,
       homeInfo: {},
-      userList: []
+      userList: null
     }
   },
   watch:{

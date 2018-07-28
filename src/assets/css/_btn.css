@@ -1,0 +1,61 @@
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+.btn-group .btn {
+  height: 46px;
+  line-height: 45px;
+  text-align: center;
+  border: 1rpx solid #16B266;
+  background: #16B266;
+  color: #fff;
+  width: 100%;
+  font-size: 18px;
+  border-radius: 4px;
+}
+.btn-group .btn.disabled {
+  background: #fafafa;
+  border: 1rpx solid rgba(0, 0, 0, 0.1);
+  color: #CCCCCC;
+}
+.btn-group .btn.btn__small {
+  font-size: 16px;
+  width: 160px;
+  height: 44px;
+  line-height: 43px;
+}
+.btn-group .btn.btn__mini {
+  width: 60px;
+  height: 32px;
+  line-height: 31px;
+  text-align: center;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.btn-group .btn.btn__blue {
+  border: 1rpx solid #16B266;
+  background: #16B266;
+  color: #fff;
+}
+.btn-group .btn.btn__gary {
+  border-color: #f5f5f5;
+  background-color: #f5f5f5;
+  color: #999;
+}
+.btn-group .btn.btn__purple {
+  border-color: #ae62f5;
+  background-color: #ae62f5;
+  color: #fff;
+}
+.btn-group .btn.btn__white {
+  border-color: rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  color: #333;
+}
+.btn-group .btn.btn__orange {
+  border-color: #FF7C00;
+  background-color: #FF7C00;
+  color: #fff;
+}

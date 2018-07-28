@@ -10,7 +10,7 @@
     <ul class="order-list">
       <li v-for="(item, index) in orderList" :key="index" @click="toOrderDetailPage(item)">
         <div class="left">
-          <div class="select" v-if="activeType==1">
+          <div class="select" v-if="activeType==1" @click.stop>
             <i class="icon-select" :class="{active:item.is_check}" @click="item.is_check = !item.is_check"></i>
           </div>
           <div>
@@ -35,16 +35,16 @@
 
         <div class="right" :class="'status_' + item.status">
           <div class="status-name">{{statusList[item.status]}}</div>
-          <div class="total-price">{{item.total_price}}</div>
+          <div class="total-price">¥{{item.total_price}}</div>
         </div>
       </li>
     </ul>
 
     <empty v-if="isShowEmpty" text="没有找到订单"></empty>
 
-    <loading-tip v-if="!isShowEmpty" :isOver="isOver"></loading-tip>
+    <loading-tip v-if="!isShowEmpty && page > 1" :isOver="isOver"></loading-tip>
 
-    <div class="to-pay"  :class="{'x-margin': isIphoneX}" v-if="activeType==1&&!isShowEmpty">
+    <div class="to-pay" :class="{'x-margin': isIphoneX}" v-if="activeType==1&&!isShowEmpty">
       <div class="left">
         <div class="select" @click="checkAll">
           <i class="icon-select" :class="{active:isCheckAll}"></i>全选
@@ -69,7 +69,7 @@ export default {
   data() {
     return {
       isIphoneX: utils.isIphoneX,
-      
+
       activeType: 0, // 0,1,2,3
       page: 1,
       orderList: [],
@@ -219,10 +219,9 @@ export default {
 
     .select {
       .flex-start();
-      height: 100%;
+      height: 72px;
       margin-right: 12px;
     }
-    // *****
 
     .date-name {
       .flex-start();

@@ -25,11 +25,14 @@
     <div class="link btn-group">
       <div class="btn btn_big" @click="register" :class="{disabled:!(phone&&code&&password&&password2)}">确认</div>
     </div>
+
+    <company-copyright :useImg="true"></company-copyright>
   </div>
 </template>
 
 <script>
 import utils from '../../../utils'
+import CompanyCopyright from '@/components/CompanyCopyright'
 export default {
   data() {
     return {
@@ -43,7 +46,7 @@ export default {
       countInterval: ''
     }
   },
-  
+
   methods: {
     getCode() {
       // 重复点击拦截
@@ -100,24 +103,26 @@ export default {
           password: this.password
         },
         success: res => {
-          if(res.code==0) {
+          if (res.code == 0) {
             utils.showSuccess('找回成功', wx.navigateBack)
           }
-          
         }
       })
     }
-  }
+  },
+  components: { CompanyCopyright }
 }
 </script>
 <style lang="less">
+@import '~@/assets/css/mixin.less';
 page {
-    background: #fff;
+  background: #fff;
 }
 .page-login__find_password {
-    .link{
-        margin-top: 36px;
-    }
+  .full-page();
+  .link {
+    margin-top: 36px;
+  }
 }
 </style>
 

@@ -20,7 +20,7 @@
       <div class="left">
         <div>
           <div class="total-price">¥{{totalMoney}}</div>
-          <div class="total-count"> 共{{totalDay}}天{{totalNum}}份</div>
+          <div class="total-count"> 共 {{totalDay}} 天 {{totalNum}} 份</div>
         </div>
       </div>
 
@@ -94,6 +94,22 @@ export default {
       })
     },
     submitOrder() {
+      let foodList = []
+      this.foodList.forEach(item => {
+        let food_list = []
+        item.food_list.forEach(sitem => {
+          food_list.push({
+            food_id: sitem.food_id,
+            num: sitem.num
+          })
+        })
+        foodList.push({
+          date: item.date,
+          food_list
+        })
+      })
+      utils.log(this.foodList)
+      utils.log(foodList)
       utils.ajax({
         action: 'submitOrder',
         method: 'POST',
@@ -102,7 +118,7 @@ export default {
           role_id: this.nowUser.role_id,
           address_id: this.system == 'company'? this.companyNowUser.address_id: this.nowUser.address_id,
           total_price: this.totalMoney,
-          foods: JSON.stringify(this.foodList),
+          foods: JSON.stringify(foodList),
           menu_id: this.$root.$mp.query.menu_id
         },
         success: res => {

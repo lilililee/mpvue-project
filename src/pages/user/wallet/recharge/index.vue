@@ -18,11 +18,14 @@
     <div class="btn-group">
       <div class="btn btn__orange" @click="recharge">确定充值</div>
     </div>
+
+    <company-copyright></company-copyright>
   </div>
 </template>
 
 <script>
 import utils from '@/utils'
+import CompanyCopyright from '@/components/CompanyCopyright'
 
 export default {
   data() {
@@ -41,7 +44,11 @@ export default {
     }
   },
 
-  mounted() {},
+  mounted() {
+    // 去除小程序已销毁页面input数据缓存
+    this.nowChooseMoneyIndex = 0
+    this.inputMoney = ''
+  },
 
   methods: {
     chooseMoney(item, index) {
@@ -51,7 +58,7 @@ export default {
     recharge() {
       let money = this.nowChooseMoneyIndex != -1 ? this.options[this.nowChooseMoneyIndex] : this.inputMoney
 
-      if(money == '' || money == '0') {
+      if (money == '' || parseFloat(money) == 0) {
         utils.showMsg('请输入充值金额')
         return
       }
@@ -63,21 +70,32 @@ export default {
         },
         success: res => {
           if (res.code == 0) {
-             utils.showSuccess('充值成功', wx.navigateBack)
+            wx.requestPayment({
+              ...res.data,
+              success: resWx => {
+                utils.log('success', resWx)
+                utils.showSuccess('充值成功', wx.navigateBack)
+              },
+              fail: resWx => {
+                utils.log('fail', resWx)
+              }
+            })
           }
         }
       })
     }
   },
-  components: {}
+  components: { CompanyCopyright }
 }
 </script>
 <style lang="less">
 @import '../../../../assets/css/mixin.less';
+
 page {
   background: #fff;
 }
 .page-user__wallet__recharge {
+  .full-page();
   padding-top: 24px;
 
   .recharge-content {

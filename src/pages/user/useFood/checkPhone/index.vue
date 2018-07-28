@@ -19,14 +19,13 @@
       <div class="btn btn_big" @click="checkBindUser">验证并更新后台资料</div>
     </div>
 
-    <div class="bottom">
-      <div class="copyright">©copyright 广州市日日健餐饮管理有限公司</div>
-    </div>
+    <company-copyright></company-copyright>
   </div>
 </template>
 
 <script>
 import utils from '@/utils'
+import CompanyCopyright from '@/components/CompanyCopyright'
 
 export default {
   data() {
@@ -106,7 +105,7 @@ export default {
       })
     }
   },
-  components: {}
+  components: {CompanyCopyright}
 }
 </script>
 <style lang="less">
@@ -129,19 +128,7 @@ page {
     }
   }
 
-  .bottom {
-    position: absolute;
-    width: 100%;
-    left: 0;
-    bottom: 0;
-    padding-bottom: 24px;
 
-    font-size: 12px;
-    color: #666666;
-    line-height: 17px;
-
-    text-align: center;
-  }
 }
 </style>
 

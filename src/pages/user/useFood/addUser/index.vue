@@ -104,9 +104,7 @@
       <div class="btn f16" @click="addUser">确定添加</div>
     </div>
 
-    <div class="bottom">
-      <div class="copyright">©copyright 广州市日日健餐饮管理有限公司</div>
-    </div>
+    <company-copyright></company-copyright>
 
     <list-picker v-model="isShowListPicker" :list="pickerList" @comfirm="comfirmArea"></list-picker>
   </div>
@@ -115,6 +113,7 @@
 <script>
 import utils from '@/utils'
 import ListPicker from '@/components/ListPicker'
+import CompanyCopyright from '@/components/CompanyCopyright'
 
 export default {
   data() {
@@ -284,7 +283,8 @@ export default {
     }
   },
   components: {
-    ListPicker
+    ListPicker,
+    CompanyCopyright
   }
 }
 </script>
@@ -294,6 +294,7 @@ page {
   background: #fff;
 }
 .page-user__userFood_addUser {
+  .full-page();
   .form .input {
     .name  {
     width: 18%;
@@ -326,19 +327,6 @@ page {
     margin-top: 36px;
   }
 
-  .bottom {
-    position: absolute;
-    width: 100%;
-    left: 0;
-    bottom: 0;
-    padding-bottom: 24px;
-
-    font-size: 12px;
-    color: #666666;
-    line-height: 17px;
-
-    text-align: center;
-  }
 }
 </style>
 

@@ -25,11 +25,14 @@
     <div class="link btn-group">
       <div class="btn btn_big" @click="register">注册</div>
     </div>
+
+    <company-copyright :useImg="true"></company-copyright>
   </div>
 </template>
 
 <script>
 import utils from '../../../utils'
+import CompanyCopyright from '@/components/CompanyCopyright'
 export default {
   data() {
     return {
@@ -105,14 +108,17 @@ export default {
         }
       })
     }
-  }
+  },
+  components: { CompanyCopyright }
 }
 </script>
 <style lang="less">
+@import '~@/assets/css/mixin.less';
 page {
   background: #fff;
 }
 .page-login__register {
+  .full-page();
   .link {
     margin-top: 72rpx;
   }
