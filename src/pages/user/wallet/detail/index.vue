@@ -38,6 +38,8 @@ export default {
   },
 
   mounted() {
+    this.page = 1
+    this.billList = []
     this.getBillList()
   },
 

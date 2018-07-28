@@ -149,7 +149,6 @@ export default {
             if (res.data.need_wechat_pay) {
               wx.requestPayment({
                 ...res.data.js_sdk,
-                timeStamp: res.data.js_sdk.timeStamp || res.data.js_sdk.timestamp,
                 success: resWx => {
                   utils.log('success', resWx)
                   wx.redirectTo({
