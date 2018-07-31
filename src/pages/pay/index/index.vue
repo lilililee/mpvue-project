@@ -145,7 +145,6 @@ export default {
         },
         success: res => {
           if (res.code == 0) {
-            // 暂不处理微信支付
             if (res.data.need_wechat_pay) {
               wx.requestPayment({
                 ...res.data.js_sdk,
@@ -162,6 +161,10 @@ export default {
                   })
                 }
               })
+            } else {
+                wx.redirectTo({
+                  url: `/pages/pay/result/main?type=success&order_id_list=${this.queryInfo.order_id_list}&total_money=${this.queryInfo.total_money}`
+                })
             }
           }
         }
