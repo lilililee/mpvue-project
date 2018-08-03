@@ -81,14 +81,14 @@ export default {
 
   .content {
     padding: 0 25px;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 17px;
     color: @gray;
     padding-bottom: 24px;
   }
 
   .btns {
-    border-top: 1rpx solid @borderColor;
+    border-top: 1rpx solid #eee;
     .flex-center();
     color: @gray;
     .lh(45px);
@@ -102,7 +102,7 @@ export default {
     }
 
     .left {
-      border-right: 1rpx solid @borderColor;
+      border-right: 1rpx solid #eee;
     }
 
     .right {

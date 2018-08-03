@@ -1,7 +1,7 @@
 <template>
   <div class="page-calendar__booking_list" v-if="bookingList">
-    <div class="page-container" v-if="bookingList.length"  :class="{'x-padding': isIphoneX}">
-      <scroll-view scroll-y  :scroll-top="scrollTop">
+    <div class="page-container" v-if="bookingList.length">
+      <scroll-view scroll-y :scroll-top="scrollTop">
         <!-- solt内不能写v-if -->
         <div class="user-list-container" v-if="system=='company'">
           <user-list :userData="companyNowUser" @assistClick="changeAddress">
@@ -13,10 +13,23 @@
           </user-list>
         </div>
 
+        <div class="toggle-date">
+
+          <div class="prev" @click="changeDay(-1)">
+            <i class="icon-arrow-left"></i>
+            <span>前一天</span>
+          </div>
+          <div class="date-name">{{dateName}}</div>
+          <div class="next" @click="changeDay(1)">
+            <span>后一天</span>
+            <i class="icon-arrow-right"></i>
+          </div>
+        </div>
+
         <ul class="booking-list">
           <li v-for="(item, index) in bookingList" :key="index" :class="'status_'+item.status">
             <div class="img">
-              <img :src="item.img" :alt="item.name"  @error="onImageError(item)">
+              <img :src="item.img" :alt="item.name" @error="onImageError(item)">
             </div>
             <div class="text">
               <div class="name">{{item.name}}</div>
@@ -28,10 +41,10 @@
             </div>
 
             <div class="stop btn-group" v-if="item.status=='2'">
-              <div class="btn btn__mini"  @click="submitCancelBooking(item)">停餐</div>
+              <div class="btn btn__mini" @click="submitCancelBooking(item)">停餐</div>
             </div>
             <div class="stop btn-group" v-if="item.status=='4'">
-              <div class="btn btn__mini" >已停餐</div>
+              <div class="btn btn__mini">已停餐</div>
             </div>
 
           </li>
@@ -42,9 +55,8 @@
 
     </div>
     <empty text="当前日期没有订餐" v-else></empty>
-   
 
-    <div class="toggle-date" :class="{'x-border': isIphoneX}">
+    <!-- <div class="toggle-date" :class="{'x-border': isIphoneX}">
 
       <div class="prev" @click="changeDay(-1)">
         <i class="icon-arrow-left"></i>
@@ -55,7 +67,7 @@
         <span>后一天</span>
         <i class="icon-arrow-right"></i>
       </div>
-    </div>
+    </div> -->
 
     <popbox v-model="isShowcancelPopbox" :popboxData="popboxData" @comfirm="comfirmcancel"></popbox>
   </div>
@@ -83,7 +95,7 @@ export default {
 
       popboxData: {
         title: '确认停餐',
-        content: '已支付金额将在3个工作日退款到您的钱包余额请注意查收'
+        content: '已支付金额将在3个工作日退款到您订餐钱包余额请注意查收'
       }
     }
   },
@@ -114,7 +126,7 @@ export default {
     //   this.getUserAddress() // 后续地址更新会在修改地址的页面处理
     // }
 
-    this.system == 'company' && this.getUserAddress()   // 后续地址更新会在修改地址的页面处理
+    this.system == 'company' && this.getUserAddress() // 后续地址更新会在修改地址的页面处理
 
     this.getUserBookingList()
   },
@@ -131,12 +143,12 @@ export default {
         loading: true,
         success: res => {
           if (res.code == 0) {
-
-            this.system == 'company' && this.$store.commit('updateCompanyNowUser', {
-              ...this.nowUser,
-              address_id: res.data.address_id,
-              address_name: res.data.address_name
-            })
+            this.system == 'company' &&
+              this.$store.commit('updateCompanyNowUser', {
+                ...this.nowUser,
+                address_id: res.data.address_id,
+                address_name: res.data.address_name
+              })
           }
         }
       })
@@ -208,7 +220,7 @@ export default {
       this.scrollTop = 0
       this.getUserBookingList()
     },
-    onImageError(item){
+    onImageError(item) {
       item.img = require('../../../assets/img/food_default.png')
     }
   },
@@ -226,6 +238,7 @@ export default {
     .full-page();
 
     padding: 12px 12px 60px 12px;
+    padding-bottom: 0;
     background: url(~@/assets/img/comfirm_order.png) top center no-repeat;
     background-size: contain;
 
@@ -258,8 +271,8 @@ export default {
 
       &.status_4 {
         opacity: 0.5;
-          border-color: rgba(0,0,0,0.1);
-        
+        border-color: rgba(0, 0, 0, 0.1);
+
         .stop .btn {
           border: 1rpx solid transparent;
           color: #ccc;
@@ -305,7 +318,6 @@ export default {
         background: #fff;
         border: 1rpx solid rgba(0, 0, 0, 0.1);
         color: @red;
-
       }
     }
   }
@@ -327,10 +339,13 @@ export default {
   // }
 
   .toggle-date {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
+    // position: fixed;
+    // left: 0;
+    // bottom: 0;
+    // width: 100%;
+    margin-top: 12px;
+
+
     height: 60px;
     .flex-between();
     background: #ffffff;

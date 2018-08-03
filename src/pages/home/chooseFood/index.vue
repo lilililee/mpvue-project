@@ -225,6 +225,7 @@ export default {
         width: 115.5px;
         left: 0;
         top: 0;
+
         // position: fixed;
         // width: 115.5px;
         // left: 0;
@@ -233,8 +234,10 @@ export default {
 
         border-bottom: 1rpx solid @borderColor;
 
-        background: #fff;
-        color: #333;
+        background: @theme;
+        color: #fff;
+        // background: #fff;
+        // color: #333;
       }
     }
     .food-list-container {
