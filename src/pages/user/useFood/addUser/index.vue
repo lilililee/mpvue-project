@@ -115,6 +115,11 @@ import utils from '@/utils'
 import ListPicker from '@/components/ListPicker'
 import CompanyCopyright from '@/components/CompanyCopyright'
 
+const areaName = {
+    school: ['', '地区', '学校' , '年级', '班级'],
+    company: ['', '地区', '企业' , '职位', '班级'],
+}
+
 export default {
   data() {
     return {
@@ -179,19 +184,27 @@ export default {
         data: input,
         success: res => {
           if (res.code == 0) {
-            this[`area${areaType}List`] = res.data.list
-
+              
+              this[`area${areaType}List`] = res.data.list
+                if (res.data.list.length == 0) {
+                    this.nowArea[`area${areaType}`] = {}
+                    
+                    return
+                }
             if (areaType == 1) {
               // 选中area1List第一个，并获取area2List
               this.nowArea.area1 = this[`area${areaType}List`][0]
               this.getAreaList(2)
             } else if (areaType == 2) {
-              // 选中area2List第一个
-              this.nowArea.area2 = this[`area${areaType}List`][0]
+            
+                  // 选中area2List第一个
+                this.nowArea.area2 = this[`area${areaType}List`][0]
 
-              if ((this.system == 'school' && this.activeTab == 0) || this.system == 'company') {
-                this.getAreaList(3)
-              }
+                if ((this.system == 'school' && this.activeTab == 0) || this.system == 'company') {
+                    this.getAreaList(3)
+                }
+              
+
             }
             callback()
           }
@@ -199,10 +212,23 @@ export default {
       })
     },
     showPicker(areaType) {
-      if (areaType == 3 && this.nowArea.area3.area3_id == '') {
-        utils.showMsg('请先选择年级')
+      
+
+      console.log(areaType)
+      console.log(this.nowArea[`area${areaType - 1 }`])
+      if (areaType > 1 && !this.nowArea[`area${areaType - 1 }`][`area${areaType - 1 }_id`]) {
+
+        utils.showMsg(`请先选择${areaName[this.system][areaType - 1]}`)
         return
       }
+      if(this[`area${areaType}List`].length == 0) {
+        utils.showMsg('当前选项无内容')
+        return
+      }
+    //   if (areaType == 4 && this.nowArea.area3.area3_id == '') {
+    //     utils.showMsg('请先选择年级')
+    //     return
+    //   }
 
       this.areaType = areaType
 

@@ -5,9 +5,14 @@
         <div class="cancel" @click="cancel">取消</div>
         <div class="comfirm" @click="comfirm">确定</div>
       </div>
-      <picker-view indicator-style="height: 40px;" style="width: 100%; height: 210px;" @change="bindChange" v-if="isShowPickerView">
+      <!-- <picker-view indicator-style="height: 40px;" style="width: 100%; height: 210px;" @change="bindChange" v-if="isShowPickerView">
         <picker-view-column>
           <view style="line-height: 40px" v-for="(item,index) in list" :key="index">{{item.name}}</view>
+        </picker-view-column>
+      </picker-view> -->
+      <picker-view indicator-style="height: 50px;" style="width: 100%; height: 210px;" @change="bindChange" v-if="isShowPickerView">
+        <picker-view-column>
+          <view  v-for="(item,index) in list" :key="index"  style="line-height: 50px">{{item.name}}</view>
         </picker-view-column>
       </picker-view>
     </div>
@@ -110,8 +115,8 @@ export default {
       color: #333;
       text-align: center;
 
-      height: 40px !important;
-      line-height: 40px !important;
+    //   height: 40px !important;
+    //   line-height: 40px !important;
     }
   }
 }
