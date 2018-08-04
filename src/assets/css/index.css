@@ -1,0 +1,503 @@
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+.btn-group .btn {
+  height: 46px;
+  line-height: 45px;
+  text-align: center;
+  border: 1rpx solid #16B266;
+  background: #16B266;
+  color: #fff;
+  width: 100%;
+  font-size: 18px;
+  border-radius: 4px;
+}
+.btn-group .btn.disabled {
+  background: #fafafa;
+  border: 1rpx solid rgba(0, 0, 0, 0.1);
+  color: #CCCCCC;
+}
+.btn-group .btn.btn__small {
+  font-size: 16px;
+  width: 160px;
+  height: 44px;
+  line-height: 43px;
+}
+.btn-group .btn.btn__mini {
+  width: 60px;
+  height: 32px;
+  line-height: 31px;
+  text-align: center;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.btn-group .btn.btn__blue {
+  border: 1rpx solid #16B266;
+  background: #16B266;
+  color: #fff;
+}
+.btn-group .btn.btn__gary {
+  border-color: #f5f5f5;
+  background-color: #f5f5f5;
+  color: #999;
+}
+.btn-group .btn.btn__purple {
+  border-color: #ae62f5;
+  background-color: #ae62f5;
+  color: #fff;
+}
+.btn-group .btn.btn__white {
+  border-color: rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  color: #333;
+}
+.btn-group .btn.btn__orange {
+  border-color: #FF7C00;
+  background-color: #FF7C00;
+  color: #fff;
+}
+.form {
+  padding: 0 20px;
+}
+.form .input {
+  display: flex;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+  height: 56px;
+  font-size: 16px;
+  line-height: 56px;
+}
+.form .input .name {
+  width: 24%;
+}
+.form .input .content {
+  width: 51%;
+  height: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.form .input .assist {
+  width: 25%;
+  text-align: center;
+  height: 100%;
+  font-size: 14px;
+  color: #16B266;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.form .input .assist.assist__code {
+  background: red;
+  color: #fff;
+}
+.flex {
+  display: flex;
+}
+.flex-start {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.flex-around {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.icon-drop-down {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../img/drop_down.png);
+  background-size: cover;
+}
+.icon-drop-down-gray {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../img/drop_down_gray.png);
+  background-size: cover;
+}
+.icon-arrow-left {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../img/arrow_right.png);
+  background-size: cover;
+  transform: rotate(180deg);
+}
+.icon-arrow-right {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../img/arrow_right.png);
+  background-size: cover;
+}
+.icon-true {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url(../img/true.png);
+  background-size: cover;
+}
+.icon-add-dinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: url(../img/add_dinner.png);
+  background-size: cover;
+}
+.icon-navbar-home {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url(../img/navbar_home.png);
+  background-size: cover;
+}
+.icon-navbar-home.active {
+  background: url(../img/navbar_home_h.png);
+  background-size: cover;
+}
+.icon-navbar-calendar {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url(../img/navbar_date.png);
+  background-size: cover;
+}
+.icon-navbar-calendar.active {
+  background: url(../img/navbar_date_h.png);
+  background-size: cover;
+}
+.icon-navbar-cart {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url(../img/navbar_shopcar.png);
+  background-size: cover;
+}
+.icon-navbar-cart.active {
+  background: url(../img/navbar_shopcar_h.png);
+  background-size: cover;
+}
+.icon-navbar-order {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url(../img/navbar_order.png);
+  background-size: cover;
+}
+.icon-navbar-order.active {
+  background: url(../img/navbar_order_h.png);
+  background-size: cover;
+}
+.icon-navbar-user {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url(../img/navbar_me.png);
+  background-size: cover;
+}
+.icon-navbar-user.active {
+  background: url(../img/navbar_me_h.png);
+  background-size: cover;
+}
+.icon-menu-wallet {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../img/menu_wallet.png);
+  background-size: cover;
+}
+.icon-menu-feedback {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../img/menu_feedback.png);
+  background-size: cover;
+}
+.icon-menu-user {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../img/menu_user.png);
+  background-size: cover;
+}
+.icon-menu-serve {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../img/menu_serve.png);
+  background-size: cover;
+}
+.icon-menu-password {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../img/menu_password.png);
+  background-size: cover;
+}
+.icon-menu-shopping {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../img/menu_shopping.png);
+  background-size: cover;
+}
+.icon-dinner-minus {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../img/dinner_minus.png);
+  background-size: cover;
+}
+.icon-dinner-plus {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../img/dinner_plus.png);
+  background-size: cover;
+}
+.icon-shop-minus {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../img/shop_minus.png);
+  background-size: cover;
+}
+.icon-shop-minus.active {
+  background: url(../img/shop_minus_h.png);
+  background-size: cover;
+}
+.icon-shop-plus {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../img/shop_plus.png);
+  background-size: cover;
+}
+.icon-shop-plus.active {
+  background: url(../img/shop_plus_h.png);
+  background-size: cover;
+}
+.icon-select {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../img/select.png);
+  background-size: cover;
+}
+.icon-select.active {
+  background: url(../img/select_h.png);
+  background-size: cover;
+}
+.icon-cart {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background: url(../img/shopcar.png);
+  background-size: cover;
+}
+.panel {
+  margin: 12px;
+  margin-top: 0;
+  background: #fff;
+  padding: 0 16px;
+  font-size: 12px;
+}
+.panel .panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 52px;
+  line-height: 52px;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+}
+.panel .panel-header .panel-header__title {
+  font-size: 14px;
+  font-weight: bold;
+}
+.panel .panel-header .panel-header__other {
+  color: #999;
+}
+.panel .panel-header .panel-header__other strong {
+  color: #333;
+  display: inline-block;
+}
+.panel .panel-body {
+  line-height: 29px;
+  padding: 6px 0;
+}
+.bottom-column {
+  height: 60px;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  background: #fff;
+  box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.bottom-column .left,
+.bottom-column .right {
+  height: 100%;
+}
+.bottom-column .left {
+  width: 255px;
+  padding-left: 16px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.bottom-column .right {
+  width: 120px;
+  font-size: 16px;
+  text-align: center;
+  background: #ccc;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bottom-column .right.active {
+  background: #16B266;
+}
+.c-role {
+  display: inline-block;
+  margin: 0 8px;
+  padding: 0 6px;
+  border: 1rpx solid transparent;
+  font-size: 12px;
+  background: #fff;
+  line-height: 18px;
+  border-radius: 2px;
+}
+.c-role.role_1,
+.c-role.role_3 {
+  border-color: #ffb9c6;
+  background: #ffeff2;
+  color: #ff5050;
+}
+.c-role.role_2 {
+  border-color: #ae62f5;
+  background: rgba(174, 98, 245, 0.1);
+  color: #b46af9;
+}
+.c-user-list {
+  width: 100%;
+  overflow: hidden;
+}
+.c-user-list .user-item {
+  height: 66px;
+  background: #fff;
+  padding: 0 16px;
+  position: relative;
+}
+.c-user-list .user-item + li {
+  margin-top: 1rpx;
+}
+.c-user-list .img {
+  margin-right: 12px;
+}
+.c-user-list .img img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: block;
+}
+.c-user-list .info {
+  width: 160px;
+}
+.c-user-list .info .top {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.c-user-list .info .top .name {
+  font-size: 16px;
+  color: #000000;
+  margin-right: 12px;
+}
+.c-user-list .info .top .role {
+  background: rgba(174, 98, 245, 0.1);
+  border: 1px solid rgba(174, 98, 245, 0.3);
+  border-radius: 4rpx;
+  padding: 0 6px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 12px;
+}
+.c-user-list .info .bottom .address {
+  line-height: 17px;
+  margin-top: 3px;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.c-user-list .assist {
+  position: absolute;
+  height: 100%;
+  right: 0;
+  top: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.c-user-list .assist > div {
+  padding-right: 16px;
+}
+body {
+  color: #333;
+  font-size: 14px;
+  line-height: 1;
+  background: #f0f3fa;
+  font-family: "PingFang SC", "Helvetica Neue", "Microsoft Yahei", Arial, Helvetica, sans-serif;
+}
+a {
+  display: inline-block;
+  line-height: 1;
+}
+scroll-view,
+textarea,
+view {
+  box-sizing: border-box;
+}
+.f16 {
+  font-size: 16px!important;
+}
+.f18 {
+  font-size: 18px!important;
+}
+.x-margin {
+  margin-bottom: 34px;
+}
+.x-padding {
+  padding-bottom: 94px!important;
+}
+.x-border {
+  box-sizing: content-box;
+  border-bottom: 34px solid #fff;
+}
+.x-border-transparent {
+  border-bottom: 34px solid transparent;
+}

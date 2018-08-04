@@ -1,5 +1,5 @@
 <template>
-  <div class="page-user__order_detail" v-if="orderInfo" :class="[{'x-margin': isIphoneX},'status_' + queryInfo.status]">
+  <div class="page-user__order_detail" v-if="orderInfo" :class="[{'x-border-transparent': isIphoneX},'status_' + queryInfo.status]">
     <div class="top-pay" v-if="queryInfo.status == '1'">
       <div class="text">
         <span>需支付</span>

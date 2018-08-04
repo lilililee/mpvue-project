@@ -1,5 +1,5 @@
 <template>
-  <div class="page-user__wallet__detail" :class="{'x-margin': isIphoneX}">
+  <div class="page-user__wallet__detail" :class="{'x-border-transparent': isIphoneX}">
      
     <ul class="bill-list">
       <li v-for="(item, index) in billList" :key="index">

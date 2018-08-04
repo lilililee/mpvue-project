@@ -53,7 +53,7 @@
 
     </div>
 
-    <company-copyright></company-copyright>
+    <company-copyright v-if="activeIndex==0"></company-copyright>
   </div>
 
 </template>
@@ -202,9 +202,15 @@ page {
     }
 
     .tips {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      bottom: 0;
+      padding-bottom: 24px;
+      
       font-size: 12px;
       line-height: 17px;
-      margin-top: 70px;
+      // margin-top: 70px;
       text-align: center;
       color: #666666;
     }

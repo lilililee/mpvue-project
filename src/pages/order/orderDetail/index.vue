@@ -1,5 +1,5 @@
 <template>
-  <div class="page-user__order_detail" v-if="orderInfo"  :class="[{'x-margin': isIphoneX},'status_' + queryInfo.status]">
+  <div class="page-user__order_detail" v-if="orderInfo"  :class="['status_' + queryInfo.status]">
     <div class="top-pay" v-if="queryInfo.status == '1'">
       <div class="text">
         <span>需支付</span>
@@ -9,7 +9,7 @@
       <div class="pay-btn" @click="toPay">去支付</div>
     </div>
 
-    <div class="order-content">
+    <div class="order-content" :class="{'x-border': isIphoneX}">
       <!-- 企业版支付页才能修改 -->
       <div class="user-list-container" v-if="system=='company' && queryInfo.status == '1'">
         <user-list :userData="companyNowUser" @assistClick="changeAddress">

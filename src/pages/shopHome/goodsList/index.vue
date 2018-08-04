@@ -1,5 +1,5 @@
 <template>
-  <div class="page-home__goods_list"  :class="{'x-margin': isIphoneX}">
+  <div class="page-home__goods_list"  :class="{'x-border-transparent': isIphoneX}">
     <goods-list :goodsList="goodsList" :isOver="isOver"></goods-list>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="page-user__userFood__index" :class="{'x-margin': isIphoneX}">
+  <div class="page-user__userFood__index" :class="{'x-border-transparent': isIphoneX}">
     <div @click="toAddUserPage" class="add-user">+ 添加用餐人</div>
     <user-list :userData="userList" @assistClick="deleteUser">
       <div class="c-user-list__assets flex-center">

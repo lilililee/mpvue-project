@@ -1,5 +1,5 @@
 <template>
-  <div class="page-user__feedback_index" :class="{'x-margin': isIphoneX}">
+  <div class="page-user__feedback_index" :class="{'x-border-transparent': isIphoneX}">
     <a class="to-feedback" href="/pages/user/feedback/submitFeedback/main" hover-class="none">
       我要反馈问题
     </a>

@@ -1,6 +1,6 @@
 <template>
 
-  <div class="page-main" :class="{'x-margin': isIphoneX}">
+  <div class="page-main" :class="{'x-padding': isIphoneX}">
     <page-home v-if="nowPage == 'home'" :onReachBottomTimes="onReachBottomTimes"></page-home>
     <page-cart v-if="nowPage == 'cart'"></page-cart>
     <page-order v-if="nowPage == 'order'"></page-order>
