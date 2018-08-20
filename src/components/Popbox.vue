@@ -6,7 +6,7 @@
         {{popboxData.content}}
       </div>
       <div class="btns" v-if="type=='2'">
-        <div class="comfirm" @click="comfirm">知道了</div>
+        <div class="comfirm" @click="comfirm">确定</div>
       </div>
       <div class="btns" v-else>
         <div class="left" @click="cancel">取消</div>
@@ -26,7 +26,11 @@ export default {
     type: {
       type: String,
       default: '1'
-    }
+    },
+    // onlyComfirm: {
+    //   type: Boolean,
+    //   default: false
+    // }
   },
   mounted() {},
   methods: {
@@ -111,6 +115,7 @@ export default {
 
     .comfirm {
       width: 100%;
+      color: @red;
     }
   }
 }

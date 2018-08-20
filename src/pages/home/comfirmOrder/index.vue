@@ -1,6 +1,6 @@
 <template>
   <div class="page-home__comfirm_order">
-    <div class="page-container"  :class="{'x-padding': isIphoneX}">
+    <div class="page-container" :class="{'x-padding': isIphoneX}">
       <scroll-view scroll-y>
         <div class="user-list-container" v-if="system=='company'">
           <user-list :userData="companyNowUser" @assistClick="changeAddress">
@@ -28,6 +28,7 @@
         <span>去支付</span>
       </div>
     </div>
+    <popbox v-model="isShowFreePopbox" :popboxData="popboxData" @comfirm="comfirmFreeOrder" type="2"></popbox>
   </div>
 </template>
 
@@ -35,13 +36,20 @@
 import utils from '@/utils'
 import UserList from '@/components/UserList'
 import OrderList from '@/components/OrderList'
+import Popbox from '@/components/Popbox'
 
 export default {
   data() {
     return {
       isIphoneX: utils.isIphoneX,
       system: utils._config.system,
-      userList: []
+      userList: [],
+
+      isShowFreePopbox: false,
+      popboxData: {
+        title: '确认订单',
+        content: '当前订单为免支付订单，订单已完成'
+      }
       // orderList:[]
     }
   },
@@ -68,20 +76,22 @@ export default {
     },
     totalMoney() {
       if (!this.foodList.length) return '0.00'
-      return this.foodList.reduce((prev, item) => {
-        return (
-          prev +
-          item.food_list.reduce((sprev, sitem) => {
-            return sprev + sitem.num * sitem.price
-          }, 0)
-        )
-      }, 0).toFixed(2)
+      return this.foodList
+        .reduce((prev, item) => {
+          return (
+            prev +
+            item.food_list.reduce((sprev, sitem) => {
+              return sprev + sitem.num * sitem.price
+            }, 0)
+          )
+        }, 0)
+        .toFixed(2)
     }
   },
 
   mounted() {
     if (this.system == 'company') {
-      this.$store.commit('updateCompanyNowUser',{
+      this.$store.commit('updateCompanyNowUser', {
         ...this.nowUser
       }) // 后续地址更新会在修改地址的页面处理
     }
@@ -116,25 +126,38 @@ export default {
         data: {
           user_id: this.nowUser.user_id,
           role_id: this.nowUser.role_id,
-          address_id: this.system == 'company'? this.companyNowUser.address_id: this.nowUser.address_id,
+          address_id: this.system == 'company' ? this.companyNowUser.address_id : this.nowUser.address_id,
           total_price: this.totalMoney,
           foods: JSON.stringify(foodList),
           menu_id: this.$root.$mp.query.menu_id
         },
         success: res => {
           if (res.code == 0) {
-            let order_id_list = JSON.stringify([res.data.order_id])
-            wx.reLaunch({
-              url: `/pages/pay/index/main?order_id_list=${order_id_list}&total_money=${this.totalMoney}`
-            })
+            if (res.data.is_free == 1) {
+              this.isShowFreePopbox = true
+            } else {
+              let order_id_list = JSON.stringify([res.data.order_id])
+              wx.reLaunch({
+                url: `/pages/pay/index/main?order_id_list=${order_id_list}&total_money=${this.totalMoney}`
+              })
+            }
           }
         }
       })
+    },
+    comfirmFreeOrder() {
+      this.isShowFreePopbox = false
+      setTimeout(() => {
+        wx.reLaunch({
+          url: `/pages/main/main?page=2`
+        })
+      }, 300)
     }
   },
   components: {
     UserList,
-    OrderList
+    OrderList,
+    Popbox
   }
 }
 </script>

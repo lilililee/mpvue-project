@@ -17,7 +17,7 @@
         </scroll-view>
       </div>
       <div class="food-list-container">
-        <scroll-view scroll-y class="food-list" v-if="foodList.length" :scroll-top="scrollTop">
+        <scroll-view scroll-y class="food-list" v-if="foodList.length && isShowFoodList">
           <div class="food-list-item flex-between" v-for="(item, index) in foodList[nowIndex].food_list" :key="index">
             <div class="img">
               <img :src="item.img" :alt="item.name"  @error="onImageError(item)">
@@ -30,9 +30,9 @@
                 </div>
                 <div class="picker-num flex-center" :class="'picker-num_' + item.num">
 
-                  <i class="icon-dinner-minus " @click="handleNum(-1,item)"></i>
+                  <i class="icon-dinner-minus " @click.stop="handleNum(-1,item)"></i>
                   <div class="num">{{item.num}}</div>
-                  <i class="icon-dinner-plus" @click="handleNum(1,item)"></i>
+                  <i class="icon-dinner-plus" @click.stop="handleNum(1,item)"></i>
                 </div>
               </div>
             </div>
@@ -80,7 +80,8 @@ export default {
       isIphoneX: utils.isIphoneX,
       foodList: [],
       nowIndex: 0,
-      scrollTop: 0
+      // scrollTop: 0,
+      isShowFoodList: true
     }
   },
   computed: {
@@ -172,8 +173,14 @@ export default {
     },
     changeDate(index) {
       if (this.nowIndex == index) return
-      this.scrollTop = 0
-      this.nowIndex = index
+      this.isShowFoodList = false
+
+      // 采用scrollTop复原的方案会导致加减商品时会导致滚动条回到顶部，只好用重新渲染的方案
+      // this.scrollTop = 0
+      setTimeout(() => {
+        this.isShowFoodList = true
+        this.nowIndex = index
+      })
     },
     handleNum(num, item) {
       item.num += num
