@@ -95,7 +95,7 @@ export default {
       }
 
       utils.ajax({
-        action: 'register',
+        action: 'handlePassword',
         method: 'POST',
         data: {
           phone: this.phone,

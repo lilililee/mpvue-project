@@ -10,7 +10,7 @@
 	"miniprogramRoot": "./dist/",
 	"compileType": "miniprogram",
 	"appid": "wx659b90acc62f520e",
-	"projectname": "school-test",
+	"projectname": "school-appid",
 	"libVersion": "2.2.1",
 	"condition": {
 		"search": {
