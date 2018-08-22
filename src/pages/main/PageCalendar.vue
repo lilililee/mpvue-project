@@ -66,6 +66,9 @@ import utils from '@/utils'
 import UserList from '@/components/UserList'
 import ListPicker from '@/components/ListPicker'
 export default {
+  props: {
+    showTimes: Number
+  },
   data() {
     return {
       system: utils._config.system,
@@ -79,11 +82,20 @@ export default {
       isShowListPicker: false
     }
   },
+
+  watch: {
+    showTimes(val) {
+      console.log(val)
+      if (val > 0) {
+        this.getUserBookingStatus()
+      }
+    }
+  },
   computed: {
     nowUser() {
       return this.$store.state.nowUser
     },
-    nowMonthInfo(){
+    nowMonthInfo() {
       let month = new Date(this.nowMonth)
       return {
         year: month.getFullYear(),
@@ -133,7 +145,6 @@ export default {
       })
     },
     getUserBookingStatus() {
-
       utils.ajax({
         action: 'getUserBookingStatus',
         data: {

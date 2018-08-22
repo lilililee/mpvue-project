@@ -2,7 +2,7 @@
 
   <div class="page-main" :class="{'x-padding': isIphoneX}">
     <page-home v-if="nowPage == 'home'" :showTimes="showTimes"></page-home>
-    <page-calendar v-if="nowPage == 'calendar'"></page-calendar>
+    <page-calendar v-if="nowPage == 'calendar'" :showTimes="showTimes"></page-calendar>
     <page-order v-if="nowPage == 'order'"></page-order>
     <page-user v-if="nowPage == 'user'"></page-user>
 
