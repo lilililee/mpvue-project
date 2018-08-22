@@ -85,7 +85,6 @@ export default {
 
   watch: {
     showTimes(val) {
-      console.log(val)
       if (val > 0) {
         this.getUserBookingStatus()
       }
