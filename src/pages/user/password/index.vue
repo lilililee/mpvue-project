@@ -38,7 +38,7 @@ export default {
   methods: {
     register() {
       if (utils.validate.isEmpty(this.password, '旧密码')) return
-      if (utils.validate.notPassword(this.password)) return
+      // if (utils.validate.notPassword(this.password)) return
       if (utils.validate.isEmpty(this.newPassword, '新密码')) return
       if (utils.validate.notPassword(this.newPassword)) return
       if (utils.validate.isEmpty(this.newPassword2, '$请再次输入新密码')) return

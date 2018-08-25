@@ -45,7 +45,7 @@
       </div>
 
       <div class="form" v-else>
-        <div class="input" @click="showPicker(1)">
+        <!-- <div class="input" @click="showPicker(1)">
           <div class="name">地区</div>
           <input type="text" class="content area" disabled v-model="nowArea.area1.area1_name">
           <div class="assist">
@@ -63,7 +63,31 @@
           <div class="name">姓名</div>
           <input type="text" class="content area" v-model="userName" placeholder="请输入姓名">
 
+        </div> -->
+
+        <div class="input">
+          <div class="name">手机号</div>
+          <input type="number" class="content phone" v-model="teacherPhone">
+
+          <template v-if="isNeedValidate">
+            <div v-if="count == 60" class="assist " @click="getCode">获取验证码</div>
+            <div v-else class="assist ">已发送({{count}}s)</div>
+          </template>
         </div>
+        <div class="input" v-if="isNeedValidate">
+          <div class="name">验证码</div>
+          <input type="number" class="content code" v-model="teacherCode">
+        </div>
+        <div class="input" v-if="isShowTeacherInfo">
+          <div class="name">教师</div>
+          <input type="text" class="content" disabled v-model="teacherInfo.teacher_name">
+        </div>
+        <div class="input" v-if="isShowTeacherInfo">
+          <div class="name">学校</div>
+          <input type="text" class="content" disabled v-model="teacherInfo.school_name">
+        </div>
+
+        
 
       </div>
 
@@ -100,7 +124,12 @@
 
     </div>
 
-    <div class="btn-group">
+    <div class="btn-group" v-if="system=='school' && activeTab == 1">
+      <div class="btn f16" @click="resetAddTeacher" v-if="isShowTeacherContinue">继续添加</div>
+      <div class="btn f16" @click="addTeacher" v-else-if="isNeedValidate">确定添加</div>
+      <div class="btn f16" @click="getTeacherInfo" v-else>确定添加</div>
+    </div>
+    <div class="btn-group" v-else>
       <div class="btn f16" @click="addUser">确定添加</div>
     </div>
 
@@ -116,8 +145,8 @@ import ListPicker from '@/components/ListPicker'
 import CompanyCopyright from '@/components/CompanyCopyright'
 
 const areaName = {
-    school: ['', '地区', '学校' , '年级', '班级'],
-    company: ['', '地区', '企业' , '职位', '班级'],
+  school: ['', '地区', '学校', '年级', '班级'],
+  company: ['', '地区', '企业', '职位', '班级']
 }
 
 export default {
@@ -139,7 +168,17 @@ export default {
         area4: {}
       },
       userName: '',
-      areaType: 0
+      areaType: 0,
+
+      teacherPhone: '',
+      teacherCode: '',
+      isGetCode: false,
+      count: 60,
+      countInterval: '',
+      isNeedValidate: false,
+      isShowTeacherInfo: false,
+      isShowTeacherContinue: false,
+      teacherInfo: {}
     }
   },
   watch: {
@@ -184,27 +223,23 @@ export default {
         data: input,
         success: res => {
           if (res.code == 0) {
-              
-              this[`area${areaType}List`] = res.data.list
-                if (res.data.list.length == 0) {
-                    this.nowArea[`area${areaType}`] = {}
-                    
-                    return
-                }
+            this[`area${areaType}List`] = res.data.list
+            if (res.data.list.length == 0) {
+              this.nowArea[`area${areaType}`] = {}
+
+              return
+            }
             if (areaType == 1) {
               // 选中area1List第一个，并获取area2List
               this.nowArea.area1 = this[`area${areaType}List`][0]
               this.getAreaList(2)
             } else if (areaType == 2) {
-            
-                  // 选中area2List第一个
-                this.nowArea.area2 = this[`area${areaType}List`][0]
+              // 选中area2List第一个
+              this.nowArea.area2 = this[`area${areaType}List`][0]
 
-                if ((this.system == 'school' && this.activeTab == 0) || this.system == 'company') {
-                    this.getAreaList(3)
-                }
-              
-
+              if ((this.system == 'school' && this.activeTab == 0) || this.system == 'company') {
+                this.getAreaList(3)
+              }
             }
             callback()
           }
@@ -212,23 +247,20 @@ export default {
       })
     },
     showPicker(areaType) {
-      
-
       console.log(areaType)
-      console.log(this.nowArea[`area${areaType - 1 }`])
-      if (areaType > 1 && !this.nowArea[`area${areaType - 1 }`][`area${areaType - 1 }_id`]) {
-
+      console.log(this.nowArea[`area${areaType - 1}`])
+      if (areaType > 1 && !this.nowArea[`area${areaType - 1}`][`area${areaType - 1}_id`]) {
         utils.showMsg(`请先选择${areaName[this.system][areaType - 1]}`)
         return
       }
-      if(this[`area${areaType}List`].length == 0) {
+      if (this[`area${areaType}List`].length == 0) {
         utils.showMsg('当前选项无内容')
         return
       }
-    //   if (areaType == 4 && this.nowArea.area3.area3_id == '') {
-    //     utils.showMsg('请先选择年级')
-    //     return
-    //   }
+      //   if (areaType == 4 && this.nowArea.area3.area3_id == '') {
+      //     utils.showMsg('请先选择年级')
+      //     return
+      //   }
 
       this.areaType = areaType
 
@@ -278,18 +310,17 @@ export default {
 
       let area = `${area1_id}-${area2_id}`
 
-      if ( this.system == 'school') {
-          if (this.activeTab == 0) {
-
-            if (utils.validate.isEmpty(area3_id, '$请选择年级')) return
-            if (utils.validate.isEmpty(area4_id, '$请选择班级')) return
-            area += `-${area3_id}-${area4_id}`
-          }
+      if (this.system == 'school') {
+        if (this.activeTab == 0) {
+          if (utils.validate.isEmpty(area3_id, '$请选择年级')) return
+          if (utils.validate.isEmpty(area4_id, '$请选择班级')) return
+          area += `-${area3_id}-${area4_id}`
+        }
       } else {
-           if (utils.validate.isEmpty(area3_id, '$请选择职业')) return
-           area += `-${area3_id}`
+        if (utils.validate.isEmpty(area3_id, '$请选择职业')) return
+        area += `-${area3_id}`
       }
-    
+
       if (utils.validate.isEmpty(this.userName, '姓名')) return
 
       utils.ajax({
@@ -304,6 +335,93 @@ export default {
           if (res.code == 0) {
             utils.showSuccess('添加成功')
           }
+        }
+      })
+    },
+    getTeacherInfo() {
+
+      if (utils.validate.isEmpty(this.teacherPhone, '手机号')) return
+      if (utils.validate.notPhone(this.teacherPhone)) return
+
+      utils.ajax({
+        action: 'isTeacher',
+        data: {
+          phone: this.teacherPhone
+        },
+        success: res => {
+          if (res.code == 0) {
+            this.teacherInfo = res.data.teacherInfo
+            this.isNeedValidate = res.data.need_validate == 1
+            if(this.isNeedValidate) {
+              utils.showMsg('请获取验证码进行验证')
+            } else {
+              this.addTeacher()
+            }
+          }
+        }
+      })
+    },
+    addTeacher() {
+      if(this.isNeedValidate) {
+        if (utils.validate.isEmpty(this.teacherCode, '验证码')) return
+      }
+      utils.ajax({
+        action: 'addTeacher',
+         method: 'POST',
+        data: {
+          phone: this.teacherPhone,
+          code: this.teacherCode
+        },
+        success: res => {
+          if (res.code == 0) {
+            this.isShowTeacherInfo = true
+            this.isShowTeacherContinue = true
+            utils.showMsg('添加教师成功')
+          }
+        }
+      })
+    },
+    resetAddTeacher() {
+      this.teacherPhone = ''
+      this.teacherCode= ''
+      this.isGetCode= false
+      this.count= 60
+      clearInterval(this.countInterval)
+      this.isNeedValidate= false
+      this.isShowTeacherInfo= false
+      this.isShowTeacherContinue= false
+      this.teacherInfo= {}
+    },
+
+    getCode() {
+      // 重复点击拦截
+      if (this.isGetCode) return
+
+      if (utils.validate.isEmpty(this.teacherPhone, '手机号')) return
+      if (utils.validate.notPhone(this.teacherPhone)) return
+
+      this.isGetCode = true
+
+      utils.ajax({
+        action: 'getCode',
+        method: 'POST',
+        data: {
+          phone: this.teacherPhone
+        },
+        success: res => {
+          if (res.code == 0) {
+            // 开始倒计时
+            this.count--
+            this.countInterval = setInterval(() => {
+              if (this.count == 0) {
+                clearInterval(this.countInterval)
+                this.count = 60
+                return
+              }
+              this.count--
+            }, 1000)
+          }
+          this.isGetCode = false
         }
       })
     }
@@ -322,12 +440,12 @@ page {
 .page-user__userFood_addUser {
   .full-page();
   .form .input {
-    .name  {
-    width: 18%;
-  }
-  .content {
-    width: 57%;
-  }
+    .name {
+      width: 18%;
+    }
+    .content {
+      width: 57%;
+    }
   }
   .top-bar {
     height: 44px;
@@ -352,7 +470,6 @@ page {
   .btn-group {
     margin-top: 36px;
   }
-
 }
 </style>
 

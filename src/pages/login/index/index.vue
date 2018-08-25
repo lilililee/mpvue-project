@@ -59,7 +59,7 @@ export default {
       if (utils.validate.isEmpty(this.phone, '手机号')) return
       if (utils.validate.notPhone(this.phone)) return
       if (utils.validate.isEmpty(this.password, '密码')) return
-      if (utils.validate.notPassword(this.password)) return
+      // if (utils.validate.notPassword(this.password)) return
 
       wx.login({
         success: res => {

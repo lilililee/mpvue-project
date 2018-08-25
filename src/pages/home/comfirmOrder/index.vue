@@ -138,7 +138,7 @@ export default {
             } else {
               let order_id_list = JSON.stringify([res.data.order_id])
               wx.reLaunch({
-                url: `/pages/pay/index/main?order_id_list=${order_id_list}&total_money=${this.totalMoney}`
+                url: `/pages/pay/index/main?order_id_list=${order_id_list}&total_money=${res.data.total_money}`
               })
             }
           }

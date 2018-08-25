@@ -33,8 +33,8 @@
             <div class="td" v-for="(sitem, sindex) in item" :key="sindex" :class="{disabled:!sitem.isNowMonth}" @click="toBookingList(sitem)">
 
               <span> {{sitem.day}}</span>
-              <!-- 1未订餐 2已订餐 3已完成 -->
-              <div class="status-name" v-if="sitem.status_id!=='1'">
+              <!-- 1未订餐 2已订餐 3已完成 4已停餐 5休假 -->
+              <div class="status-name" :class="'status_' + sitem.status_id" v-if="sitem.status_id!=='1'">
                 <i class="point" v-if="sitem.status_id=='2'"></i>
                 <span class="active" v-if="sitem.status_id=='2'">{{sitem.booking_num}}份</span>
                 <span v-else>{{sitem.status_name}}</span>
@@ -295,6 +295,10 @@ export default {
             background: @theme;
             border-radius: 50%;
             margin-right: 3px;
+          }
+
+          &.status_4 {
+            color: @red;
           }
         }
 

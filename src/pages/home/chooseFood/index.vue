@@ -18,7 +18,8 @@
       </div>
       <div class="food-list-container">
         <scroll-view scroll-y class="food-list" v-if="foodList.length && isShowFoodList">
-          <div class="food-list-item flex-between" v-for="(item, index) in foodList[nowIndex].food_list" :key="index">
+          <div class="food-list-item flex-between" v-for="(item, index) in nowFoodList" :key="index">
+          <!-- <div class="food-list-item flex-between" v-for="(item, index) in foodList[nowIndex].food_list" :key="index"> -->
             <div class="img">
               <img :src="item.img" :alt="item.name"  @error="onImageError(item)">
             </div>
@@ -73,6 +74,7 @@ import utils from '../../../utils'
 
 let weekList = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
 
+
 export default {
   data() {
     return {
@@ -80,13 +82,19 @@ export default {
       isIphoneX: utils.isIphoneX,
       foodList: [],
       nowIndex: 0,
+      // nowFoodList: [],
       // scrollTop: 0,
-      isShowFoodList: true
+      isShowFoodList: true,
+
+
     }
   },
   computed: {
     nowUser() {
       return this.$store.state.nowUser
+    },
+    nowFoodList() {
+      return this.foodList[this.nowIndex] ? JSON.parse(JSON.stringify(this.foodList[this.nowIndex].food_list)) : []
     },
     totalNum() {
       if (!this.foodList.length) return 0
