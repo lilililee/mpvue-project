@@ -17,7 +17,7 @@ const domain = {
 }
 
 const system = 'school'       // 使用商城系统时 ../src/main.js  pages参数需要修改为商城首页入口
-const env = 'production'
+const env = 'test'
 
 const config = {
     // 环境配置

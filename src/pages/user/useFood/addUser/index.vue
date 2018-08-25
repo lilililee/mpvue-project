@@ -186,6 +186,9 @@ export default {
       this.nowArea.area3 = {}
       this.nowArea.area4 = {}
       this.userName = ''
+      if(val==1) {
+        this.resetAddTeacher()
+      }
     }
   },
 
@@ -339,7 +342,6 @@ export default {
       })
     },
     getTeacherInfo() {
-
       if (utils.validate.isEmpty(this.teacherPhone, '手机号')) return
       if (utils.validate.notPhone(this.teacherPhone)) return
 
@@ -352,6 +354,7 @@ export default {
           if (res.code == 0) {
             this.teacherInfo = res.data.teacherInfo
             this.isNeedValidate = res.data.need_validate == 1
+            this.isShowTeacherInfo = true
             if(this.isNeedValidate) {
               utils.showMsg('请获取验证码进行验证')
             } else {
@@ -369,12 +372,13 @@ export default {
         action: 'addTeacher',
          method: 'POST',
         data: {
+          teacher_id: this.teacherInfo.id,
           phone: this.teacherPhone,
           code: this.teacherCode
         },
         success: res => {
           if (res.code == 0) {
-            this.isShowTeacherInfo = true
+            
             this.isShowTeacherContinue = true
             utils.showMsg('添加教师成功')
           }

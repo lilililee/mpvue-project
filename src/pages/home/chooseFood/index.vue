@@ -18,8 +18,8 @@
       </div>
       <div class="food-list-container">
         <scroll-view scroll-y class="food-list" v-if="foodList.length && isShowFoodList">
-          <div class="food-list-item flex-between" v-for="(item, index) in nowFoodList" :key="index">
-          <!-- <div class="food-list-item flex-between" v-for="(item, index) in foodList[nowIndex].food_list" :key="index"> -->
+          <!-- <div class="food-list-item flex-between" v-for="(item, index) in nowFoodList" :key="index"> -->
+          <div class="food-list-item flex-between" v-for="(item, index) in foodList[nowIndex].food_list" :key="index">
             <div class="img">
               <img :src="item.img" :alt="item.name"  @error="onImageError(item)">
             </div>
@@ -93,9 +93,9 @@ export default {
     nowUser() {
       return this.$store.state.nowUser
     },
-    nowFoodList() {
-      return this.foodList[this.nowIndex] ? JSON.parse(JSON.stringify(this.foodList[this.nowIndex].food_list)) : []
-    },
+    // nowFoodList() {
+    //   return this.foodList[this.nowIndex] ? JSON.parse(JSON.stringify(this.foodList[this.nowIndex].food_list)) : []
+    // },
     totalNum() {
       if (!this.foodList.length) return 0
       return this.foodList.reduce((prev, item) => {
