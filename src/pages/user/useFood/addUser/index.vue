@@ -45,7 +45,7 @@
       </div>
 
       <div class="form" v-else>
-        <!-- <div class="input" @click="showPicker(1)">
+        <div class="input" @click="showPicker(1)">
           <div class="name">地区</div>
           <input type="text" class="content area" disabled v-model="nowArea.area1.area1_name">
           <div class="assist">
@@ -59,35 +59,31 @@
             <i class="icon-drop-down-gray"></i>
           </div>
         </div>
-        <div class="input">
+        <div class="input" v-if="!isNeedValidate">
           <div class="name">姓名</div>
-          <input type="text" class="content area" v-model="userName" placeholder="请输入姓名">
+          <input type="text" class="content area" v-model="userName">
 
-        </div> -->
+        </div>
 
-        <div class="input">
+        <div class="input" v-if="isNeedValidate">
           <div class="name">手机号</div>
           <input type="number" class="content phone" v-model="teacherPhone">
 
-          <template v-if="isNeedValidate">
-            <div v-if="count == 60" class="assist " @click="getCode">获取验证码</div>
-            <div v-else class="assist ">已发送({{count}}s)</div>
-          </template>
+          <div v-if="count == 60" class="assist " @click="getCode">获取验证码</div>
+          <div v-else class="assist ">已发送({{count}}s)</div>
         </div>
         <div class="input" v-if="isNeedValidate">
           <div class="name">验证码</div>
           <input type="number" class="content code" v-model="teacherCode">
         </div>
         <div class="input" v-if="isShowTeacherInfo">
-          <div class="name">教师</div>
+          <div class="name">姓名</div>
           <input type="text" class="content" disabled v-model="teacherInfo.teacher_name">
         </div>
-        <div class="input" v-if="isShowTeacherInfo">
+        <!-- <div class="input" v-if="isShowTeacherInfo">
           <div class="name">学校</div>
           <input type="text" class="content" disabled v-model="teacherInfo.school_name">
-        </div>
-
-        
+        </div> -->
 
       </div>
 
@@ -124,9 +120,9 @@
 
     </div>
 
-    <div class="btn-group" v-if="system=='school' && activeTab == 1">
+    <div class="btn-group" v-if="system=='school' && activeTab == 1 && isNeedValidate">
       <div class="btn f16" @click="resetAddTeacher" v-if="isShowTeacherContinue">继续添加</div>
-      <div class="btn f16" @click="addTeacher" v-else-if="isNeedValidate">确定添加</div>
+      <!-- <div class="btn f16" @click="addTeacher" v-else-if="isNeedValidate">确定添加</div> -->
       <div class="btn f16" @click="getTeacherInfo" v-else>确定添加</div>
     </div>
     <div class="btn-group" v-else>
@@ -186,8 +182,17 @@ export default {
       this.nowArea.area3 = {}
       this.nowArea.area4 = {}
       this.userName = ''
-      if(val==1) {
+      if (val == 1) {
         this.resetAddTeacher()
+        this.isNeedValidate && utils.showMsg('当前学校需要进行验证')
+      }
+    },
+    'nowArea.area2': function(val) {
+      if (val.need_validate == 1) {
+        this.isNeedValidate = true
+        this.system == 'school' && this.activeTab == 1 && utils.showMsg('当前学校需要进行验证')
+      } else {
+        this.isNeedValidate = false
       }
     }
   },
@@ -250,8 +255,6 @@ export default {
       })
     },
     showPicker(areaType) {
-      console.log(areaType)
-      console.log(this.nowArea[`area${areaType - 1}`])
       if (areaType > 1 && !this.nowArea[`area${areaType - 1}`][`area${areaType - 1}_id`]) {
         utils.showMsg(`请先选择${areaName[this.system][areaType - 1]}`)
         return
@@ -344,6 +347,7 @@ export default {
     getTeacherInfo() {
       if (utils.validate.isEmpty(this.teacherPhone, '手机号')) return
       if (utils.validate.notPhone(this.teacherPhone)) return
+      if (utils.validate.isEmpty(this.teacherCode, '验证码')) return
 
       utils.ajax({
         action: 'isTeacher',
@@ -353,24 +357,16 @@ export default {
         success: res => {
           if (res.code == 0) {
             this.teacherInfo = res.data.teacherInfo
-            this.isNeedValidate = res.data.need_validate == 1
             this.isShowTeacherInfo = true
-            if(this.isNeedValidate) {
-              utils.showMsg('请获取验证码进行验证')
-            } else {
-              this.addTeacher()
-            }
+            this.addTeacher()
           }
         }
       })
     },
     addTeacher() {
-      if(this.isNeedValidate) {
-        if (utils.validate.isEmpty(this.teacherCode, '验证码')) return
-      }
       utils.ajax({
         action: 'addTeacher',
-         method: 'POST',
+        method: 'POST',
         data: {
           teacher_id: this.teacherInfo.id,
           phone: this.teacherPhone,
@@ -378,7 +374,6 @@ export default {
         },
         success: res => {
           if (res.code == 0) {
-            
             this.isShowTeacherContinue = true
             utils.showMsg('添加教师成功')
           }
@@ -387,14 +382,14 @@ export default {
     },
     resetAddTeacher() {
       this.teacherPhone = ''
-      this.teacherCode= ''
-      this.isGetCode= false
-      this.count= 60
+      this.teacherCode = ''
+      this.isGetCode = false
+      this.count = 60
       clearInterval(this.countInterval)
-      this.isNeedValidate= false
-      this.isShowTeacherInfo= false
-      this.isShowTeacherContinue= false
-      this.teacherInfo= {}
+      // this.isNeedValidate = false
+      this.isShowTeacherInfo = false
+      this.isShowTeacherContinue = false
+      this.teacherInfo = {}
     },
 
     getCode() {
