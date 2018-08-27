@@ -35,7 +35,15 @@ export default {
       newPassword2: ''
     }
   },
+  mounted(){
+    this.initData()
+  },
   methods: {
+    initData(){
+      this.password = ''
+      this.newPassword = ''
+      this.newPassword2 = ''
+    },
     register() {
       if (utils.validate.isEmpty(this.password, '旧密码')) return
       // if (utils.validate.notPassword(this.password)) return
@@ -55,6 +63,7 @@ export default {
           password: this.password,
           new_password: this.newPassword
         },
+        loading: true,
         success: res => {
           // 清除登录信息
           if (res.code == 0) {

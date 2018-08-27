@@ -68,6 +68,7 @@ export default {
         data: {
           money
         },
+        loading: true,
         success: res => {
           if (res.code == 0) {
             wx.requestPayment({

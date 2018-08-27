@@ -38,8 +38,9 @@ export default {
   },
 
   mounted() {
-    this.page = 1
     this.billList = []
+    this.page = 1
+    this.isOver = false
     this.getBillList()
   },
 

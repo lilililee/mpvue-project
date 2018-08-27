@@ -46,7 +46,19 @@ export default {
       countInterval: ''
     }
   },
+  mounted() {
+    this.initData()
+  },
   methods: {
+    initData() {
+      this.phone = ''
+      this.code = ''
+      this.password = ''
+      this.password2 = ''
+      this.isGetCode = false
+      this.count = 60
+      clearInterval(this.countInterval)
+    },
     getCode() {
       // 重复点击拦截
       if (this.isGetCode) return
@@ -96,6 +108,7 @@ export default {
       utils.ajax({
         action: 'register',
         method: 'POST',
+        loading: true,
         data: {
           phone: this.phone,
           code: this.code,

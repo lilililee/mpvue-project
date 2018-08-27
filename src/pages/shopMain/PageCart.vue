@@ -88,6 +88,7 @@ export default {
     getCartGoodsList() {
       utils.ajax({
         action: 'getCartGoodsList',
+        loading: true,
         success: res => {
           if (res.code == 0) {
             let cartNum = 0
@@ -126,6 +127,7 @@ export default {
           goods_id: item.goods_id,
           num: num
         },
+        loading: true,
         success: res => {
           if (res.code == 0) {
             if (num == 0) {

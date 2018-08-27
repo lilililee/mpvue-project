@@ -53,6 +53,7 @@ export default {
       utils.ajax({
         action: 'submitFeedback',
         method: 'POST',
+        loading: true,
         data: {
           content: this.feedbackContent,
           form_id: this.formId

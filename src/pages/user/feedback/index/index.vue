@@ -34,6 +34,7 @@ export default {
   },
 
   onShow() {
+    this.isOver = false
     this.page = 1
     this.feedbackList = []
     this.getFeedbackList()

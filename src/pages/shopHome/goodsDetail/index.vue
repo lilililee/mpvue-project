@@ -115,6 +115,7 @@ export default {
           goods_id: this.goodsInfo.goods_id,
           num: 1
         },
+        loading: true,
         success: res => {
           if (res.code == 0) {
             utils.showSuccess('添加成功')

@@ -198,10 +198,16 @@ export default {
   },
 
   mounted() {
+    this.initData()
     this.getAreaList(1)
   },
 
   methods: {
+    initData(){
+      this.activeTab = 0
+      this.isShowListPicker = false
+      this.userName = ''
+    },
     getAreaList(areaType, callback = () => {}) {
       let input = {}
       switch (areaType) {

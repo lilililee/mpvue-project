@@ -125,6 +125,8 @@ export default {
 
   mounted() {
     this.nowIndex = 0    // 再次进入页面时重置下标
+    this.foodList = []
+    this.isShowFoodList = true
     this.getFoodList()
     // console.log(this.$root.$mp)
   },

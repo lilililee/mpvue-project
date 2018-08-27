@@ -95,6 +95,7 @@ export default {
         ...this.nowUser
       }) // 后续地址更新会在修改地址的页面处理
     }
+
   },
 
   methods: {
@@ -118,11 +119,10 @@ export default {
           food_list
         })
       })
-      utils.log(this.foodList)
-      utils.log(foodList)
       utils.ajax({
         action: 'submitOrder',
         method: 'POST',
+        loading: true,
         data: {
           user_id: this.nowUser.user_id,
           role_id: this.nowUser.role_id,

@@ -72,6 +72,7 @@ export default {
 
   mounted() {},
   onShow() {
+    this.accountInfo = {}
     this.getAccountInfo()
   },
 
@@ -80,6 +81,7 @@ export default {
       utils.ajax({
         action: 'getAccountInfo',
         data: {},
+        loading: true,
         success: res => {
           if (res.code == 0) {
             this.accountInfo = res.data

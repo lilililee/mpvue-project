@@ -51,10 +51,14 @@ export default {
   },
 
   mounted() {
-    // 调用应用实例的方法获取全局数据
-    // this.getUserInfo()
+    this.initData()
+
   },
   methods: {
+    initData(){
+      this.phone = ''
+      this.password = ''
+    },
     login() {
       if (utils.validate.isEmpty(this.phone, '手机号')) return
       if (utils.validate.notPhone(this.phone)) return
@@ -67,6 +71,8 @@ export default {
             utils.ajax({
               action: 'login',
               method: 'POST',
+              loading: true,
+              loadingText: '登陆中',
               data: {
                 phone: this.phone,
                 password: this.password,

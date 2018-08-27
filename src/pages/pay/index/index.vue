@@ -143,6 +143,7 @@ export default {
           pay_credit: this.payCredit || '0',
           pay_wx: this.payWx
         },
+        loading: true,
         success: res => {
           if (res.code == 0) {
             if (res.data.need_wechat_pay) {

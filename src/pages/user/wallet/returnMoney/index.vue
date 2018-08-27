@@ -58,6 +58,7 @@ export default {
         data: {
           money: this.inputMoney
         },
+        loading: true,
         success: res => {
           if (res.code == 0) {
             utils.showSuccess('提现成功', wx.navigateBack)

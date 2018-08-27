@@ -48,10 +48,17 @@ export default {
   },
 
   mounted() {
+    this.initData()
     this.userInfo = JSON.parse(this.$root.$mp.query.user_info)
   },
 
   methods: {
+    initData() {
+      this.code = ''
+      this.isGetCode = false
+      this.count = 60
+      clearInterval(this.countInterval)
+    },
     getCode() {
       // 重复点击拦截
       if (this.isGetCode) return
@@ -96,16 +103,15 @@ export default {
         },
         success: res => {
           if (res.code == 0) {
-              utils.showSuccess('验证成功', () => {
-
-                wx.redirectTo({ url: `/pages/user/useFood/hasBind/main?user_info=${this.$root.$mp.query.user_info}` })
-              })
+            utils.showSuccess('验证成功', () => {
+              wx.redirectTo({ url: `/pages/user/useFood/hasBind/main?user_info=${this.$root.$mp.query.user_info}` })
+            })
           }
         }
       })
     }
   },
-  components: {CompanyCopyright}
+  components: { CompanyCopyright }
 }
 </script>
 <style lang="less">
@@ -127,8 +133,6 @@ page {
       font-size: 16px;
     }
   }
-
-
 }
 </style>
 

@@ -89,9 +89,9 @@ const showSuccess = (msg, callback) => {
 
 }
 
-const showLoading = () => {
+const showLoading = (text = '加载中') => {
   wx.showLoading({
-    title: '加载中',
+    title: text,
   })
 }
 const hideLoading = () => {
@@ -113,6 +113,7 @@ const ajax = ({
   method = 'GET',
   data = {},
   loading = false,
+  loadingText = '加载中',
   block = false,
   success = () => {},
   fail = () => {},
@@ -128,7 +129,7 @@ const ajax = ({
     }
   }
 
-  loading && showLoading()
+  loading && showLoading(loadingText)
 
   // 登陆后的请求都需要token
   let header = {
@@ -181,7 +182,12 @@ const ajax = ({
     },
     complete() {
       loading && hideLoading()
-      block && (blockStatus[action] = false)
+      if(block) {
+        setTimeout(() => {
+          blockStatus[action] = false
+        }, 200)
+      }
+      // block && (blockStatus[action] = false)
       complete()
     }
   })

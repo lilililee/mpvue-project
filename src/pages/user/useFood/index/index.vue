@@ -32,16 +32,20 @@ export default {
     }
   },
   onShow(){
+    this.userList = []
+    this.isShowDelatePopbox = false
     this.getUserList()
   },
 
   mounted() {
+    
   },
 
   methods: {
     getUserList() {
       utils.ajax({
         action: 'getUserList',
+        loading: true,
         success: res => {
           if (res.code == 0) {
             this.userList = res.data.list
