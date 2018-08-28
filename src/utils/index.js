@@ -151,6 +151,7 @@ const ajax = ({
     header,
     success(res) {
       log(`%c${action}(res)`, `color:#5b8de2`, res.data)
+      loading && hideLoading()
 
       if (res.data.code == 9002) {
 
@@ -173,15 +174,13 @@ const ajax = ({
       }
 
       success(res.data)
-
-
     },
     fail(e) {
+      loading && hideLoading()
       log(e)
       fail(e)
     },
     complete() {
-      loading && hideLoading()
       if(block) {
         setTimeout(() => {
           blockStatus[action] = false
